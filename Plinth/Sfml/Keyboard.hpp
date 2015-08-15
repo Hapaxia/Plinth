@@ -30,8 +30,7 @@
 #ifndef PLINTH_SFML_KEYBOARD_HPP
 #define PLINTH_SFML_KEYBOARD_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
 namespace plinth

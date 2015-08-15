@@ -30,6 +30,7 @@
 #ifndef PLINTHSFML_HPP
 #define PLINTHSFML_HPP
 
-#include "Plinth/sfml.hpp"
+#include "Plinth/all.hpp"
+#include "Plinth/Sfml.hpp"
 
 #endif // PLINTHSFML_HPP

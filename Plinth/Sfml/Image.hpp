@@ -32,8 +32,7 @@
 #ifndef PLINTH_SFML_IMAGE_HPP
 #define PLINTH_SFML_IMAGE_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>

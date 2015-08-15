@@ -30,7 +30,7 @@
 #ifndef PLINTH_ASCII_HPP
 #define PLINTH_ASCII_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 
 namespace plinth
 {

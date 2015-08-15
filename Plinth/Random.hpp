@@ -30,8 +30,7 @@
 #ifndef PLINTH_RANDOM_HPP
 #define PLINTH_RANDOM_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include <random>
 #include "Generic.hpp"
 

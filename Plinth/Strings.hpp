@@ -34,7 +34,7 @@
 #ifndef PLINTH_STRINGS_HPP
 #define PLINTH_STRINGS_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 
 namespace plinth
 {

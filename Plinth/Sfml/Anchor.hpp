@@ -30,8 +30,7 @@
 #ifndef PLINTH_SFML_ANCHOR_HPP
 #define PLINTH_SFML_ANCHOR_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include <SFML/System/Vector2.hpp>
 
 namespace plinth

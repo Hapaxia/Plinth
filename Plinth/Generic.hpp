@@ -34,8 +34,7 @@
 #ifndef PLINTH_GENERIC_HPP
 #define PLINTH_GENERIC_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include "Math.hpp"
 
 namespace plinth

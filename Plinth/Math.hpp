@@ -32,6 +32,7 @@
 #ifndef PLINTH_MATH_HPP
 #define PLINTH_MATH_HPP
 
+#include "Common.hpp"
 #include "Generic.hpp"
 
 namespace plinth

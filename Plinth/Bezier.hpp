@@ -32,8 +32,7 @@
 #ifndef PLINTH_BEZIER_HPP
 #define PLINTH_BEZIER_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include "Generic.hpp"
 
 namespace plinth

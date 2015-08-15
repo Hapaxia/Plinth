@@ -30,8 +30,7 @@
 #ifndef PLINTH_NUMBERBASE_HPP
 #define PLINTH_NUMBERBASE_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include <sstream>
 
 namespace plinth

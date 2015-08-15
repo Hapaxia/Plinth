@@ -30,6 +30,6 @@
 #ifndef PLINTH_SFML_COMMON_HPP
 #define PLINTH_SFML_COMMON_HPP
 
-#include "../common.hpp"
+#include "../Common.hpp"
 
 #endif // PLINTH_SFML_COMMON_HPP

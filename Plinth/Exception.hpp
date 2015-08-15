@@ -54,6 +54,6 @@ private:
 
 } // namespace plinth
 
-#include "common.hpp"
+#include "Common.hpp"
 
 #endif // PLINTH_EXCEPTION_HPP

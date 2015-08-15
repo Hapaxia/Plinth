@@ -34,6 +34,7 @@
 #ifndef PLINTH_TWEEN_HPP
 #define PLINTH_TWEEN_HPP
 
+#include "Common.hpp"
 #include <math.h>
 #include "Bezier.hpp"
 #include "TweenPiecewise.hpp"

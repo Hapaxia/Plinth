@@ -30,8 +30,7 @@
 #ifndef PLINTH_SFML_COLORS_HPP
 #define PLINTH_SFML_COLORS_HPP
 
-#include "common.hpp"
-
+#include "Common.hpp"
 #include <SFML/Graphics/Color.hpp>
 
 namespace plinth

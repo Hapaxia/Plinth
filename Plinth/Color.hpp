@@ -30,7 +30,7 @@
 #ifndef PLINTH_COLOR_HPP
 #define PLINTH_COLOR_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 
 namespace plinth
 {

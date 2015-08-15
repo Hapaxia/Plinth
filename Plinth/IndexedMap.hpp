@@ -30,7 +30,7 @@
 #ifndef PLINTH_INDEXEDMAP_HPP
 #define PLINTH_INDEXEDMAP_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 #include <algorithm> // for remove_if
 
 namespace plinth

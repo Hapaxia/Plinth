@@ -30,7 +30,7 @@
 #ifndef PLINTH_SFML_KEYMAP_HPP
 #define PLINTH_SFML_KEYMAP_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 #include <SFML/Window/Keyboard.hpp>
 #include "../IndexedMap.hpp"
 

@@ -30,7 +30,7 @@
 #ifndef PLINTH_SFML_IMAGECHANNEL_HPP
 #define PLINTH_SFML_IMAGECHANNEL_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
