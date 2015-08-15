@@ -7,6 +7,20 @@
 *.userosscache
 *.sln.docstates
 
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.props
+
+
+licence for header.txt
+
+# private folders
+extlibs/
+test/
+test_*/
+PropertySheets/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
