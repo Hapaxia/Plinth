@@ -1,6 +1,6 @@
 # Plinth
 by Hapax
 
-A library to aid common tasks.
+A library of helpful classes/functions.
 
 Requires C++11.
