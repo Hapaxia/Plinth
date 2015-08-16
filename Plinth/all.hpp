@@ -30,8 +30,6 @@
 #ifndef PLINTH_BASE_ALL_HPP
 #define PLINTH_BASE_ALL_HPP
 
-#include "common.hpp"
-
 #include "Ascii.hpp"
 #include "Bezier.hpp"
 #include "Color.hpp"
