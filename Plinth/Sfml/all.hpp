@@ -36,6 +36,7 @@
 #include "Image.hpp"
 #include "ImageChannel.hpp"
 #include "KeyMap.hpp"
+#include "ResourceManagerBasic.hpp"
 #include "StringFrom.hpp"
 
 #endif // PLINTH_SFML_ALL_HPP
