@@ -34,6 +34,8 @@ namespace plinth
 	namespace Image
 	{
 
+using namespace Sfml;
+
 void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb&)> process)
 {
 	// preserves pixel alpha
