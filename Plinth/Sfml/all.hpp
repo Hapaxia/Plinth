@@ -35,6 +35,7 @@
 #include "Generic.hpp"
 #include "Image.hpp"
 #include "ImageChannel.hpp"
+#include "KeyMap.hpp"
 #include "StringFrom.hpp"
 
 #endif // PLINTH_SFML_ALL_HPP
