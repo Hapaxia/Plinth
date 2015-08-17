@@ -27,20 +27,29 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_BASE_ALL_HPP
-#define PLINTH_BASE_ALL_HPP
+namespace plinth
+{
 
-#include "Ascii.hpp"
-#include "Bezier.hpp"
-#include "Color.hpp"
-#include "File.hpp"
-#include "Generic.hpp"
-#include "IndexedMap.hpp"
-#include "Math.hpp"
-#include "NumberBase.hpp"
-#include "Random.hpp"
-#include "Strings.hpp"
-#include "Tween.hpp"
-#include "TweenPiecewise.hpp"
+template <class sizeT>
+void saveBinaryFile(const char* data, const std::string& filename, sizeT size)
+{
+	std::ofstream file(filename, std::ios::out | std::ios::binary | std::ios::trunc);
+	if (file.is_open())
+	{
+		file.write(data, static_cast<std::streampos>(size));
+		file.close();
+	}
+}
 
-#endif // PLINTH_BASE_ALL_HPP
+template <class sizeT>
+void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, sizeT size)
+{
+	std::ofstream file(filename, std::ios::out | std::ios::binary | std::ios::trunc);
+	if (file.is_open())
+	{
+		file.write(data.get(), static_cast<std::streampos>(size));
+		file.close();
+	}
+}
+
+} // namespace plinth

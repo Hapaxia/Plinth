@@ -27,20 +27,30 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_BASE_ALL_HPP
-#define PLINTH_BASE_ALL_HPP
+#ifndef PLINTH_FILE_HPP
+#define PLINTH_FILE_HPP
 
-#include "Ascii.hpp"
-#include "Bezier.hpp"
-#include "Color.hpp"
-#include "File.hpp"
-#include "Generic.hpp"
-#include "IndexedMap.hpp"
-#include "Math.hpp"
-#include "NumberBase.hpp"
-#include "Random.hpp"
-#include "Strings.hpp"
-#include "Tween.hpp"
-#include "TweenPiecewise.hpp"
+#include "Common.hpp"
+#include <fstream>
+#include <memory>
 
-#endif // PLINTH_BASE_ALL_HPP
+namespace plinth
+{
+
+using FileSize = size_t;
+
+FileSize getFileSize(const std::string& filename);
+
+void loadTextFile(std::vector<std::string>& lines, const std::string& filename, bool stripTrailingNewlines = true);
+FileSize loadBinaryFile(char* data, const std::string& filename); // returns size of data memory block
+FileSize loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filename); // returns size of data memory block
+
+void saveTextFile(const std::vector<std::string>& lines, const std::string& filename, bool addNewlines = true);
+template <class sizeT>
+void saveBinaryFile(const char* data, const std::string& filename, sizeT size);
+template <class sizeT>
+void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, sizeT size);
+
+} // namespace plinth
+#include "File.inl"
+#endif // PLINTH_FILE_HPP
