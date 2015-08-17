@@ -38,6 +38,7 @@
 #include "Math.hpp"
 #include "NumberBase.hpp"
 #include "Random.hpp"
+#include "StringFrom.hpp"
 #include "Strings.hpp"
 #include "Tween.hpp"
 #include "TweenPiecewise.hpp"
