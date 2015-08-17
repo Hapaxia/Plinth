@@ -27,16 +27,19 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_KEYBOARD_HPP
-#define PLINTH_SFML_KEYBOARD_HPP
-
-#include "Common.hpp"
-#include <SFML/Window/Keyboard.hpp>
-
 namespace plinth
 {
 
-std::string stringFrom(const sf::Keyboard::Key& key);
+template<class T>
+std::string stringFrom(const sf::Vector2<T> from)
+{
+	return "(" + std::to_string(from.x) + ", " + std::to_string(from.y) + ")";
+}
+
+template<class T>
+std::string stringFrom(const sf::Vector3<T> from)
+{
+	return "(" + std::to_string(from.x) + ", " + std::to_string(from.y) + ", " + std::to_string(from.z) + ")";
+}
 
 } // namespace plinth
-#endif // PLINTH_SFML_KEYBOARD_HPP

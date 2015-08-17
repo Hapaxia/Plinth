@@ -47,9 +47,9 @@ std::string stringFrom(const pl::Vector2<std::string> from)
 	return "(" + from.x + ", " + from.y + ")";
 }
 
-std::string stringFrom(const pl::Vector3<std::string> vector)
+std::string stringFrom(const pl::Vector3<std::string> from)
 {
-	return "(" + vector.x + ", " + vector.y + ", " + vector.z + ")";
+	return "(" + from.x + ", " + from.y + ", " + from.z + ")";
 }
 
 } // namespace plinth

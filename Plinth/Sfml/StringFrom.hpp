@@ -27,14 +27,42 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_ALL_HPP
-#define PLINTH_SFML_ALL_HPP
+#ifndef PLINTH_SFML_STRINGFROM_HPP
+#define PLINTH_SFML_STRINGFROM_HPP
 
-#include "Anchor.hpp"
+#include "Common.hpp"
+#include "../StringFrom.hpp"
 #include "Colors.hpp"
-#include "Generic.hpp"
-#include "Image.hpp"
-#include "ImageChannel.hpp"
-#include "StringFrom.hpp"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Vector3.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
-#endif // PLINTH_SFML_ALL_HPP
+namespace plinth
+{
+
+enum class SfmlColorList
+{
+	None,
+	Standard,
+	Extended
+};
+
+template<class T>
+std::string stringFrom(sf::Vector2<T>);
+std::string stringFrom(sf::Vector2<std::string>);
+
+template<class T>
+std::string stringFrom(sf::Vector3<T>);
+std::string stringFrom(sf::Vector3<std::string>);
+
+std::string stringFrom(sf::Color, SfmlColorList colorList = SfmlColorList::Extended, bool separateAlpha = true);
+
+std::string stringFrom(sf::VideoMode, bool sizeOnly = false);
+
+std::string stringFrom(sf::Keyboard::Key);
+
+} // namespace plinth
+#include "StringFrom.inl"
+#endif // PLINTH_SFML_STRINGFROM_HPP
