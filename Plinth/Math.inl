@@ -55,11 +55,11 @@ template<class T>
 // returns the dot product of two vectors with the same number of elements
 T dot(const std::vector<T>& a, const std::vector<T>& b)
 {
-	T result;
+	T result = static_cast<T>(0);
 	if ((a.size() != b.size()) || (a.size() == 0))
 		return result;
 
-	for (unsigned int i{ 0 }; i < a.size() : ++i)
+	for (unsigned int i{ 0 }; i < a.size(); ++i)
 		result += a[i] * b[i];
 
 	return result;
