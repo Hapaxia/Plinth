@@ -229,18 +229,18 @@ inline T clampCycle(const T& value, const T& min, const T& max);
 template<class T>
 // returns true if in range and false if outside
 // boundaries can be included or excluded; by default, only minimum boundary is included
-inline bool inRange(const T& value, const Range<T>& range, enum class RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min);
+inline bool inRange(const T& value, const Range<T>& range, RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min);
 
 template<class T>
 // returns true if in the range min-max and false if outside
 // boundaries can be included or excluded; by default, only minimum boundary is included
-inline bool inRange(const T& value, const T& min, const T& max, enum class RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min);
+inline bool inRange(const T& value, const T& min, const T& max, RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min);
 
 template<class T>
 // returns true if in the area range (left, bottom) - (right, top) and false if outside
 // boundaries can be included or excluded; by default, only lower boundaries (left and bottom) are included
 // note: re-orders area range if left or bottom is higher than right or top respectively
-bool inAreaRange(const Vector2<T>& point, const AreaRange<T>& areaRange, enum class AreaRangeBoundaries includeAreaRangeBoundaries = AreaRangeBoundaries::LeftBottom);
+bool inAreaRange(const Vector2<T>& point, const AreaRange<T>& areaRange, AreaRangeBoundaries includeAreaRangeBoundaries = AreaRangeBoundaries::LeftBottom);
 
 template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
