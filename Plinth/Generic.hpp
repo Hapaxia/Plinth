@@ -195,6 +195,8 @@ struct AreaRange
 	inline bool isPoint() { return isFlatHorizontally() && isFlatVertically(); };
 	inline bool isFlatHorizontally() { return left == right; };
 	inline bool isFlatVertically() { return bottom == top; };
+	Range<T> getHorizontalRange() { return{ left, right }; }
+	Range<T> getVerticalRange() { return{ bottom, top }; }
 };
 
 template<class T>
