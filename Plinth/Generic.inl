@@ -85,6 +85,22 @@ inline void orderLowHigh(T& low, T& high)
 		swap(low, high);
 }
 
+template <class T>
+// if vector is outside of area range (boundaries included), adjust to the closest value in the area range
+// note: re-orders area range if minimum values are higher than maximum values
+inline Vector2<T> clamp(const Vector2<T>& vector, AreaRange<T>& range)
+{
+	return{ clamp(vector.x, range.getHorizontalRange()), clamp(vector.y, range.getVerticalRange()) };
+}
+
+template <class T>
+// if (x, y) is outside of area range (boundaries included), adjust to the closest value in the area range
+// note: re-orders area range if minimum values are higher than maximum values
+inline Vector2<T> clamp(const T& x, const T& y, AreaRange<T>& range)
+{
+	return clamp(Vector2<T>(x, y), range);
+}
+
 template<class T>
 // if value is outside of range (boundaries included), adjust to the closest value in the range
 // note: re-orders range if minimum value is higher than maximum value
