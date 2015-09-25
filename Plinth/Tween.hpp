@@ -59,12 +59,12 @@ inline T linear(T start, T end, alphaT alpha);
 
 
 
-template <typename T, typename alphaT>
+template <typename alphaT, typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to alphaT
-// Only the final parameter's type is used - to determine the type of alphaT i.e. the return type. Its value is discarded.
-inline alphaT inverseLinear(T start, T end, T value, alphaT alphaType);
+// The first template parameter is used to determine the return type
+inline alphaT inverseLinear(T start, T end, T value);
 
 template <typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
