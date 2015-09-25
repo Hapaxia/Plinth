@@ -315,75 +315,29 @@ return result;
 */
 
 template <class T>
-Vector2<T>::Vector2(const T& newX, const T& newY)
-{
-	x = newX;
-	y = newY;
-}
-
-template <class T>
-template <class U>
-Vector2<T>::Vector2(const Vector2<U>& vector)
-{
-	x = static_cast<T>(vector.x);
-	y = static_cast<T>(vector.y);
-}
-template <class T>
-Vector2<T> Vector2<T>::operator+(const Vector2<T>& offset) const
-{
-	return{ x + offset.x, y + offset.y };
-}
-template <class T>
-Vector2<T> Vector2<T>::operator-(const Vector2<T>& offset) const
-{
-	return{ x - offset.x, y - offset.y };
-}
-template <class T>
-Vector2<T> Vector2<T>::operator*(const T& scalar) const
-{
-	return{ x * scalar, y * scalar };
-}
-template <class T>
-Vector2<T>& Vector2<T>::operator+=(const Vector2<T>& offset)
-{
-	*this = *this + offset;
-	return *this;
-}
-template <class T>
-Vector2<T>& Vector2<T>::operator-=(const Vector2<T>& offset)
-{
-	*this = *this - offset;
-	return *this;
-}
-template <class T>
-Vector2<T>& Vector2<T>::operator*=(const T& scalar)
-{
-	*this = *this * scalar;
-	return *this;
-}
-
-template <class T>
-Size2<T> sizeFromVector(Vector2<T> vector)
+inline Size2<T> sizeFromVector(Vector2<T> vector)
 {
 	return{ vector.x, vector.y };
 }
 
 template <class T>
-Size3<T> sizeFromVector(Vector3<T> vector)
+inline Size3<T> sizeFromVector(Vector3<T> vector)
 {
 	return{ vector.x, vector.y, vector.y };
 }
 
+/*
 template <class T>
-Vector2<T> vectorFromSize(Size2<T> size)
+inline Vector2<T> vectorFromSize(Size2<T> size)
 {
 	return{ size.width, size.height };
 }
 
 template <class T>
-Vector3<T> vectorFromSize(Size3<T> size)
+inline Vector3<T> vectorFromSize(Size3<T> size)
 {
 	return{ size.width, size.height, size.depth };
 }
+*/
 
 } // namespace plinth

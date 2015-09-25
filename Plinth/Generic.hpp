@@ -37,6 +37,11 @@
 #include "Common.hpp"
 #include "Math.hpp"
 
+#include "Vectors.hpp"
+#include "Sizes.hpp"
+#include "Range.hpp"
+#include "AreaRange.hpp"
+
 namespace plinth
 {
 
@@ -72,132 +77,15 @@ template<class T>
 inline void orderLowHigh(T& low, T& high);
 
 template <class T>
-struct Vector2
-{
-	T x, y;
-	Vector2(const T& newX, const T& newY);
-	template <class U>
-	Vector2(const Vector2<U>& vector);
-	Vector2 operator+(const Vector2& offset) const;
-	Vector2 operator-(const Vector2& offset) const;
-	Vector2 operator*(const T& scalar) const;
-	Vector2& operator+=(const Vector2& offset);
-	Vector2& operator-=(const Vector2& offset);
-	Vector2& operator*=(const T& scalar);
-};
-
+inline Size2<T> sizeFromVector(Vector2<T> vector);
 template <class T>
-struct Vector3
-{
-	T x, y, z;
-};
-
-using Vector2u = Vector2<unsigned int>;
-using Vector2i = Vector2<int>;
-using Vector2d = Vector2<double>;
-using Vector3u = Vector3<unsigned int>;
-using Vector3i = Vector3<int>;
-using Vector3d = Vector3<double>;
-
+inline Size3<T> sizeFromVector(Vector3<T> vector);
+/*
 template <class T>
-struct Size2
-{
-	T width, height;
-	inline T getArea() const { return width * height; };
-};
-
+inline Vector2<T> vectorFromSize(Size2<T> size);
 template <class T>
-struct Size3
-{
-	T width, height, depth;
-	inline T getVolume() const { return width * height * depth; };
-};
-
-using Size2u = Size2<unsigned int>;
-using Size2d = Size2<double>;
-using Size3u = Size3<unsigned int>;
-using Size3d = Size3<double>;
-
-template <class T>
-Size2<T> sizeFromVector(Vector2<T> vector);
-template <class T>
-Size3<T> sizeFromVector(Vector3<T> vector);
-template <class T>
-Vector2<T> vectorFromSize(Size2<T> size);
-template <class T>
-Vector3<T> vectorFromSize(Size3<T> size);
-
-
-enum class RangeBoundaries
-{
-	None,
-	Min,
-	Max,
-	Both
-};
-
-template<class T>
-struct Range
-{
-	T min;
-	T max;
-	inline void set(const T& newMin, const T& newMax) { min = newMin; max = newMax; }
-	inline T getSize() { order(); return max - min; }
-	inline void order() { orderLowHigh(min, max); }
-	inline bool isClosed() { return min == max; }
-};
-
-enum class AreaRangeBoundaries
-{
-	None,
-	Left,
-	Bottom,
-	Right,
-	Top,
-	LeftBottom, // lower values
-	BottomRight,
-	RightTop, // higher values
-	LeftTop,
-	LeftRight,
-	BottomTop,
-	LeftBottomRight,
-	LeftBottomTop,
-	LeftRightTop,
-	BottomRightTop,
-	All
-};
-
-template<class T>
-struct AreaRange
-{
-	T left;
-	T bottom;
-	T right;
-	T top;
-	AreaRange() : left(0), bottom(0), right(0), top(0) { };
-	template <class U>
-	AreaRange(const AreaRange<U>& areaRange) :left(static_cast<T>(areaRange.left)), bottom(static_cast<T>(areaRange.bottom)), right(static_cast<T>(areaRange.right)), top(static_cast<T>(areaRange.top)) { }
-	AreaRange(const T& newLeft, const T& newBottom, const T& newRight, const T& newTop) :left(newLeft), bottom(newBottom), right(newRight), top(newTop) { }
-	AreaRange(const Range<T>& horizontalRange, const Range<T>& verticalRange) : left(horizontalRange.min), bottom(verticalRange.min), right(horizontalRange.max), top(verticalRange.max) { }
-	AreaRange(const Vector2<T>& leftBottom, const Vector2<T>& rightTop) : left(leftBottom.x), bottom(leftBottom.y), right(rightTop.x), top(rightTop.y) { }
-	AreaRange(const Size2<T>& size) : left(0), bottom(0), right(size.width), top(size.height) { }
-	inline T getSize() { return getWidth() * getHeight(); };
-	inline T getWidth() { orderHoriz(); return right - left; };
-	inline T getHeight() { orderVert(); return top - bottom; };
-	inline void set(Vector2<T> leftBottom, Vector2<T> rightTop) { setLeftBottom(leftBottom); setRightTop(rightTop); };
-	inline void setLeftBottom(Vector2<T> leftBottom) { left = leftBottom.x; bottom = leftBottom.y; };
-	inline void setRightTop(Vector2<T> rightTop) { right = rightTop.x; top = rightTop.y; };
-	inline Vector2<T> getLeftBottom() { return{ left, bottom }; };
-	inline Vector2<T> getRightTop() { return{ right, top }; };
-	inline void order() { orderHoriz(); orderVert(); };
-	inline void orderHoriz() { orderLowHigh(left, right); };
-	inline void orderVert() { orderLowHigh(bottom, top); };
-	inline bool isPoint() { return isFlatHorizontally() && isFlatVertically(); };
-	inline bool isFlatHorizontally() { return left == right; };
-	inline bool isFlatVertically() { return bottom == top; };
-	Range<T> getHorizontalRange() { return{ left, right }; }
-	Range<T> getVerticalRange() { return{ bottom, top }; }
-};
+inline Vector3<T> vectorFromSize(Size3<T> size);
+*/
 
 template <class T>
 // if vector is outside of area range (boundaries included), adjust to the closest value in the area range
