@@ -232,6 +232,16 @@ bool inAreaRange(const Vector2<T>& point, const AreaRange<T>& areaRange, AreaRan
 }
 
 template<class T>
+// return true if the two area ranges overlap
+bool areOverlapping(const AreaRange<T>& a, const AreaRange<T>& b)
+{
+	return !((a.right  < b.left)   ||
+	         (a.left   > b.right)  ||
+	         (a.top    < b.bottom) ||
+	         (a.bottom > b.top));
+}
+
+template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
 // e.g. a = !b, a becomes opposite of b. a = toggle(b), a becomes opposite of what b was but b is now identical to a.
 inline T toggle(T& b)
@@ -344,6 +354,11 @@ Vector2<T> Vector2<T>::operator*(const T& scalar) const
 	return{ x * scalar, y * scalar };
 }
 template <class T>
+Vector2<T> Vector2<T>::operator/(const T& scalar) const
+{
+	return{ x / scalar, y / scalar };
+}
+template <class T>
 Vector2<T>& Vector2<T>::operator+=(const Vector2<T>& offset)
 {
 	*this = *this + offset;
@@ -359,6 +374,12 @@ template <class T>
 Vector2<T>& Vector2<T>::operator*=(const T& scalar)
 {
 	*this = *this * scalar;
+	return *this;
+}
+template <class T>
+Vector2<T>& Vector2<T>::operator/=(const T& scalar)
+{
+	*this = *this / scalar;
 	return *this;
 }
 

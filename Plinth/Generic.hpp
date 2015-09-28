@@ -81,9 +81,11 @@ struct Vector2
 	Vector2 operator+(const Vector2& offset) const;
 	Vector2 operator-(const Vector2& offset) const;
 	Vector2 operator*(const T& scalar) const;
+	Vector2 operator/(const T& scalar) const;
 	Vector2& operator+=(const Vector2& offset);
 	Vector2& operator-=(const Vector2& offset);
 	Vector2& operator*=(const T& scalar);
+	Vector2& operator/=(const T& scalar);
 };
 
 template <class T>
@@ -253,6 +255,10 @@ template<class T>
 // boundaries can be included or excluded; by default, only lower boundaries (left and bottom) are included
 // note: re-orders area range if left or bottom is higher than right or top respectively
 bool inAreaRange(const Vector2<T>& point, const AreaRange<T>& areaRange, AreaRangeBoundaries includeAreaRangeBoundaries = AreaRangeBoundaries::LeftBottom);
+
+template<class T>
+// return true if the two area ranges overlap
+bool areOverlapping(const AreaRange<T>& a, const AreaRange<T>& b);
 
 template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
