@@ -32,16 +32,16 @@ namespace plinth
 
 template<class T>
 // returns angle given in degrees as radians
-inline T radiansFromDegrees(T degrees)
+inline T radiansFromDegrees(const T& degrees)
 {
-	return static_cast<T>(static_cast<long double>(degrees)* pi / 180);
+	return static_cast<T>(degrees * piLongDouble / 180.0L);
 }
 
 template<class T>
 // returns angle given in radians as degrees
-inline T degreesFromRadians(T radians)
+inline T degreesFromRadians(const T& radians)
 {
-	return static_cast<T>(static_cast<long double>(radians)* 180 / pi);
+	return static_cast<T>(radians * 180.0L / piLongDouble);
 }
 
 template<class T>

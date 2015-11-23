@@ -45,11 +45,11 @@ const double pi{ piDouble };
 
 template<class T>
 // returns angle given in degrees as radians
-inline T radiansFromDegrees(T degrees);
+inline T radiansFromDegrees(const T& degrees);
 
 template<class T>
 // returns angle given in radians as degrees
-inline T degreesFromRadians(T radians);
+inline T degreesFromRadians(const T& radians);
 
 template<class T>
 // mod (%) from floating point number
