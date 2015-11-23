@@ -29,6 +29,13 @@
 
 #include "Strings.hpp"
 
+namespace
+{
+
+	const std::string presetWhitespaceCharacters{ " \f\n\r\t\v" };
+
+} // namespace
+
 namespace plinth
 {
 
@@ -85,8 +92,8 @@ bool isAlphaNumeric(const std::string& string)
 	const std::string valid{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
 	for (auto& character : string)
 	{
-	if (valid.find(character) == std::string::npos)
-	return false;
+		if (valid.find(character) == std::string::npos)
+			return false;
 	}
 	return true;
 	*/
@@ -132,6 +139,48 @@ std::string padStringRight(std::string string, unsigned int width, char characte
 		string += character;
 
 	return string;
+}
+
+// [does not alter any parameters]
+std::string trimStringLeft(std::string string, const std::string& charactersToTrim)
+{
+	string.erase(0, string.find_first_not_of(charactersToTrim));
+	return string;
+}
+
+// [does not alter any parameters]
+std::string trimStringRight(std::string string, const std::string& charactersToTrim)
+{
+	string.erase(string.find_last_not_of(charactersToTrim) + 1);
+	return string;
+}
+
+// [does not alter any parameters]
+// trims string from both sides of all characters in charactersToTrim
+std::string trimString(const std::string& string, const std::string& charactersToTrim)
+{
+	return trimStringLeft(trimStringRight(string, charactersToTrim), charactersToTrim);
+}
+
+// [does not alter any parameters]
+// trims string from the left of all preset whitespace characters
+std::string trimWhitespaceLeft(std::string string)
+{
+	return trimStringLeft(string, presetWhitespaceCharacters);
+}
+
+// [does not alter any parameters]
+// trims string from the right of all preset whitespace characters
+std::string trimWhitespaceRight(std::string string)
+{
+	return trimStringRight(string, presetWhitespaceCharacters);
+}
+
+// [does not alter any parameters]
+// trims string from both sides of all preset whitespace characters
+std::string trimWhitespace(const std::string& string)
+{
+	return trimString(string, presetWhitespaceCharacters);
 }
 
 // [does not alter any parameters]

@@ -72,13 +72,37 @@ std::string padStringLeft(std::string string, unsigned int width, char character
 std::string padStringRight(std::string string, unsigned int width, char character = ' ');
 
 // [does not alter any parameters]
+// trims string from the left of all characters in charactersToTrim
+std::string trimStringLeft(std::string string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from the right of all characters in charactersToTrim
+std::string trimStringRight(std::string string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from both sides of all characters in charactersToTrim
+std::string trimString(const std::string& string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from the left of all preset whitespace characters
+std::string trimWhitespaceLeft(std::string string);
+
+// [does not alter any parameters]
+// trims string from the right of all preset whitespace characters
+std::string trimWhitespaceRight(std::string string);
+
+// [does not alter any parameters]
+// trims string from both sides of all preset whitespace characters
+std::string trimWhitespace(const std::string& string);
+
+// [does not alter any parameters]
 // returns string with each character replaced by the given character
 std::string password(const std::string& string, char shieldChar = '*');
 //std::string password(std::string string, char shieldChar = '*');
 
 // [does not alter any parameters]
 // replace any character in string that exists in supplementary string with specific character.
-// e.g. replace 'a' with '-': Hapax -> H-p-x , replace "Hpx" with '-': Hapax -> -a-p-
+// e.g. replace 'a' with '-': Hapax -> H-p-x , replace "Hpx" with '-': Hapax -> -a-a-
 std::string replaceChars(std::string string, const std::string& charactersToReplace, char characterToReplaceWith);
 
 // [does not alter any parameters]
