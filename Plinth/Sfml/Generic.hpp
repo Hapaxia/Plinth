@@ -98,6 +98,8 @@ sf::Vector2f floorVector(const sf::Vector2f& vector);
 sf::Vector3f floorVector(const sf::Vector3f& vector);
 sf::Vector2f ceilVector(const sf::Vector2f& vector);
 sf::Vector3f ceilVector(const sf::Vector3f& vector);
+sf::Vector2f absVector(const sf::Vector2f& vector);
+sf::Vector3f absVector(const sf::Vector3f& vector);
 
 	} // namespace Sfml
 } // namespace plinth

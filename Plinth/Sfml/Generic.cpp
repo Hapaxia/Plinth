@@ -327,5 +327,15 @@ sf::Vector3f ceilVector(const sf::Vector3f& vector)
 	return{ ceil(vector.x), ceil(vector.y), ceil(vector.z) };
 }
 
+sf::Vector2f absVector(const sf::Vector2f& vector)
+{
+	return{ abs(vector.x), abs(vector.y) };
+}
+
+sf::Vector3f absVector(const sf::Vector3f& vector)
+{
+	return{ abs(vector.x), abs(vector.y), abs(vector.z) };
+}
+
 	} // namespace Sfml
 } // namespace plinth
