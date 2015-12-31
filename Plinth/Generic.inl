@@ -297,32 +297,39 @@ void pullAreaRange(AreaRange<T>& areaRange, const Vector2<T>& hook, const bool k
 }
 
 template <class IntegerType>
-IntegerType intFromBytes(IntegerType& result, const unsigned char* bytes, bool isLittleEndian)
+IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, const bool isLittleEndian)
 {
-	result = 0;
+	IntegerType result = 0;
 	if (isLittleEndian)
-		for (int n{ sizeof(result) }; n >= 0; --n)
-			result = (result << 8) + bytes[n];
+	{
+		for (unsigned int n{ numberOfBytes }; n > 0; --n)
+			result = (result << 8) + bytes[n - 1];
+	}
 	else
-		for (unsigned int n{ 0 }; n < sizeof(result); ++n)
+	{
+		for (unsigned int n{ 0 }; n < numberOfBytes; ++n)
 			result = (result << 8) + bytes[n];
+	}
 	return result;
 }
 
-/*
 template <class IntegerType>
-IntegerType intFromBytes(IntegerType& result, const unsigned char* bytes, unsigned int rangeSize, unsigned int rangeStart, bool isLittleEndian)
+IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isLittleEndian)
 {
-result = 0;
-if (isLittleEndian)
-for (int n{ rangeSize }; n >= 0; --n)
-result = (result << 8) + bytes[n];
-else
-for (unsigned int n{ 0 }; n < rangeSize; ++n)
-result = (result << 8) + bytes[n];
-return result;
+	IntegerType result = 0;
+	const unsigned int numberOfBytes{ bytes.size() };
+	if (isLittleEndian)
+	{
+		for (unsigned int n{ numberOfBytes }; n > 0; --n)
+			result = (result << 8) + bytes[n - 1];
+	}
+	else
+	{
+		for (unsigned int n{ 0 }; n < numberOfBytes; ++n)
+			result = (result << 8) + bytes[n];
+	}
+	return result;
 }
-*/
 
 template <class T>
 Vector2<T>::Vector2(const T& newX, const T& newY)

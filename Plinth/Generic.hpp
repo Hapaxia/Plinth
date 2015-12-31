@@ -278,11 +278,9 @@ template<class T>
 void pullAreaRange(AreaRange<T>& areaRange, const Vector2<T>& hook, bool keepSize = false);
 
 template <class TInteger>
-TInteger intFromBytes(TInteger& result, const unsigned char* bytes, bool isLittleEndian = true);
-/*
+TInteger intFromBytes(unsigned int numberOfBytes, const unsigned char* bytes, bool isLittleEndian = true);
 template <class TInteger>
-TInteger intFromBytes(TInteger& result, const unsigned char* bytes, unsigned int rangeSize = sizeof(bytes), unsigned int rangeStart = 0, bool isLittleEndian = true);
-*/
+TInteger intFromBytes(const std::vector<unsigned char>& bytes, bool isLittleEndian = true);
 
 } // plinth
 
