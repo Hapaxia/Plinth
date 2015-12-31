@@ -43,9 +43,12 @@ namespace plinth
 std::string lowerCase(std::string string);
 // [does not alter any parameters]
 std::string upperCase(std::string string);
+// [does not alter any parameters]
+std::string capitalized(std::string string);
 
 void makeLowerCase(std::string& string);
 void makeUpperCase(std::string& string);
+void makeCapitalized(std::string& string);
 
 // [does not alter any parameters]
 // returns true if the character parameter is a letter (upper- or lower- case) or a number

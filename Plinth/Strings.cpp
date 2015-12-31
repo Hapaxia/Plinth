@@ -32,7 +32,24 @@
 namespace
 {
 
-	const std::string presetWhitespaceCharacters{ " \f\n\r\t\v" };
+const std::string presetWhitespaceCharacters{ " \f\n\r\t\v" };
+const std::string upperCaseCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
+const std::string lowerCaseCharacters{ "abcdefghijklmnopqrstuvwxyz" };
+const std::string alphaNumericCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
+
+inline void makeLowerCaseChar(char& input)
+{
+	const unsigned int stringPosition{ upperCaseCharacters.find(input) };
+	if (stringPosition != std::string::npos)
+		input = lowerCaseCharacters[stringPosition];
+}
+
+inline void makeUpperCaseChar(char& input)
+{
+	const unsigned int stringPosition{ lowerCaseCharacters.find(input) };
+	if (stringPosition != std::string::npos)
+		input = upperCaseCharacters[stringPosition];
+}
 
 } // namespace
 
@@ -53,50 +70,40 @@ std::string upperCase(std::string string)
 	return string;
 }
 
+std::string capitalized(std::string string)
+{
+	makeCapitalized(string);
+	return string;
+}
+
 void makeLowerCase(std::string& string)
 {
-	const std::string upper{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-	const std::string lower{ "abcdefghijklmnopqrstuvwxyz" };
 	for (auto& character : string)
-	{
-		unsigned int stringPosition{ upper.find(character) };
-		if (stringPosition != std::string::npos)
-			character = lower[stringPosition];
-	}
+		makeLowerCaseChar(character);
 }
 
 void makeUpperCase(std::string& string)
 {
-	const std::string upper{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-	const std::string lower{ "abcdefghijklmnopqrstuvwxyz" };
 	for (auto& character : string)
-	{
-		unsigned int stringPosition{ lower.find(character) };
-		if (stringPosition != std::string::npos)
-			character = upper[stringPosition];
-	}
+		makeUpperCaseChar(character);
+}
+
+void makeCapitalized(std::string& string)
+{
+	if (string.size() > 0)
+		makeUpperCaseChar(string[0]);
 }
 
 // [does not alter any parameters]
 bool isAlphaNumeric(char c)
 {
-	const std::string valid{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
-	return (valid.find(c) != std::string::npos);
+	return (alphaNumericCharacters.find(c) != std::string::npos);
 }
 
 // [does not alter any parameters]
 bool isAlphaNumeric(const std::string& string)
 {
-	return doesContainOnly(upperCase(string), "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-	/*
-	const std::string valid{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
-	for (auto& character : string)
-	{
-		if (valid.find(character) == std::string::npos)
-			return false;
-	}
-	return true;
-	*/
+	return doesContainOnly(string, alphaNumericCharacters);
 }
 
 // [does not alter any parameters]
@@ -188,15 +195,6 @@ std::string password(const std::string& string, char shieldChar)
 {
 	return std::string(string.size(), shieldChar);
 }
-
-/*
-std::string password(std::string string, char shieldChar)
-{
-for (auto& character : string)
-character = shieldChar;
-return string;
-}
-*/
 
 // [does not alter any parameters]
 // replace any character in string that exists in supplementary string with specific character.
