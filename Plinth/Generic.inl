@@ -332,6 +332,13 @@ IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isL
 }
 
 template <class T>
+Vector2<T>::Vector2()
+{
+	x = static_cast<T>(0);
+	y = static_cast<T>(0);
+}
+
+template <class T>
 Vector2<T>::Vector2(const T& newX, const T& newY)
 {
 	x = newX;

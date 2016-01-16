@@ -75,6 +75,7 @@ template <class T>
 struct Vector2
 {
 	T x, y;
+	Vector2();
 	Vector2(const T& newX, const T& newY);
 	template <class U>
 	Vector2(const Vector2<U>& vector);
