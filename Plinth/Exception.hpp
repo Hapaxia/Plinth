@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -59,7 +59,5 @@ private:
 };
 
 } // namespace plinth
-
 #include "Common.hpp"
-
 #endif // PLINTH_EXCEPTION_HPP

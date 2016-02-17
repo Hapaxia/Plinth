@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -30,28 +30,28 @@
 namespace plinth
 {
 
-template<class T>
+template <class T>
 // returns angle given in degrees as radians
-inline T radiansFromDegrees(T degrees)
+inline T radiansFromDegrees(const T& degrees)
 {
-	return static_cast<T>(static_cast<long double>(degrees)* pi / 180);
+	return static_cast<T>(degrees * piLongDouble / 180.0L);
 }
 
-template<class T>
+template <class T>
 // returns angle given in radians as degrees
-inline T degreesFromRadians(T radians)
+inline T degreesFromRadians(const T& radians)
 {
-	return static_cast<T>(static_cast<long double>(radians)* 180 / pi);
+	return static_cast<T>(radians * 180.0L / piLongDouble);
 }
 
-template<class T>
+template <class T>
 // mod (%) from floating point numbers
 inline T mod(const T& a, const T& b)
 {
 	return static_cast<T>(a - (trunc(static_cast<long double>(a) / b) * b));
 }
 
-template<class T>
+template <class T>
 // returns the dot product of two vectors with the same number of elements
 T dot(const std::vector<T>& a, const std::vector<T>& b)
 {
@@ -65,21 +65,21 @@ T dot(const std::vector<T>& a, const std::vector<T>& b)
 	return result;
 }
 
-template<class resultT, class T>
+template <class resultT, class T>
 // return the mean (mean average) of two values
 inline resultT mean(const T& a, const T& b)
 {
 	return static_cast<resultT>(static_cast<long double>(a + b) / 2.0);
 }
 
-template<class T>
+template <class T>
 // return the mean (mean average) of two values
 inline T mean(const T& a, const T& b)
 {
 	return static_cast<T>(static_cast<long double>(a + b) / 2.0);
 }
 
-template<class resultT, class T>
+template <class resultT, class T>
 // return the mean (mean average) of all values in a vector
 inline resultT mean(const std::vector<T>& values)
 {
@@ -89,7 +89,7 @@ inline resultT mean(const std::vector<T>& values)
 	return static_cast<resultT>(sum / values.size());
 }
 
-template<class T>
+template <class T>
 // return the mean (mean average) of all values in a vector
 inline T mean(const std::vector<T>& values)
 {

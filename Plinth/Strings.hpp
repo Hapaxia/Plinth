@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -43,9 +43,12 @@ namespace plinth
 std::string lowerCase(std::string string);
 // [does not alter any parameters]
 std::string upperCase(std::string string);
+// [does not alter any parameters]
+std::string capitalized(std::string string);
 
 void makeLowerCase(std::string& string);
 void makeUpperCase(std::string& string);
+void makeCapitalized(std::string& string);
 
 // [does not alter any parameters]
 // returns true if the character parameter is a letter (upper- or lower- case) or a number
@@ -70,6 +73,30 @@ std::string padStringLeft(std::string string, unsigned int width, char character
 // [does not alter any parameters]
 // pad string with given character on the right
 std::string padStringRight(std::string string, unsigned int width, char character = ' ');
+
+// [does not alter any parameters]
+// trims string from the left of all characters in characterToTrim
+std::string trimStringLeft(std::string string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from the right of all characters in characterToTrim
+std::string trimStringRight(std::string string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from both sides of all characters in characterToTrim
+std::string trimString(const std::string& string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from the left of all preset whitespace characters
+std::string trimWhitespaceLeft(std::string string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from the right of all preset whitespace characters
+std::string trimWhitespaceRight(std::string string, const std::string& charactersToTrim);
+
+// [does not alter any parameters]
+// trims string from both sides of all preset whitespace characters
+std::string trimWhitespace(const std::string& string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
 // returns string with each character replaced by the given character

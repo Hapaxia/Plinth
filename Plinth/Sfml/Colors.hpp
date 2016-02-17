@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -60,12 +60,9 @@ const sf::Color Purple(64, 0, 128);
 const sf::Color Peach(255, 128, 96);
 const sf::Color Lime(128, 255, 0);
 const sf::Color Mint(64, 255, 192);
-const sf::Color Grey(128, 128, 128);
-const sf::Color Gray = Grey;
-const sf::Color MediumGrey = Grey;
-const sf::Color MediumGray = MediumGrey;
-const sf::Color MidGrey = Grey;
-const sf::Color MidGray = MidGrey;
+const sf::Color Gray(128, 128, 128);
+const sf::Color MediumGray = Gray;
+const sf::Color MidGray = Gray;
 
 // lights
 const sf::Color LightBlack(64, 64, 64);
@@ -86,7 +83,6 @@ const sf::Color LightPurple(128, 64, 192);
 const sf::Color LightPeach(255, 160, 128);
 const sf::Color LightLime(192, 255, 128);
 const sf::Color LightMint(128, 255, 224);
-const sf::Color LightGrey(192, 192, 192);
 const sf::Color LightGray(192, 192, 192);
 
 // darks
@@ -108,7 +104,6 @@ const sf::Color DarkPurple(32, 0, 64);
 const sf::Color DarkPeach(128, 64, 48);
 const sf::Color DarkLime(64, 128, 0);
 const sf::Color DarkMint(32, 128, 96);
-const sf::Color DarkGrey(64, 64, 64);
 const sf::Color DarkGray(64, 64, 64);
 
 // very darks
@@ -130,10 +125,8 @@ const sf::Color VeryDarkPurple(16, 0, 32);
 const sf::Color VeryDarkPeach(64, 32, 24);
 const sf::Color VeryDarkLime(32, 64, 0);
 const sf::Color VeryDarkMint(16, 64, 48);
-const sf::Color VeryDarkGrey(32, 32, 32);
 const sf::Color VeryDarkGray(32, 32, 32);
 
 	} // namespace Colors
 } // namespace plinth
-
 #endif // PLINTH_SFML_COLORS_HPP

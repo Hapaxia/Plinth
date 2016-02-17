@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -28,6 +28,16 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Generic.hpp"
+#include "../Range.hpp"
+#include <math.h>
+#include "../Tween.hpp"
+
+namespace
+{
+
+const pl::Range<unsigned int> colorComponentRange{ 0u, 255u };
+
+} // namespace
 
 namespace plinth
 {
@@ -268,7 +278,7 @@ sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices)
 
 void changeAlpha(sf::Color& color, unsigned int alpha)
 {
-	color.a = clamp(alpha, 0u, 255u);
+	color.a = colorComponentRange.clamp(alpha);
 }
 
 void changeAlpha(sf::Color& color, float alpha)
@@ -283,7 +293,7 @@ void changeAlpha(sf::Color& color, double alpha)
 
 sf::Color colorFromColorAndAlpha(sf::Color color, unsigned int alpha)
 {
-	color.a = clamp(alpha, 0u, 255u);
+	color.a = colorComponentRange.clamp(alpha);
 	return color;
 }
 
@@ -325,6 +335,16 @@ sf::Vector2f ceilVector(const sf::Vector2f& vector)
 sf::Vector3f ceilVector(const sf::Vector3f& vector)
 {
 	return{ ceil(vector.x), ceil(vector.y), ceil(vector.z) };
+}
+
+sf::Vector2f absVector(const sf::Vector2f& vector)
+{
+	return{ abs(vector.x), abs(vector.y) };
+}
+
+sf::Vector3f absVector(const sf::Vector3f& vector)
+{
+	return{ abs(vector.x), abs(vector.y), abs(vector.z) };
 }
 
 	} // namespace Sfml

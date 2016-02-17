@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -37,9 +37,8 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include "../Generic.hpp"
+#include "../Vectors.hpp"
 #include "../Color.hpp"
-#include "../Tween.hpp"
-#include <math.h>
 
 namespace plinth
 {
@@ -98,6 +97,8 @@ sf::Vector2f floorVector(const sf::Vector2f& vector);
 sf::Vector3f floorVector(const sf::Vector3f& vector);
 sf::Vector2f ceilVector(const sf::Vector2f& vector);
 sf::Vector3f ceilVector(const sf::Vector3f& vector);
+sf::Vector2f absVector(const sf::Vector2f& vector);
+sf::Vector3f absVector(const sf::Vector3f& vector);
 
 	} // namespace Sfml
 } // namespace plinth

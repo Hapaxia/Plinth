@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -33,7 +33,7 @@
 #define PLINTH_BEZIER_HPP
 
 #include "Common.hpp"
-#include "Generic.hpp"
+#include "Vector2.hpp"
 
 namespace plinth
 {
@@ -68,7 +68,5 @@ private:
 };
 
 } // namespace plinth
-
 #include "Bezier.inl"
-
 #endif // PLINTH_BEZIER_HPP

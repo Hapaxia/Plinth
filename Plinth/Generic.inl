@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -26,6 +26,9 @@
 // MJSilk2@gmail.com
 //
 //////////////////////////////////////////////////////////////////////////////
+
+#ifndef PLINTH_GENERIC_INL
+#define PLINTH_GENERIC_INL
 
 namespace plinth
 {
@@ -85,152 +88,6 @@ inline void orderLowHigh(T& low, T& high)
 		swap(low, high);
 }
 
-template <class T>
-// if vector is outside of area range (boundaries included), adjust to the closest value in the area range
-// note: re-orders area range if minimum values are higher than maximum values
-inline Vector2<T> clamp(const Vector2<T>& vector, AreaRange<T>& range)
-{
-	return{ clamp(vector.x, range.getHorizontalRange()), clamp(vector.y, range.getVerticalRange()) };
-}
-
-template <class T>
-// if (x, y) is outside of area range (boundaries included), adjust to the closest value in the area range
-// note: re-orders area range if minimum values are higher than maximum values
-inline Vector2<T> clamp(const T& x, const T& y, AreaRange<T>& range)
-{
-	return clamp(Vector2<T>(x, y), range);
-}
-
-template<class T>
-// if value is outside of range (boundaries included), adjust to the closest value in the range
-// note: re-orders range if minimum value is higher than maximum value
-inline T clamp(const T& value, Range<T>& range)
-{
-	range.order();
-	return value > range.max ? range.max : value < range.min ? range.min : value;
-}
-
-template<class T>
-// if value is outside of range [min, max], adjust to the closest value in the range
-inline T clamp(const T& value, const T& min, const T& max)
-{
-	return clamp(value, Range<T>{min, max});
-}
-
-template<class T>
-// if value is outside of range (boundaries included), adjust to the furthest value in the range
-// note: re-orders range if minimum value is higher than maximum value
-inline T clampLoop(const T& value, Range<T>& range)
-{
-	range.order();
-	return value > range.max ? range.min : value < range.min ? range.max : value;
-}
-
-template<class T>
-// if value is outside of range [min, max], adjust to the furthest value in the range
-inline T clampLoop(const T& value, const T& min, const T& max)
-{
-	return clampLoop(value, Range<T>{min, max});
-}
-
-template<class T>
-// if value is outside of range (only minimum boundary included), adjust by stepping back by size of range (keeping position in range after removing multiples of range)
-// note: max is not included in the range
-// note: re-orders range if minimum value is higher than maximum value
-inline T clampCycle(const T& value, Range<T>& range)
-{
-	if (range.isClosed())
-		return range.min;
-	const T rangeSize = range.getSize();
-	if (value > range.max)
-		return range.min + mod(value - range.min, rangeSize);
-	else if (value < range.min)
-		return range.min + rangeSize + mod(value - range.min, rangeSize);
-	else
-		return value;
-}
-
-template<class T>
-// if value is outside of range [min, max), adjust by stepping back by size of range (keeping position in range after removing multiples of range)
-// note: max is not included in the range
-inline T clampCycle(const T& value, const T& min, const T& max)
-{
-	return clampCycle(value, Range<T>{min, max});
-}
-
-template<class T>
-// returns true if in range and false if outside
-// boundaries can be included or excluded; by default, only minimum boundary is included
-inline bool inRange(const T& value, const Range<T>& range, RangeBoundaries includeRangeBoundaries)
-{
-	switch (includeRangeBoundaries)
-	{
-	case RangeBoundaries::Both:
-		return ((value >= range.min) && (value <= range.max));
-	case RangeBoundaries::Min:
-		return ((value >= range.min) && (value < range.max));
-	case RangeBoundaries::Max:
-		return ((value > range.min) && (value <= range.max));
-	case RangeBoundaries::None:
-		return ((value > range.min) && (value < range.max));
-	default:
-		return false;
-	}
-}
-
-template<class T>
-// returns true if in the range min-max and false if outside
-// boundaries can be included or excluded; by default, only minimum boundary is included
-inline bool inRange(const T& value, const T& min, const T& max, RangeBoundaries includeRangeBoundaries)
-{
-	return inRange(value, Range<T>{min, max}, includeRangeBoundaries);
-}
-
-template<class T>
-// returns true if in the area range (left, bottom) - (right, top) and false if outside
-// boundaries can be included or excluded; by default, only lower boundaries (left and bottom) are included
-// note: re-orders area range if left or bottom is higher than right or top respectively
-bool inAreaRange(const Vector2<T>& point, const AreaRange<T>& areaRange, AreaRangeBoundaries includeAreaRangeBoundaries)
-{
-	switch (includeAreaRangeBoundaries)
-	{
-	case AreaRangeBoundaries::None:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::None) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::None));
-	case AreaRangeBoundaries::Left:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Min) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::None));
-	case AreaRangeBoundaries::Bottom:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::None) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Min));
-	case AreaRangeBoundaries::Right:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Max) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::None));
-	case AreaRangeBoundaries::Top:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::None) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Max));
-	case AreaRangeBoundaries::LeftBottom:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Min) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Min));
-	case AreaRangeBoundaries::BottomRight:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Max) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Min));
-	case AreaRangeBoundaries::RightTop:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Max) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Max));
-	case AreaRangeBoundaries::LeftTop:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Min) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Max));
-	case AreaRangeBoundaries::LeftRight:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Both) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::None));
-	case AreaRangeBoundaries::BottomTop:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::None) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Both));
-	case AreaRangeBoundaries::LeftBottomRight:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Both) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Min));
-	case AreaRangeBoundaries::LeftBottomTop:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Min) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Both));
-	case AreaRangeBoundaries::LeftRightTop:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Both) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Max));
-	case AreaRangeBoundaries::BottomRightTop:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Max) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Both));
-	case AreaRangeBoundaries::All:
-		return (inRange(point.x, Range<T>{ areaRange.left, areaRange.right }, RangeBoundaries::Both) && inRange(point.y, Range<T>{ areaRange.bottom, areaRange.top }, RangeBoundaries::Both));
-	default:
-		return false;
-	}
-}
-
 template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
 // e.g. a = !b, a becomes opposite of b. a = toggle(b), a becomes opposite of what b was but b is now identical to a.
@@ -240,104 +97,40 @@ inline T toggle(T& b)
 	return b;
 }
 
-template<class T>
-// 'pulls' a range using a hook (if hook is outside range). keeping size will move the range; not keeping size will stretch the range (move just one boundary)
-inline void pullRange(Range<T>& range, const T& hook, const bool keepSize)
-{
-	range.order();
-	if (hx::inRange(hook, range))
-		return;
-	T rangeSize = range.getSize();
-	if (hook < range.min)
-	{
-		range.min = hook;
-		if (keepSize)
-			range.max = range.min + rangeSize;
-	}
-	else if (hook > range.max)
-	{
-		range.max = hook;
-		if (keepSize)
-			range.min = range.max - rangeSize;
-	}
-}
-
-template<class T>
-// 'pulls' a range using a hook (if hook is outside range). keeping size will move the range; not keeping size will stretch the range (move just one boundary)
-inline void pullRange(T& low, T& high, const T& hook, const bool keepSize)
-{
-	Range<T> range{ low, high };
-	pullRange(range, hook, keepSize);
-	low = range.min;
-	high = range.max;
-}
-
-template<class T>
-// 'pulls' an area range using a hook (if hook is outside range). keeping size will move the range; not keeping size will stretch the range (move just closest boundary)
-void pullAreaRange(AreaRange<T>& areaRange, const Vector2<T>& hook, const bool keepSize)
-{
-	Range<T> range{ areaRange.left, areaRange.right };
-	pullRange<T>(range, hook.x, keepSize);
-	areaRange.left = range.min;
-	areaRange.right = range.max;
-	range.set(areaRange.bottom, areaRange.top);
-	pullRange<T>(range, hook.y, keepSize);
-	areaRange.bottom = range.min;
-	areaRange.top = range.max;
-}
-
 template <class IntegerType>
-IntegerType intFromBytes(IntegerType& result, const unsigned char* bytes, bool isLittleEndian)
+IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, const bool isLittleEndian)
 {
-	result = 0;
+	IntegerType result = 0;
 	if (isLittleEndian)
-		for (int n{ sizeof(result) }; n >= 0; --n)
-			result = (result << 8) + bytes[n];
+	{
+		for (unsigned intint n{ numberOfBytes }; n > 0; --n)
+			result = (result << 8) + bytes[n - 1];
+	}
 	else
-		for (unsigned int n{ 0 }; n < sizeof(result); ++n)
+	{
+		for (unsigned int n{ 0 }; n < numberOfBytes; ++n)
 			result = (result << 8) + bytes[n];
+	}
 	return result;
 }
 
-/*
 template <class IntegerType>
-IntegerType intFromBytes(IntegerType& result, const unsigned char* bytes, unsigned int rangeSize, unsigned int rangeStart, bool isLittleEndian)
+IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isLittleEndian)
 {
-result = 0;
-if (isLittleEndian)
-for (int n{ rangeSize }; n >= 0; --n)
-result = (result << 8) + bytes[n];
-else
-for (unsigned int n{ 0 }; n < rangeSize; ++n)
-result = (result << 8) + bytes[n];
-return result;
+	IntegerType result = 0;
+	const unsigned int numberOfBytes{ bytes.size() };
+	if (isLittleEndian)
+	{
+		for (unsigned intint n{ numberOfBytes }; n > 0; --n)
+			result = (result << 8) + bytes[n - 1];
+	}
+	else
+	{
+		for (unsigned int n{ 0 }; n < numberOfBytes; ++n)
+			result = (result << 8) + bytes[n];
+	}
+	return result;
 }
-*/
-
-template <class T>
-inline Size2<T> sizeFromVector(Vector2<T> vector)
-{
-	return{ vector.x, vector.y };
-}
-
-template <class T>
-inline Size3<T> sizeFromVector(Vector3<T> vector)
-{
-	return{ vector.x, vector.y, vector.y };
-}
-
-/*
-template <class T>
-inline Vector2<T> vectorFromSize(Size2<T> size)
-{
-	return{ size.width, size.height };
-}
-
-template <class T>
-inline Vector3<T> vectorFromSize(Size3<T> size)
-{
-	return{ size.width, size.height, size.depth };
-}
-*/
 
 } // namespace plinth
+#endif // PLINTH_GENERIC_INL

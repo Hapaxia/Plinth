@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_TWEEN_INL
+#define PLINTH_TWEEN_INL
+
 namespace plinth
 {
 	namespace Tween
@@ -37,17 +40,17 @@ template <typename T, typename alphaT>
 // Type alphaT should be a POD type in range 0 to 1.
 // Type T must have required operators available (*, +)
 // and be able to be multiplied (scaled) by a POD type (alpha)
-inline T linear(T start, T end, alphaT alpha)
+inline T linear(const T start, const T end, const alphaT alpha)
 {
 	return static_cast<T>(start * (1 - alpha) + end * alpha); // blend from low to high using alpha
 }
 
-template <typename T, typename alphaT>
+template <typename alphaT, typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to alphaT
-// Only the final parameter's type is used - to determine the type of alphaT i.e. the return type. Its value is discarded.
-inline alphaT inverseLinear(T start, T end, T value, alphaT alphaType)
+// The first template parameter is used to determine the return type
+inline alphaT inverseLinear(const T start, const T end, const T value)
 {
 	return static_cast<alphaT>(value - start) / (end - start);
 }
@@ -56,7 +59,7 @@ template <typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to double (the return type of alpha)
-inline double inverseLinear(T start, T end, T value)
+inline double inverseLinear(const T start, const T end, const T value)
 {
 	return static_cast<double>(value - start) / (end - start);
 }
@@ -64,14 +67,14 @@ inline double inverseLinear(T start, T end, T value)
 template <typename toT, typename fromT>
 // Converts value's position in range to its position in a different range.
 // Each range may have its own type.
-toT convertRange(toT toStart, toT toEnd, fromT fromStart, fromT fromEnd, fromT value)
+toT convertRange(const toT toStart, const toT toEnd, const fromT fromStart, const fromT fromEnd, const fromT value)
 {
 	return linear(toStart, toEnd, inverseLinear(fromStart, fromEnd, value));
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in and out by "amount". An amount of zero is a linear Tween
-T easeInOut(T start, T end, alphaT alpha, amountT amount)
+T easeInOut(const T start, const T end, const alphaT alpha, const amountT amount)
 {
 	double strength{ static_cast<double>(amount)+1 }; // use range from 1 (straight line) in calculations instead of supplied 0
 	double pow1{ pow(alpha, strength) };
@@ -82,21 +85,21 @@ T easeInOut(T start, T end, alphaT alpha, amountT amount)
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in by "amount". An amount of zero is a linear Tween
-T easeIn(T start, T end, alphaT alpha, amountT amount)
+T easeIn(const T start, const T end, const alphaT alpha, const amountT amount)
 {
 	return easeInOut(start, end + (end - start), alpha / 2, amount);
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween out by "amount". An amount of zero is a linear Tween
-T easeOut(T start, T end, alphaT alpha, amountT amount)
+T easeOut(const T start, const T end, const alphaT alpha, const amountT amount)
 {
 	return easeInOut(start - (end - start), end, 0.5 + alpha / 2, amount);
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in by "in" and out by "out". Zero means no easing. If in and out are both zero, it becomes a linear Tween
-T oldEase(T start, T end, alphaT alpha, amountT in, amountT out)
+T oldEase(const T start, const T end, const alphaT alpha, const amountT in, const amountT out)
 {
 	T easedIn{ easeIn(start, end, alpha, in) };
 	T easedOut{ easeOut(start, end, alpha, out) };
@@ -105,21 +108,21 @@ T oldEase(T start, T end, alphaT alpha, amountT in, amountT out)
 
 template <typename T, typename alphaT>
 // "Smoothstep" as found at http://guihaire.com/code/?p=229
-T quickerEase(T start, T end, alphaT alpha)
+T quickerEase(const T start, const T end, const alphaT alpha)
 {
 	return linear(start, end, alpha * alpha * (3 - 2 * alpha));
 }
 
 template <typename T, typename alphaT>
 // "Smootherstep" as found at http://guihaire.com/code/?p=229
-T quickEase(T start, T end, alphaT alpha)
+T quickEase(const T start, const T end, const alphaT alpha)
 {
 	return linear(start, end, alpha * alpha * alpha * (10 + alpha * (6 * alpha - 15)));
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween using bezier (creates and destroys a bezier object on each call). All types must be castable to double
-T slowEase(T start, T end, alphaT alpha, amountT in, amountT out)
+T slowEase(const T start, const T end, const alphaT alpha, const amountT in, const amountT out)
 {
 	Bezier<double> bezier;
 	bezier.setPoint(0, { 0.0, static_cast<double>(start) });
@@ -142,12 +145,12 @@ T slowEase(T start, T end, alphaT alpha, amountT in, amountT out)
 
 template <typename T, typename alphaT, typename strengthT>
 // Ease class - uses bezier cubic. All types must be castable to double
-Ease<T, alphaT, strengthT>::Ease() :
-m_start(static_cast<T>(0.0)),
-m_end(static_cast<T>(1.0)),
-m_inStrength(static_cast<strengthT>(0.5)),
-m_outStrength(static_cast<strengthT>(0.5)),
-m_bezier()
+Ease<T, alphaT, strengthT>::Ease()
+	: m_start(static_cast<T>(0.0))
+	, m_end(static_cast<T>(1.0))
+	, m_inStrength(static_cast<strengthT>(0.5))
+	, m_outStrength(static_cast<strengthT>(0.5))
+	, m_bezier()
 {
 	priv_updatePoints();
 }
@@ -261,14 +264,14 @@ template <typename T, typename alphaT, typename strengthT>
 // uses TweenPiecewise for LUT and the (linear) interpolation of that table
 //     template format is: FastEase < value type, alpha location type, strength type >
 // default type for alpha location and strength (if not specified) is double
-FastEase<T, alphaT, strengthT>::FastEase(const strengthT inStrength, const strengthT outStrength, const T start, const T end, const unsigned int numberOfLocations) :
-m_start(start),
-m_end(end),
-m_inStrength(inStrength),
-m_outStrength(outStrength),
-m_bezier(),
-m_lutLocations(),
-m_lut()
+FastEase<T, alphaT, strengthT>::FastEase(const strengthT inStrength, const strengthT outStrength, const T start, const T end, const unsigned int numberOfLocations)
+	: m_start(start)
+	, m_end(end)
+	, m_inStrength(inStrength)
+	, m_outStrength(outStrength)
+	, m_bezier()
+	, m_lutLocations()
+	, m_lut()
 {
 	if (numberOfLocations > 0u)
 	{
@@ -363,15 +366,15 @@ void FastEase<T, alphaT, strengthT>::setRangeAndStrengths(const T start, const T
 template <typename T, typename alphaT, typename strengthT>
 T FastEase<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha, const strengthT inStrength, const strengthT outStrength)
 {
-setRangeAndStrengths(start, end, inStrength, outStrength);
-return getValue(alpha);
+	setRangeAndStrengths(start, end, inStrength, outStrength);
+	return getValue(alpha);
 }
 
 template <typename T, typename alphaT, typename strengthT>
 T FastEase<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha)
 {
-setRange(start, end);
-return getValue(alpha);
+	setRange(start, end);
+	return getValue(alpha);
 }
 */
 
@@ -427,3 +430,4 @@ void FastEase<T, alphaT, strengthT>::priv_updateTable()
 
 	} // namespace Tween
 } // namespace plinth
+#endif // PLINTH_TWEEN_INL

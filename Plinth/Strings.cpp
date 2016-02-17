@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -29,6 +29,30 @@
 
 #include "Strings.hpp"
 
+namespace
+{
+
+const std::string presetWhitespaceCharacters{ " \f\n\r\t\v" };
+const std::string upperCaseCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
+const std::string lowerCaseCharacters{ "abcdefghijklmnopqrstuvwxyz" };
+const std::string alphaNumericCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
+
+inline void makeLowerCaseChar(char& input)
+{
+	const unsigned int stringPosition{ upperCaseCharacters.find(input) };
+	if (stringPosition != std::string::npos)
+		input = lowerCaseCharacters[stringPosition];
+}
+
+inline void makeUpperCaseChar(char& input)
+{
+	const unsigned int stringPosition{ lowerCaseCharacters.find(input) };
+	if (stringPosition != std::string::npos)
+		input = upperCaseCharacters[stringPosition];
+}
+
+} // namespace
+
 namespace plinth
 {
 
@@ -46,50 +70,41 @@ std::string upperCase(std::string string)
 	return string;
 }
 
+// [does not alter any parameters]
+std::string capitalized(std::string string)
+{
+	makeCapitalized(string);
+	return string;
+}
+
 void makeLowerCase(std::string& string)
 {
-	const std::string upper{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-	const std::string lower{ "abcdefghijklmnopqrstuvwxyz" };
 	for (auto& character : string)
-	{
-		unsigned int stringPosition{ upper.find(character) };
-		if (stringPosition != std::string::npos)
-			character = lower[stringPosition];
-	}
+		makeLowerCaseChar(character);
 }
 
 void makeUpperCase(std::string& string)
 {
-	const std::string upper{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-	const std::string lower{ "abcdefghijklmnopqrstuvwxyz" };
 	for (auto& character : string)
-	{
-		unsigned int stringPosition{ lower.find(character) };
-		if (stringPosition != std::string::npos)
-			character = upper[stringPosition];
-	}
+		makeUpperCaseChar(character);
+}
+
+void makeCapitalized(std::string& string)
+{
+	if (string.size() > 0)
+		makeUpperCaseChar(string[0]);
 }
 
 // [does not alter any parameters]
-bool isAlphaNumeric(char c)
+bool isAlphaNumeric(const char c)
 {
-	const std::string valid{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
-	return (valid.find(c) != std::string::npos);
+	return (alphaNumericCharacters.find(c) != std::string::npos);
 }
 
 // [does not alter any parameters]
 bool isAlphaNumeric(const std::string& string)
 {
-	return doesContainOnly(upperCase(string), "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-	/*
-	const std::string valid{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
-	for (auto& character : string)
-	{
-	if (valid.find(character) == std::string::npos)
-	return false;
-	}
-	return true;
-	*/
+	return doesContainOnly(string, alphaNumericCharacters);
 }
 
 // [does not alter any parameters]
@@ -113,7 +128,7 @@ bool doesContainOnly(const std::string& testString, const std::string& validChar
 }
 
 // [does not alter any parameters]
-std::string padStringLeft(std::string string, unsigned int width, char character)
+std::string padStringLeft(std::string string, const unsigned int width, const char character)
 {
 	if (string.size() >= width)
 		return string;
@@ -124,7 +139,7 @@ std::string padStringLeft(std::string string, unsigned int width, char character
 }
 
 // [does not alter any parameters]
-std::string padStringRight(std::string string, unsigned int width, char character)
+std::string padStringRight(std::string string, const unsigned int width, const char character)
 {
 	if (string.size() >= width)
 		return string;
@@ -135,24 +150,59 @@ std::string padStringRight(std::string string, unsigned int width, char characte
 }
 
 // [does not alter any parameters]
-std::string password(const std::string& string, char shieldChar)
+// trims string from the left of all characters in characterToTrim
+std::string trimStringLeft(std::string string, const std::string& charactersToTrim)
+{
+	string.erase(0, string.find_first_not_of(charactersToTrim));
+	return string;
+}
+
+// [does not alter any parameters]
+// trims string from the right of all characters in characterToTrim
+std::string trimStringRight(std::string string, const std::string& charactersToTrim)
+{
+	string.erase(string.find_last_not_of(charactersToTrim) + 1);
+	return string;
+}
+
+// [does not alter any parameters]
+// trims string from both sides of all characters in characterToTrim
+std::string trimString(const std::string& string, const std::string& charactersToTrim)
+{
+	return trimStringLeft(trimStringRight(string, charactersToTrim), charactersToTrim);
+}
+
+// [does not alter any parameters]
+// trims string from the left of all preset whitespace characters
+std::string trimWhitespaceLeft(std::string string, const std::string& charactersToTrim)
+{
+	return trimStringLeft(string, presetWhitespaceCharacters);
+}
+
+// [does not alter any parameters]
+// trims string from the right of all preset whitespace characters
+std::string trimWhitespaceRight(std::string string, const std::string& charactersToTrim)
+{
+	return trimStringRight(string, presetWhitespaceCharacters);
+}
+
+// [does not alter any parameters]
+// trims string from both sides of all preset whitespace characters
+std::string trimWhitespace(const std::string& string, const std::string& charactersToTrim)
+{
+	return trimString(string, presetWhitespaceCharacters);
+}
+
+// [does not alter any parameters]
+std::string password(const std::string& string, const char shieldChar)
 {
 	return std::string(string.size(), shieldChar);
 }
 
-/*
-std::string password(std::string string, char shieldChar)
-{
-for (auto& character : string)
-character = shieldChar;
-return string;
-}
-*/
-
 // [does not alter any parameters]
 // replace any character in string that exists in supplementary string with specific character.
 // e.g. replace 'a' with '-': Hapax -> H-p-x
-std::string replaceChars(std::string string, const std::string& charactersToReplace, char characterToReplaceWith)
+std::string replaceChars(std::string string, const std::string& charactersToReplace, const char characterToReplaceWith)
 {
 	for (auto& character : string)
 	{

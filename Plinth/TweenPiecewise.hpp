@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -31,7 +31,6 @@
 #define PLINTH_TWEENPIECEWISE_HPP
 
 #include "Common.hpp"
-#include "Generic.hpp" // for "clamp"
 #include "Tween.hpp" // for interpolating the values between two nodes
 #include <algorithm> // for "std::sort"
 
@@ -67,7 +66,5 @@ private:
 
 	} // namespace Tween
 } // namespace plinth
-
 #include "TweenPiecewise.inl"
-
 #endif // PLINTH_TWEENPIECEWISE_HPP

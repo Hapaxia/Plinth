@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -31,7 +31,10 @@
 #define PLINTH_STRINGFROM_HPP
 
 #include "Common.hpp"
-#include "Generic.hpp"
+#include "Range.hpp"
+#include "RangeArea.hpp"
+#include "Vectors.hpp"
+#include "Sizes.hpp"
 
 namespace plinth
 {
@@ -66,7 +69,7 @@ template<class T>
 std::string stringFrom(pl::Range<pl::Vector3<T>>);
 
 template<class T>
-std::string stringFrom(pl::AreaRange<T>);
+std::string stringFrom(pl::RangeArea<T>);
 
 } // namespace plinth
 #include "StringFrom.inl"

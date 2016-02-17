@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -51,20 +51,12 @@ template <typename T, typename alphaT>
 // and be able to be multiplied (scaled) by a POD type (alphaT)
 inline T linear(T start, T end, alphaT alpha);
 
-
-
-// ***
-// redo this next function (inverseLinear) so that the return type (alphaT) is specified as a template parameter, not a function parameter as it is now.
-// ***
-
-
-
-template <typename T, typename alphaT>
+template <typename alphaT, typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to alphaT
-// Only the final parameter's type is used - to determine the type of alphaT i.e. the return type. Its value is discarded.
-inline alphaT inverseLinear(T start, T end, T value, alphaT alphaType);
+// The first template parameter is used to determine the return type
+inline alphaT inverseLinear(T start, T end, T value);
 
 template <typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range

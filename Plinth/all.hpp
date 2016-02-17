@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -39,9 +39,12 @@
 #include "Math.hpp"
 #include "NumberBase.hpp"
 #include "Random.hpp"
+#include "Ranges.hpp"
+#include "Sizes.hpp"
 #include "StringFrom.hpp"
 #include "Strings.hpp"
 #include "Tween.hpp"
 #include "TweenPiecewise.hpp"
+#include "Vectors.hpp"
 
 #endif // PLINTH_BASE_ALL_HPP

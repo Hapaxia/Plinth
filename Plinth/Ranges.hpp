@@ -27,9 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_COMMON_HPP
-#define PLINTH_SFML_COMMON_HPP
+#ifndef PLINTH_RANGES_HPP
+#define PLINTH_RANGES_HPP
 
-#include "../Common.hpp"
+#include "Range.hpp"
+#include "RangeArea.hpp"
 
-#endif // PLINTH_SFML_COMMON_HPP
+#endif // PLINTH_RANGES_HPP

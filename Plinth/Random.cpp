@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -32,28 +32,28 @@
 namespace plinth
 {
 
-Random::Random() :
-m_min(0u),
-m_max(100u)
+Random::Random()
+	: m_min(0u)
+	, m_max(100u)
 {
 	randomSeed();
 }
 
-Random::Random(unsigned int min, unsigned int max) :
-m_min(min),
-m_max(max)
+Random::Random(const unsigned int min, const unsigned int max)
+	: m_min(min)
+	, m_max(max)
 {
 	randomSeed();
 }
 
-unsigned int Random::rand(unsigned int rangeSize)
+unsigned int Random::rand(const unsigned int rangeSize)
 {
 	if (rangeSize == 0u)
 		return 0u;
 	return std::uniform_int_distribution<unsigned int>{0u, rangeSize - 1}(m_generator);
 }
 
-bool Random::chance(unsigned int samplePoints, unsigned int sampleSpace)
+bool Random::chance(const unsigned int samplePoints, const unsigned int sampleSpace)
 {
 	return value(1u, sampleSpace) <= samplePoints;
 }
@@ -63,19 +63,19 @@ unsigned int Random::value()
 	return value(m_min, m_max);
 }
 
-void Random::setMinimum(unsigned int min)
+void Random::setMinimum(const unsigned int min)
 {
 	m_min = min;
 	orderLowHigh(m_min, m_max);
 }
 
-void Random::setMaximum(unsigned int max)
+void Random::setMaximum(const unsigned int max)
 {
 	m_max = max;
 	orderLowHigh(m_min, m_max);
 }
 
-void Random::setRange(unsigned int min, unsigned int max)
+void Random::setRange(const unsigned int min, const unsigned int max)
 {
 	setMinimum(min);
 	setMaximum(max);

@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -26,6 +26,9 @@
 // MJSilk2@gmail.com
 //
 //////////////////////////////////////////////////////////////////////////////
+
+#ifndef PLINTH_FILE_INL
+#define PLINTH_FILE_INL
 
 namespace plinth
 {
@@ -53,3 +56,4 @@ void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& file
 }
 
 } // namespace plinth
+#endif // PLINTH_FILE_INL

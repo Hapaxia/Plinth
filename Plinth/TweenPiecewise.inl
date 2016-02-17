@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -30,6 +30,9 @@
 /*
 #include <iostream> // for "DEV_" functions
 */
+
+#ifndef PLINTH_TWEENPIECEWISE_INL
+#define PLINTH_TWEENPIECEWISE_INL
 
 namespace plinth
 {
@@ -118,3 +121,4 @@ unsigned int Piecewise<positionT, T>::getNodeCount() const
 
 	} // namespace Tween
 } // namespace plinth
+#endif // PLINTH_TWEENPIECEWISE_INL

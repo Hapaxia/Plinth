@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2015 M.J.Silk
+// Copyright(c) 2014-2016 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -44,7 +44,6 @@ namespace plinth
 class ResourceManagerBasic
 {
 public:
-	const std::string exceptionPrefix = "Resource Manager Lite: ";
 
 	std::vector<std::string> fontIds;
 	std::vector<std::string> imageIds;
