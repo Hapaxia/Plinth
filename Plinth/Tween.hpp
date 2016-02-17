@@ -51,14 +51,6 @@ template <typename T, typename alphaT>
 // and be able to be multiplied (scaled) by a POD type (alphaT)
 inline T linear(T start, T end, alphaT alpha);
 
-
-
-// ***
-// redo this next function (inverseLinear) so that the return type (alphaT) is specified as a template parameter, not a function parameter as it is now.
-// ***
-
-
-
 template <typename alphaT, typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)

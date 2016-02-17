@@ -28,6 +28,16 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Generic.hpp"
+#include "../Range.hpp"
+#include <math.h>
+#include "../Tween.hpp"
+
+namespace
+{
+
+const pl::Range<unsigned int> colorComponentRange{ 0u, 255u };
+
+} // namespace
 
 namespace plinth
 {
@@ -268,7 +278,7 @@ sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices)
 
 void changeAlpha(sf::Color& color, unsigned int alpha)
 {
-	color.a = clamp(alpha, 0u, 255u);
+	color.a = colorComponentRange.clamp(alpha);
 }
 
 void changeAlpha(sf::Color& color, float alpha)
@@ -283,7 +293,7 @@ void changeAlpha(sf::Color& color, double alpha)
 
 sf::Color colorFromColorAndAlpha(sf::Color color, unsigned int alpha)
 {
-	color.a = clamp(alpha, 0u, 255u);
+	color.a = colorComponentRange.clamp(alpha);
 	return color;
 }
 

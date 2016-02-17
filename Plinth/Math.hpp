@@ -33,7 +33,6 @@
 #define PLINTH_MATH_HPP
 
 #include "Common.hpp"
-#include "Generic.hpp"
 
 namespace plinth
 {
@@ -43,40 +42,38 @@ const double piDouble{ static_cast<double>(piLongDouble) };
 const float piFloat{ static_cast<float>(piLongDouble) };
 const double pi{ piDouble };
 
-template<class T>
+template <class T>
 // returns angle given in degrees as radians
 inline T radiansFromDegrees(const T& degrees);
 
-template<class T>
+template <class T>
 // returns angle given in radians as degrees
 inline T degreesFromRadians(const T& radians);
 
-template<class T>
+template <class T>
 // mod (%) from floating point number
 inline T mod(const T& a, const T& b);
 
-template<class T>
+template <class T>
 // returns the dot product of two vectors with the same number of elements
 T dot(const std::vector<T>& a, const std::vector<T>& b);
 
-template<class resultT, class T>
+template <class resultT, class T>
 // return the mean (mean average) of two values
 inline resultT mean(const T& a, const T& b);
 
-template<class T>
+template <class T>
 // return the mean (mean average) of two values
 inline T mean(const T& a, const T& b);
 
-template<class resultT, class T>
+template <class resultT, class T>
 // return the mean (mean average) of all values in a vector
 inline resultT mean(const std::vector<T>& values);
 
-template<class T>
+template <class T>
 // return the mean (mean average) of all values in a vector
 inline T mean(const std::vector<T>& values);
 
 } // plinth
-
 #include "Math.inl"
-
 #endif // PLINTH_MATH_HPP

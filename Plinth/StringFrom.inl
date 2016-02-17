@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_STRINGFROM_INL
+#define PLINTH_STRINGFROM_INL
+
 namespace plinth
 {
 
@@ -86,9 +89,10 @@ std::string stringFrom(const pl::Range<pl::Vector3<T>> from)
 }
 
 template<class T>
-std::string stringFrom(pl::AreaRange<T> from)
+std::string stringFrom(const pl::RangeArea<T> from)
 {
 	return stringFrom(pl::Range<pl::Vector2<T>>{from.getLeftBottom(), from.getRightTop()});
 }
 
 } // namespace plinth
+#endif // PLINTH_STRINGFROM_INL

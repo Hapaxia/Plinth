@@ -27,19 +27,22 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_BEZIER_INL
+#define PLINTH_BEZIER_INL
+
 namespace plinth
 {
 
 template <class T>
-Bezier<T>::Bezier():
-m_numberOfIterationsForSolve(100u),
-m_points(4, { 0.0, 0.0 })
+Bezier<T>::Bezier()
+	: m_numberOfIterationsForSolve(100u)
+	, m_points(4, { 0.0, 0.0 })
 {
 }
 
 template <class T>
-Bezier<T>::Bezier(const std::vector<Vector2<T>>& points) :
-m_numberOfIterationsForSolve(100u)
+Bezier<T>::Bezier(const std::vector<Vector2<T>>& points)
+	: m_numberOfIterationsForSolve(100u)
 {
 	for (auto& point : points)
 		m_points.push_back(point);
@@ -48,7 +51,7 @@ m_numberOfIterationsForSolve(100u)
 }
 
 template <class T>
-void Bezier<T>::setAllPoints(Vector2<T> point)
+void Bezier<T>::setAllPoints(const Vector2<T> point)
 {
 	for (auto& p : m_points)
 		p = point;
@@ -65,7 +68,7 @@ void Bezier<T>::setPoints(const std::vector<Vector2<T>>& points, const unsigned 
 }
 
 template <class T>
-void Bezier<T>::setPoint(unsigned int index, const Vector2<T> point)
+void Bezier<T>::setPoint(const unsigned int index, const Vector2<T> point)
 {
 	if (index > m_points.size())
 		return;
@@ -74,7 +77,7 @@ void Bezier<T>::setPoint(unsigned int index, const Vector2<T> point)
 }
 
 template <class T>
-Vector2<T> Bezier<T>::getPoint(unsigned int index) const
+Vector2<T> Bezier<T>::getPoint(const unsigned int index) const
 {
 	if (index > m_points.size())
 		return{ 0.0, 0.0 };
@@ -95,13 +98,13 @@ unsigned int Bezier<T>::getNumberOfIterationsForSolver() const
 }
 
 template <class T>
-T Bezier<T>::getX(T t) const
+T Bezier<T>::getX(const T t) const
 {
 	return priv_calculate({ m_points[0].x, m_points[1].x, m_points[2].x, m_points[3].x }, t);
 }
 
 template <class T>
-T Bezier<T>::getY(T t) const
+T Bezier<T>::getY(const T t) const
 {
 	return priv_calculate({ m_points[0].y, m_points[1].y, m_points[2].y, m_points[3].y }, t);
 }
@@ -156,3 +159,4 @@ T Bezier<T>::priv_calculate(const std::vector<T>& a, const T t) const
 }
 
 } // namespace plinth
+#endif // PLINTH_BEZIER_INL

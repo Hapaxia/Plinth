@@ -27,50 +27,21 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGFROM_HPP
-#define PLINTH_STRINGFROM_HPP
-
-#include "Common.hpp"
-#include "Range.hpp"
-#include "RangeArea.hpp"
-#include "Vectors.hpp"
-#include "Sizes.hpp"
+#ifndef PLINTH_SIZE3_HPP
+#define PLINTH_SIZE3_HPP
 
 namespace plinth
 {
 
-std::string stringFrom(const std::string& = "");
-
 template <class T>
-std::string stringFrom(const std::vector<T>);
+struct Size3
+{
+	T width, height, depth;
+	T getVolume() const { return width * height * depth; }
+};
 
-template <class T>
-std::string stringFrom(const T&);
-std::string stringFrom(bool);
-
-template<class T>
-std::string stringFrom(pl::Vector2<T>);
-std::string stringFrom(pl::Vector2<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Vector3<T>);
-std::string stringFrom(pl::Vector3<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Size2<T>);
-template<class T>
-std::string stringFrom(pl::Size3<T>);
-
-template<class T>
-std::string stringFrom(pl::Range<T>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>);
-
-template<class T>
-std::string stringFrom(pl::RangeArea<T>);
+using Size3u = Size3<unsigned int>;
+using Size3d = Size3<double>;
 
 } // namespace plinth
-#include "StringFrom.inl"
-#endif // PLINTH_STRINGFROM_HPP
+#endif // PLINTH_SIZE3_HPP

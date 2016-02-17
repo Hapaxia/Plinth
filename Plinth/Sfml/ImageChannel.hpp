@@ -58,8 +58,6 @@ enum class NoiseType
 class Channel
 {
 public:
-	const std::string exceptionPrefix = "SFML/ImageChannel: ";
-
 	Channel();
 	Channel(sf::Vector2u size);
 	Channel(sf::Vector2u size, unsigned char value);
@@ -75,6 +73,7 @@ public:
 	void generateNoise(NoiseType type = NoiseType::Random);
 
 private:
+	const std::string m_exceptionPrefix;
 	sf::Vector2u m_size;
 	std::vector<unsigned char> m_pixels;
 };

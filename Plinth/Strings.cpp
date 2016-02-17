@@ -70,6 +70,7 @@ std::string upperCase(std::string string)
 	return string;
 }
 
+// [does not alter any parameters]
 std::string capitalized(std::string string)
 {
 	makeCapitalized(string);
@@ -95,7 +96,7 @@ void makeCapitalized(std::string& string)
 }
 
 // [does not alter any parameters]
-bool isAlphaNumeric(char c)
+bool isAlphaNumeric(const char c)
 {
 	return (alphaNumericCharacters.find(c) != std::string::npos);
 }
@@ -127,7 +128,7 @@ bool doesContainOnly(const std::string& testString, const std::string& validChar
 }
 
 // [does not alter any parameters]
-std::string padStringLeft(std::string string, unsigned int width, char character)
+std::string padStringLeft(std::string string, const unsigned int width, const char character)
 {
 	if (string.size() >= width)
 		return string;
@@ -138,7 +139,7 @@ std::string padStringLeft(std::string string, unsigned int width, char character
 }
 
 // [does not alter any parameters]
-std::string padStringRight(std::string string, unsigned int width, char character)
+std::string padStringRight(std::string string, const unsigned int width, const char character)
 {
 	if (string.size() >= width)
 		return string;
@@ -149,6 +150,7 @@ std::string padStringRight(std::string string, unsigned int width, char characte
 }
 
 // [does not alter any parameters]
+// trims string from the left of all characters in characterToTrim
 std::string trimStringLeft(std::string string, const std::string& charactersToTrim)
 {
 	string.erase(0, string.find_first_not_of(charactersToTrim));
@@ -156,6 +158,7 @@ std::string trimStringLeft(std::string string, const std::string& charactersToTr
 }
 
 // [does not alter any parameters]
+// trims string from the right of all characters in characterToTrim
 std::string trimStringRight(std::string string, const std::string& charactersToTrim)
 {
 	string.erase(string.find_last_not_of(charactersToTrim) + 1);
@@ -163,7 +166,7 @@ std::string trimStringRight(std::string string, const std::string& charactersToT
 }
 
 // [does not alter any parameters]
-// trims string from both sides of all characters in charactersToTrim
+// trims string from both sides of all characters in characterToTrim
 std::string trimString(const std::string& string, const std::string& charactersToTrim)
 {
 	return trimStringLeft(trimStringRight(string, charactersToTrim), charactersToTrim);
@@ -171,27 +174,27 @@ std::string trimString(const std::string& string, const std::string& charactersT
 
 // [does not alter any parameters]
 // trims string from the left of all preset whitespace characters
-std::string trimWhitespaceLeft(std::string string)
+std::string trimWhitespaceLeft(std::string string, const std::string& charactersToTrim)
 {
 	return trimStringLeft(string, presetWhitespaceCharacters);
 }
 
 // [does not alter any parameters]
 // trims string from the right of all preset whitespace characters
-std::string trimWhitespaceRight(std::string string)
+std::string trimWhitespaceRight(std::string string, const std::string& charactersToTrim)
 {
 	return trimStringRight(string, presetWhitespaceCharacters);
 }
 
 // [does not alter any parameters]
 // trims string from both sides of all preset whitespace characters
-std::string trimWhitespace(const std::string& string)
+std::string trimWhitespace(const std::string& string, const std::string& charactersToTrim)
 {
 	return trimString(string, presetWhitespaceCharacters);
 }
 
 // [does not alter any parameters]
-std::string password(const std::string& string, char shieldChar)
+std::string password(const std::string& string, const char shieldChar)
 {
 	return std::string(string.size(), shieldChar);
 }
@@ -199,7 +202,7 @@ std::string password(const std::string& string, char shieldChar)
 // [does not alter any parameters]
 // replace any character in string that exists in supplementary string with specific character.
 // e.g. replace 'a' with '-': Hapax -> H-p-x
-std::string replaceChars(std::string string, const std::string& charactersToReplace, char characterToReplaceWith)
+std::string replaceChars(std::string string, const std::string& charactersToReplace, const char characterToReplaceWith)
 {
 	for (auto& character : string)
 	{

@@ -75,28 +75,28 @@ std::string padStringLeft(std::string string, unsigned int width, char character
 std::string padStringRight(std::string string, unsigned int width, char character = ' ');
 
 // [does not alter any parameters]
-// trims string from the left of all characters in charactersToTrim
+// trims string from the left of all characters in characterToTrim
 std::string trimStringLeft(std::string string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
-// trims string from the right of all characters in charactersToTrim
+// trims string from the right of all characters in characterToTrim
 std::string trimStringRight(std::string string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
-// trims string from both sides of all characters in charactersToTrim
+// trims string from both sides of all characters in characterToTrim
 std::string trimString(const std::string& string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
 // trims string from the left of all preset whitespace characters
-std::string trimWhitespaceLeft(std::string string);
+std::string trimWhitespaceLeft(std::string string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
 // trims string from the right of all preset whitespace characters
-std::string trimWhitespaceRight(std::string string);
+std::string trimWhitespaceRight(std::string string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
 // trims string from both sides of all preset whitespace characters
-std::string trimWhitespace(const std::string& string);
+std::string trimWhitespace(const std::string& string, const std::string& charactersToTrim);
 
 // [does not alter any parameters]
 // returns string with each character replaced by the given character

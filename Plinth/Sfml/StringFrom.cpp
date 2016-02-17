@@ -117,7 +117,7 @@ std::string stringFrom(const sf::Color from, const SfmlColorList colorList, cons
 			s = "lime";
 		else if (color == Colors::Mint)
 			s = "mint";
-		else if (color == Colors::Grey)
+		else if (color == Colors::Gray)
 			s = "grey";
 
 		// lights
@@ -157,7 +157,7 @@ std::string stringFrom(const sf::Color from, const SfmlColorList colorList, cons
 			s = "light lime";
 		else if (color == Colors::LightMint)
 			s = "light mint";
-		else if (color == Colors::LightGrey)
+		else if (color == Colors::LightGray)
 			s = "light grey";
 
 		// darks
@@ -197,7 +197,7 @@ std::string stringFrom(const sf::Color from, const SfmlColorList colorList, cons
 			s = "dark lime";
 		else if (color == Colors::DarkMint)
 			s = "dark mint";
-		else if (color == Colors::DarkGrey)
+		else if (color == Colors::DarkGray)
 			s = "dark grey";
 
 		// transparent

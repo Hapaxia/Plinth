@@ -48,9 +48,7 @@ namespace plinth
 	namespace Image
 	{
 
-const std::string exceptionPrefix = "SFML/Image: ";
-
-enum class GreyscaleConversionType
+enum class GrayscaleConversionType
 {
 	Average,
 	Lightness,
@@ -61,12 +59,9 @@ enum class GreyscaleConversionType
 	BlueChannel
 };
 
-using GrayscaleConversionType = GreyscaleConversionType;
-
 void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb&)> process);
 void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> process);
 
-void convertToGreyscale(sf::Image& image, GreyscaleConversionType conversionType = GreyscaleConversionType::Luminosity);
 void convertToGrayscale(sf::Image& image, GrayscaleConversionType conversionType = GrayscaleConversionType::Luminosity);
 void invert(sf::Image& image);
 void createMaskFromAlpha(sf::Image& image);

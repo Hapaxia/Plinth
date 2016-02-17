@@ -28,6 +28,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Image.hpp"
+#include "../Tween.hpp"
+
+namespace
+{
+
+const std::string exceptionPrefix = "SFML/Image: ";
+
+} // namespace
 
 namespace plinth
 {
@@ -67,36 +75,36 @@ void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> pr
 	}
 }
 
-void convertToGreyscale(sf::Image& image, GreyscaleConversionType conversionType)
+void convertToGrayscale(sf::Image& image, const GrayscaleConversionType conversionType)
 {
 	switch (conversionType)
 	{
-	case GreyscaleConversionType::RedChannel:
+	case GrayscaleConversionType::RedChannel:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			pixel.g = pixel.b = pixel.r;
 		});
 		break;
-	case GreyscaleConversionType::GreenChannel:
+	case GrayscaleConversionType::GreenChannel:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			pixel.b = pixel.r = pixel.g;
 		});
 		break;
-	case GreyscaleConversionType::BlueChannel:
+	case GrayscaleConversionType::BlueChannel:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			pixel.r = pixel.g = pixel.b;
 		});
 		break;
-	case GreyscaleConversionType::Luminosity:
+	case GrayscaleConversionType::Luminosity:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			const double value{ pixel.getRelativeLuminance() };
 			pixel.r = pixel.g = pixel.b = value;
 		});
 		break;
-	case GreyscaleConversionType::Lightness:
+	case GrayscaleConversionType::Lightness:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			// mean of the highest and lowest component value. the median value is ignored
@@ -104,7 +112,7 @@ void convertToGreyscale(sf::Image& image, GreyscaleConversionType conversionType
 			pixel.r = pixel.g = pixel.b = value;
 		});
 		break;
-	case GreyscaleConversionType::Median:
+	case GrayscaleConversionType::Median:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			// only the median component value is used. the highest and lowest values are ignored.
@@ -118,7 +126,7 @@ void convertToGreyscale(sf::Image& image, GreyscaleConversionType conversionType
 			pixel.r = pixel.g = pixel.b = value;
 		});
 		break;
-	case GreyscaleConversionType::Average:
+	case GrayscaleConversionType::Average:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			// mean of all three components
@@ -129,54 +137,6 @@ void convertToGreyscale(sf::Image& image, GreyscaleConversionType conversionType
 	default:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel){}); // make no changes
 	}
-}
-
-/*
-void convertToGreyScale(sf::Image& image, GreyscaleConversionType conversionType)
-{
-	const sf::Vector2u imageSize{ image.getSize() };
-	for (unsigned int y{ 0 }; y < imageSize.y; ++y)
-	{
-		//std::clog << "\n[" << y << "]";
-		for (unsigned int x{ 0 }; x < imageSize.x; ++x)
-		{
-			hx::Color::Rgb pixel = hx::Sfml::rgbFromColor(image.getPixel(x, y));
-			double value{ 0.0 };
-
-			if (conversionType == GreyscaleConversionType::Luminosity)
-			{
-				value = hx::Color::relativeLuminance(pixel);
-			}
-			else if (conversionType == GreyscaleConversionType::Lightness)
-			{
-				// mean of the highest and lowest component value. the median value is ignored
-				const double highestValue{ hx::max(pixel.r, hx::max(pixel.g, pixel.b)) };
-				const double lowestValue{ hx::min(pixel.r, hx::min(pixel.g, pixel.b)) };
-				value = (highestValue + lowestValue) / 2.0;
-			}
-			else if (conversionType == GreyscaleConversionType::Median)
-			{
-				// only the median component value is used
-				if (pixel.r > pixel.g && pixel.r > pixel.b)
-					value = hx::max(pixel.g, pixel.b);
-				else if (pixel.r < pixel.g && pixel.r < pixel.b)
-					value = hx::min(pixel.g, pixel.b);
-				else
-					value = pixel.r;
-			}
-			else // (conversionType == GreyscaleConversionType::Average)
-				value = (pixel.r + pixel.g + pixel.b) / 3.0;
-
-			pixel = { value, value, value };
-			image.setPixel(x, y, hx::Sfml::colorFromRgb(pixel));
-		}
-	}
-}
-*/
-
-void convertToGrayscale(sf::Image& image, GreyscaleConversionType conversionType)
-{
-	convertToGreyscale(image, conversionType);
 }
 
 void createMaskFromAlpha(sf::Image& image)
@@ -224,7 +184,7 @@ void makeOpaque(sf::Image& image)
 	});
 }
 
-void clearWithColorButRetainTransparency(sf::Image& image, sf::Color color)
+void clearWithColorButRetainTransparency(sf::Image& image, const sf::Color color)
 {
 	processAllPixelsColor(image, [&color](sf::Color& pixel)
 	{
@@ -234,21 +194,6 @@ void clearWithColorButRetainTransparency(sf::Image& image, sf::Color color)
 		// or: color.a = pixel.a; pixel = color;
 	});
 }
-
-/*
-void clearWithColorButRetainTransparency(sf::Image& image, sf::Color color)
-{
-	const sf::Vector2u imageSize{ image.getSize() };
-	for (unsigned int y{ 0 }; y < imageSize.y; ++y)
-	{
-		for (unsigned int x{ 0 }; x < imageSize.x; ++x)
-		{
-			color.a = image.getPixel(x, y).a;
-			image.setPixel(x, y, color);
-		}
-	}
-}
-*/
 
 void setRedFromChannel(sf::Image& image, const Channel& channel)
 {

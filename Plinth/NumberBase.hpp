@@ -31,7 +31,6 @@
 #define PLINTH_NUMBERBASE_HPP
 
 #include "Common.hpp"
-#include <sstream>
 
 namespace plinth
 {

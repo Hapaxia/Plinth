@@ -40,8 +40,6 @@ template <class keyT, class T>
 class IndexedMap
 {
 public:
-	const std::string exceptionPrefix = "Indexed Map: ";
-
 	IndexedMap();
 	void add(const keyT& key, const T& value);
 	void add(const T& value);
@@ -61,6 +59,8 @@ public:
 	void clear();
 
 private:
+	const std::string m_exceptionPrefix;
+
 	struct Element
 	{
 		keyT key;
@@ -72,7 +72,5 @@ private:
 };
 
 } // namespace plinth
-
 #include "IndexedMap.inl"
-
 #endif // PLINTH_INDEXEDMAP_HPP

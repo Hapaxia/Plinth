@@ -31,6 +31,9 @@
 #include <iostream> // for "DEV_" functions
 */
 
+#ifndef PLINTH_TWEENPIECEWISE_INL
+#define PLINTH_TWEENPIECEWISE_INL
+
 namespace plinth
 {
 	namespace Tween
@@ -118,3 +121,4 @@ unsigned int Piecewise<positionT, T>::getNodeCount() const
 
 	} // namespace Tween
 } // namespace plinth
+#endif // PLINTH_TWEENPIECEWISE_INL

@@ -27,50 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGFROM_HPP
-#define PLINTH_STRINGFROM_HPP
+#ifndef PLINTH_RANGES_HPP
+#define PLINTH_RANGES_HPP
 
-#include "Common.hpp"
 #include "Range.hpp"
 #include "RangeArea.hpp"
-#include "Vectors.hpp"
-#include "Sizes.hpp"
 
-namespace plinth
-{
-
-std::string stringFrom(const std::string& = "");
-
-template <class T>
-std::string stringFrom(const std::vector<T>);
-
-template <class T>
-std::string stringFrom(const T&);
-std::string stringFrom(bool);
-
-template<class T>
-std::string stringFrom(pl::Vector2<T>);
-std::string stringFrom(pl::Vector2<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Vector3<T>);
-std::string stringFrom(pl::Vector3<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Size2<T>);
-template<class T>
-std::string stringFrom(pl::Size3<T>);
-
-template<class T>
-std::string stringFrom(pl::Range<T>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>);
-
-template<class T>
-std::string stringFrom(pl::RangeArea<T>);
-
-} // namespace plinth
-#include "StringFrom.inl"
-#endif // PLINTH_STRINGFROM_HPP
+#endif // PLINTH_RANGES_HPP

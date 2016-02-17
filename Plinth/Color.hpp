@@ -34,6 +34,10 @@
 
 namespace plinth
 {
+
+template <class T>
+struct Range;
+
 	namespace Color
 	{
 
@@ -65,7 +69,6 @@ struct Rgb
 	double getRelativeLuminance();
 
 private:
-	bool truth = true;
 	void priv_setRgbFromCmh(double c, double m, double h);
 };
 

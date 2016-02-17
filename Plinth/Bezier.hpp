@@ -33,7 +33,7 @@
 #define PLINTH_BEZIER_HPP
 
 #include "Common.hpp"
-#include "Generic.hpp"
+#include "Vector2.hpp"
 
 namespace plinth
 {
@@ -68,7 +68,5 @@ private:
 };
 
 } // namespace plinth
-
 #include "Bezier.inl"
-
 #endif // PLINTH_BEZIER_HPP

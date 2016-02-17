@@ -27,50 +27,39 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGFROM_HPP
-#define PLINTH_STRINGFROM_HPP
+#ifndef PLINTH_VECTOR2_HPP
+#define PLINTH_VECTOR2_HPP
 
-#include "Common.hpp"
-#include "Range.hpp"
-#include "RangeArea.hpp"
-#include "Vectors.hpp"
-#include "Sizes.hpp"
+#include "Size2.hpp"
 
 namespace plinth
 {
 
-std::string stringFrom(const std::string& = "");
-
 template <class T>
-std::string stringFrom(const std::vector<T>);
+struct Vector2
+{
+	T x, y;
+	Vector2();
+	Vector2(const T& newX, const T& newY);
+	template <class U>
+	Vector2(const Vector2<U>& vector);
+	template <class U>
+	Vector2(const Size2<U>& size);
+	Size2<T> getSize2() const;
+	Vector2 operator+(const Vector2& offset) const;
+	Vector2 operator-(const Vector2& offset) const;
+	Vector2 operator*(const T& scalar) const;
+	Vector2 operator/(const T& scalar) const;
+	Vector2& operator+=(const Vector2& offset);
+	Vector2& operator-=(const Vector2& offset);
+	Vector2& operator*=(const T& scalar);
+	Vector2& operator/=(const T& scalar);
+};
 
-template <class T>
-std::string stringFrom(const T&);
-std::string stringFrom(bool);
-
-template<class T>
-std::string stringFrom(pl::Vector2<T>);
-std::string stringFrom(pl::Vector2<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Vector3<T>);
-std::string stringFrom(pl::Vector3<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Size2<T>);
-template<class T>
-std::string stringFrom(pl::Size3<T>);
-
-template<class T>
-std::string stringFrom(pl::Range<T>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>);
-
-template<class T>
-std::string stringFrom(pl::RangeArea<T>);
+using Vector2u = Vector2<unsigned int>;
+using Vector2i = Vector2<int>;
+using Vector2d = Vector2<double>;
 
 } // namespace plinth
-#include "StringFrom.inl"
-#endif // PLINTH_STRINGFROM_HPP
+#include "Vector2.inl"
+#endif // PLINTH_VECTOR2_HPP

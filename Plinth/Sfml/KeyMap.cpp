@@ -32,8 +32,8 @@
 namespace plinth
 {
 
-KeyMap::KeyMap():
-m_keys()
+KeyMap::KeyMap()
+	: m_keys()
 {
 }
 

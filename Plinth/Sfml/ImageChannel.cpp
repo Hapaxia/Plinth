@@ -34,30 +34,27 @@ namespace plinth
 	namespace Image
 	{
 
-Channel::Channel() :
-m_size({ 0u, 0u }),
-m_pixels()
+Channel::Channel()
+	: m_exceptionPrefix("SFML/ImageChannel: ")
+	, m_size({ 0u, 0u })
+	, m_pixels()
 {
 }
 
-Channel::Channel(const sf::Vector2u size):
-m_size(size),
-m_pixels()
+Channel::Channel(const sf::Vector2u size)
+	: Channel()
 {
 	setSize(size);
 }
 
-Channel::Channel(const sf::Vector2u size, const unsigned char value) :
-m_size(size),
-m_pixels()
+Channel::Channel(const sf::Vector2u size, const unsigned char value)
+	: Channel(size)
 {
-	setSize(size);
 	clear(value);
 }
 
-Channel::Channel(const sf::Image& image, const ColorChannel colorChannel) :
-m_size(image.getSize()),
-m_pixels(m_size.x * m_size.y)
+Channel::Channel(const sf::Image& image, const ColorChannel colorChannel)
+	: Channel(image.getSize())
 {
 	copyFromImage(image, colorChannel, false); // no need to resize as resizing is done in constructor initialisation
 }
@@ -76,14 +73,14 @@ sf::Vector2u Channel::getSize() const
 void Channel::setPixel(const sf::Vector2u location, const unsigned char value)
 {
 	if (location.x >= m_size.x || location.y >= m_size.y)
-		throw Exception(exceptionPrefix + "Could not set pixel; specified location - (" + std::to_string(location.x) + ", " + std::to_string(location.y) + ") - out of bounds.");
+		throw Exception(m_exceptionPrefix + "Could not set pixel; specified location - (" + std::to_string(location.x) + ", " + std::to_string(location.y) + ") - out of bounds.");
 	m_pixels[location.y * m_size.x + location.x] = value;
 }
 
 unsigned char Channel::getPixel(const sf::Vector2u location) const
 {
 	if (location.x >= m_size.x || location.y >= m_size.y)
-		throw Exception(exceptionPrefix + "Could not get pixel; specified location - (" + std::to_string(location.x) + ", " + std::to_string(location.y) + ") - out of bounds.");
+		throw Exception(m_exceptionPrefix + "Could not get pixel; specified location - (" + std::to_string(location.x) + ", " + std::to_string(location.y) + ") - out of bounds.");
 	return m_pixels[location.y * m_size.x + location.x];
 }
 

@@ -27,50 +27,39 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGFROM_HPP
-#define PLINTH_STRINGFROM_HPP
+#ifndef PLINTH_VECTOR3_HPP
+#define PLINTH_VECTOR3_HPP
 
-#include "Common.hpp"
-#include "Range.hpp"
-#include "RangeArea.hpp"
-#include "Vectors.hpp"
-#include "Sizes.hpp"
+#include "Size3.hpp"
 
 namespace plinth
 {
 
-std::string stringFrom(const std::string& = "");
-
 template <class T>
-std::string stringFrom(const std::vector<T>);
+struct Vector3
+{
+	T x, y, z;
+	Vector3();
+	Vector3(const T& newX, const T& newY, const T& newZ);
+	template <class U>
+	Vector3(const Vector3<U>& vector);
+	template <class U>
+	Vector3(const Size3<U>& size);
+	Size3<T> getSize3() const;
+	Vector3 operator+(const Vector3& offset) const;
+	Vector3 operator-(const Vector3& offset) const;
+	Vector3 operator*(const T& scalar) const;
+	Vector3 operator/(const T& scalar) const;
+	Vector3& operator+=(const Vector3& offset);
+	Vector3& operator-=(const Vector3& offset);
+	Vector3& operator*=(const T& scalar);
+	Vector3& operator/=(const T& scalar);
+};
 
-template <class T>
-std::string stringFrom(const T&);
-std::string stringFrom(bool);
-
-template<class T>
-std::string stringFrom(pl::Vector2<T>);
-std::string stringFrom(pl::Vector2<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Vector3<T>);
-std::string stringFrom(pl::Vector3<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Size2<T>);
-template<class T>
-std::string stringFrom(pl::Size3<T>);
-
-template<class T>
-std::string stringFrom(pl::Range<T>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>);
-
-template<class T>
-std::string stringFrom(pl::RangeArea<T>);
+using Vector3u = Vector3<unsigned int>;
+using Vector3i = Vector3<int>;
+using Vector3d = Vector3<double>;
 
 } // namespace plinth
-#include "StringFrom.inl"
-#endif // PLINTH_STRINGFROM_HPP
+#include "Vector3.inl"
+#endif // PLINTH_VECTOR3_HPP

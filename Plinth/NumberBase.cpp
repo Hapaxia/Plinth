@@ -29,6 +29,8 @@
 
 #include "NumberBase.hpp"
 
+#include <sstream>
+
 namespace plinth
 {
 

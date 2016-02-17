@@ -46,7 +46,7 @@ FileSize getFileSize(const std::string& filename)
 	}
 }
 
-void loadTextFile(std::vector<std::string>& lines, const std::string& filename, bool stripTrailingNewlines)
+void loadTextFile(std::vector<std::string>& lines, const std::string& filename, const bool stripTrailingNewlines)
 {
 	std::ifstream file(filename, std::ifstream::in);
 	lines.clear();
@@ -99,7 +99,7 @@ FileSize loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filena
 	}
 }
 
-void saveTextFile(const std::vector<std::string>& lines, const std::string& filename, bool addNewlines)
+void saveTextFile(const std::vector<std::string>& lines, const std::string& filename, const bool addNewlines)
 {
 	std::ofstream file(filename, std::ofstream::out);
 	if (!file.is_open())

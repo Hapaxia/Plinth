@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_FILE_INL
+#define PLINTH_FILE_INL
+
 namespace plinth
 {
 
@@ -53,3 +56,4 @@ void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& file
 }
 
 } // namespace plinth
+#endif // PLINTH_FILE_INL

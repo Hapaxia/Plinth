@@ -59,7 +59,5 @@ private:
 };
 
 } // namespace plinth
-
 #include "Common.hpp"
-
 #endif // PLINTH_EXCEPTION_HPP

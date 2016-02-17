@@ -29,6 +29,13 @@
 
 #include "ResourceManagerBasic.hpp"
 
+namespace
+{
+
+const std::string exceptionPrefix = "Resource Manager Basic: ";
+
+} // namespace
+
 namespace plinth
 {
 
@@ -65,7 +72,7 @@ void ResourceManagerBasic::loadFont(const std::string& id, const std::string& fi
 		throw Exception(exceptionPrefix + "Cannot load font.");
 }
 
-void ResourceManagerBasic::loadFont(unsigned int index, const std::string& filename)
+void ResourceManagerBasic::loadFont(const unsigned int index, const std::string& filename)
 {
 	if (!m_fonts.valid(index))
 		throw Exception(exceptionPrefix + "Invalid font index.");
@@ -109,7 +116,7 @@ void ResourceManagerBasic::loadImage(const std::string& id, const std::string& f
 		throw Exception(exceptionPrefix + "Cannot load image.");
 }
 
-void ResourceManagerBasic::loadImage(unsigned int index, const std::string& filename)
+void ResourceManagerBasic::loadImage(const unsigned int index, const std::string& filename)
 {
 	if (!m_images.valid(index))
 		throw Exception(exceptionPrefix + "Invalid image index.");
@@ -181,7 +188,7 @@ void ResourceManagerBasic::loadTextureFromImage(const std::string& textureId, un
 		throw Exception(exceptionPrefix + "Failed to load texture from image.");
 }
 
-void ResourceManagerBasic::loadTextureFromImage(unsigned int textureIndex, const std::string& imageId)
+void ResourceManagerBasic::loadTextureFromImage(const unsigned int textureIndex, const std::string& imageId)
 {
 	if (!m_images.valid(imageId))
 		throw Exception(exceptionPrefix + "Invalid image ID.");
@@ -191,7 +198,7 @@ void ResourceManagerBasic::loadTextureFromImage(unsigned int textureIndex, const
 		throw Exception(exceptionPrefix + "Failed to load texture from image.");
 }
 
-void ResourceManagerBasic::loadTextureFromImage(unsigned int textureIndex, unsigned int imageIndex)
+void ResourceManagerBasic::loadTextureFromImage(const unsigned int textureIndex, const unsigned int imageIndex)
 {
 	if (!m_images.valid(imageIndex))
 		throw Exception(exceptionPrefix + "Invalid image index.");
@@ -237,7 +244,7 @@ void ResourceManagerBasic::loadSoundBuffer(const std::string& id, const std::str
 		throw Exception(exceptionPrefix + "Cannot load sound buffer.");
 }
 
-void ResourceManagerBasic::loadSoundBuffer(unsigned int index, const std::string& filename)
+void ResourceManagerBasic::loadSoundBuffer(const unsigned int index, const std::string& filename)
 {
 	if (!m_soundBuffers.valid(index))
 		throw Exception(exceptionPrefix + "Invalid sound buffer index.");
@@ -260,7 +267,7 @@ sf::Font& ResourceManagerBasic::getFont(const std::string& fontId)
 		throw Exception(exceptionPrefix + "Font not available.");
 }
 
-sf::Font& ResourceManagerBasic::getFont(unsigned int fontIndex)
+sf::Font& ResourceManagerBasic::getFont(const unsigned int fontIndex)
 {
 	if (m_fonts.valid(fontIndex))
 		return m_fonts.access(fontIndex);
@@ -276,7 +283,7 @@ sf::Image& ResourceManagerBasic::getImage(const std::string& imageId)
 		throw Exception(exceptionPrefix + "Image not available.");
 }
 
-sf::Image& ResourceManagerBasic::getImage(unsigned int imageIndex)
+sf::Image& ResourceManagerBasic::getImage(const unsigned int imageIndex)
 {
 	if (m_images.valid(imageIndex))
 		return m_images.access(imageIndex);
@@ -292,7 +299,7 @@ sf::Texture& ResourceManagerBasic::getTexture(const std::string& textureId)
 		throw Exception(exceptionPrefix + "Texture not available.");
 }
 
-sf::Texture& ResourceManagerBasic::getTexture(unsigned int textureIndex)
+sf::Texture& ResourceManagerBasic::getTexture(const unsigned int textureIndex)
 {
 	if (m_textures.valid(textureIndex))
 		return m_textures.access(textureIndex);
@@ -308,7 +315,7 @@ sf::SoundBuffer& ResourceManagerBasic::getSoundBuffer(const std::string& soundBu
 		throw Exception(exceptionPrefix + "SoundBuffer not available.");
 }
 
-sf::SoundBuffer& ResourceManagerBasic::getSoundBuffer(unsigned int soundBufferIndex)
+sf::SoundBuffer& ResourceManagerBasic::getSoundBuffer(const unsigned int soundBufferIndex)
 {
 	if (m_soundBuffers.valid(soundBufferIndex))
 		return m_soundBuffers.access(soundBufferIndex);
@@ -321,7 +328,7 @@ void ResourceManagerBasic::removeFont(const std::string& fontId)
 	m_fonts.remove(fontId);
 }
 
-void ResourceManagerBasic::removeFont(unsigned int fontIndex)
+void ResourceManagerBasic::removeFont(const unsigned int fontIndex)
 {
 	m_fonts.remove(fontIndex);
 }
@@ -331,7 +338,7 @@ void ResourceManagerBasic::removeImage(const std::string& imageId)
 	m_images.remove(imageId);
 }
 
-void ResourceManagerBasic::removeImage(unsigned int imageIndex)
+void ResourceManagerBasic::removeImage(const unsigned int imageIndex)
 {
 	m_images.remove(imageIndex);
 }
@@ -341,7 +348,7 @@ void ResourceManagerBasic::removeTexture(const std::string& textureId)
 	m_textures.remove(textureId);
 }
 
-void ResourceManagerBasic::removeTexture(unsigned int textureIndex)
+void ResourceManagerBasic::removeTexture(const unsigned int textureIndex)
 {
 	m_textures.remove(textureIndex);
 }
@@ -351,7 +358,7 @@ void ResourceManagerBasic::removeSoundBuffer(const std::string& soundBufferId)
 	m_soundBuffers.remove(soundBufferId);
 }
 
-void ResourceManagerBasic::removeSoundBuffer(unsigned int soundBufferIndex)
+void ResourceManagerBasic::removeSoundBuffer(const unsigned int soundBufferIndex)
 {
 	m_soundBuffers.remove(soundBufferIndex);
 }

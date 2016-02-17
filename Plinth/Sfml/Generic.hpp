@@ -37,9 +37,8 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include "../Generic.hpp"
+#include "../Vectors.hpp"
 #include "../Color.hpp"
-#include "../Tween.hpp"
-#include <math.h>
 
 namespace plinth
 {

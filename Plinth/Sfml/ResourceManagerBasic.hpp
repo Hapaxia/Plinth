@@ -44,7 +44,6 @@ namespace plinth
 class ResourceManagerBasic
 {
 public:
-	const std::string exceptionPrefix = "Resource Manager Lite: ";
 
 	std::vector<std::string> fontIds;
 	std::vector<std::string> imageIds;

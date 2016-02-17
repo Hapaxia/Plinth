@@ -27,50 +27,36 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGFROM_HPP
-#define PLINTH_STRINGFROM_HPP
-
-#include "Common.hpp"
-#include "Range.hpp"
-#include "RangeArea.hpp"
-#include "Vectors.hpp"
-#include "Sizes.hpp"
+#ifndef PLINTH_RANGE_HPP
+#define PLINTH_RANGE_HPP
 
 namespace plinth
 {
 
-std::string stringFrom(const std::string& = "");
+enum class RangeBoundaries
+{
+	None,
+	Min,
+	Max,
+	Both
+};
 
 template <class T>
-std::string stringFrom(const std::vector<T>);
-
-template <class T>
-std::string stringFrom(const T&);
-std::string stringFrom(bool);
-
-template<class T>
-std::string stringFrom(pl::Vector2<T>);
-std::string stringFrom(pl::Vector2<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Vector3<T>);
-std::string stringFrom(pl::Vector3<std::string>);
-
-template<class T>
-std::string stringFrom(pl::Size2<T>);
-template<class T>
-std::string stringFrom(pl::Size3<T>);
-
-template<class T>
-std::string stringFrom(pl::Range<T>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>);
-
-template<class T>
-std::string stringFrom(pl::RangeArea<T>);
+struct Range
+{
+	mutable T min;
+	mutable T max;
+	void order() const;
+	void set(const T& newMin, const T& newMax);
+	T getSize() const;
+	bool isClosed() const;
+	bool contains(const T& value, RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min) const;
+	bool overlaps(const Range& range) const;
+	T clamp(const T& value) const;
+	T clampLoop(const T& value) const;
+	T clampCycle(const T& value) const;
+};
 
 } // namespace plinth
-#include "StringFrom.inl"
-#endif // PLINTH_STRINGFROM_HPP
+#include "Range.inl"
+#endif // PLINTH_RANGE_HPP

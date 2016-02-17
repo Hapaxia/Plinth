@@ -31,7 +31,6 @@
 #define PLINTH_TWEENPIECEWISE_HPP
 
 #include "Common.hpp"
-#include "Generic.hpp" // for "clamp"
 #include "Tween.hpp" // for interpolating the values between two nodes
 #include <algorithm> // for "std::sort"
 
@@ -67,7 +66,5 @@ private:
 
 	} // namespace Tween
 } // namespace plinth
-
 #include "TweenPiecewise.inl"
-
 #endif // PLINTH_TWEENPIECEWISE_HPP
