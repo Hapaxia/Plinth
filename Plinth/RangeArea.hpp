@@ -30,6 +30,7 @@
 #ifndef PLINTH_RANGEAREA_HPP
 #define PLINTH_RANGEAREA_HPP
 
+#include "Common.hpp"
 #include "Range.hpp"
 #include "Vector2.hpp"
 #include "Size2.hpp"

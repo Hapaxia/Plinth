@@ -30,6 +30,8 @@
 #ifndef PLINTH_RANGE_HPP
 #define PLINTH_RANGE_HPP
 
+#include "Common.hpp"
+
 namespace plinth
 {
 

@@ -30,6 +30,8 @@
 #ifndef PLINTH_SIZE3_HPP
 #define PLINTH_SIZE3_HPP
 
+#include "Common.hpp"
+
 namespace plinth
 {
 

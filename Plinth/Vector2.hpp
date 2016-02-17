@@ -30,6 +30,7 @@
 #ifndef PLINTH_VECTOR2_HPP
 #define PLINTH_VECTOR2_HPP
 
+#include "Common.hpp"
 #include "Size2.hpp"
 
 namespace plinth
