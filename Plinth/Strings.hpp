@@ -88,15 +88,15 @@ std::string trimString(const std::string& string, const std::string& charactersT
 
 // [does not alter any parameters]
 // trims string from the left of all preset whitespace characters
-std::string trimWhitespaceLeft(std::string string, const std::string& charactersToTrim);
+std::string trimWhitespaceLeft(std::string string);
 
 // [does not alter any parameters]
 // trims string from the right of all preset whitespace characters
-std::string trimWhitespaceRight(std::string string, const std::string& charactersToTrim);
+std::string trimWhitespaceRight(std::string string);
 
 // [does not alter any parameters]
 // trims string from both sides of all preset whitespace characters
-std::string trimWhitespace(const std::string& string, const std::string& charactersToTrim);
+std::string trimWhitespace(const std::string& string);
 
 // [does not alter any parameters]
 // returns string with each character replaced by the given character
@@ -113,5 +113,14 @@ std::string replaceChars(std::string string, const std::string& charactersToRepl
 // e.g. replace "Pit" with "123": Plinth -> 123l123n123h
 std::string replaceChars(const std::string& string, const std::string& charactersToReplace, const std::string& stringToReplaceWith);
 
+// [does not alter any parameters]
+// returns a formatted string based on the format parameter and the following arguments (passed in a vector)
+// argument type is templated. all arguments are sent through stringFrom()
+// formats a maximum of 10 arguments (%0 - %9). excess arguments are ignored.
+// arguments need not be in order in the format
+template <class T>
+std::string formattedString(std::string format, const std::vector<T>& arguments);
+
 } // namespace plinth
+#include "Strings.inl"
 #endif // PLINTH_STRINGS_HPP

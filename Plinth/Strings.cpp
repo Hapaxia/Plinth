@@ -174,21 +174,21 @@ std::string trimString(const std::string& string, const std::string& charactersT
 
 // [does not alter any parameters]
 // trims string from the left of all preset whitespace characters
-std::string trimWhitespaceLeft(std::string string, const std::string& charactersToTrim)
+std::string trimWhitespaceLeft(std::string string)
 {
 	return trimStringLeft(string, presetWhitespaceCharacters);
 }
 
 // [does not alter any parameters]
 // trims string from the right of all preset whitespace characters
-std::string trimWhitespaceRight(std::string string, const std::string& charactersToTrim)
+std::string trimWhitespaceRight(std::string string)
 {
 	return trimStringRight(string, presetWhitespaceCharacters);
 }
 
 // [does not alter any parameters]
 // trims string from both sides of all preset whitespace characters
-std::string trimWhitespace(const std::string& string, const std::string& charactersToTrim)
+std::string trimWhitespace(const std::string& string)
 {
 	return trimString(string, presetWhitespaceCharacters);
 }
