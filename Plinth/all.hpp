@@ -45,6 +45,7 @@
 #include "Strings.hpp"
 #include "Tween.hpp"
 #include "TweenPiecewise.hpp"
+#include "TweenTrack.hpp"
 #include "Vectors.hpp"
 
 #endif // PLINTH_BASE_ALL_HPP

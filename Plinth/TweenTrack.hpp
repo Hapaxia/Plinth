@@ -57,15 +57,15 @@ public:
 	{
 		positionT position;
 		T value;
-		InterpolationType inType;
 		InterpolationType outType;
-		double inAmount;
+		InterpolationType inType;
 		double outAmount;
+		double inAmount;
 		Node()
-			: inType(InterpolationType::Linear)
-			, outType(InterpolationType::Linear)
-			, inAmount(0.0)
+			: outType(InterpolationType::Linear)
+			, inType(InterpolationType::Linear)
 			, outAmount(0.0)
+			, inAmount(0.0)
 		{
 		}
 		Node(const positionT& p, const T& v)
@@ -85,12 +85,12 @@ public:
 	T getValue(const positionT& position) const;
 	void changeNodePosition(unsigned int index, const positionT& position);
 	void changeNodeValue(unsigned int index, const T& value);
-	void changeNodeEaseIn(unsigned int index, double easeInAmount);
 	void changeNodeEaseOut(unsigned int index, double easeOutAmount);
-	void changeNodeEases(unsigned int index, double easeInAmount, double easeOutAmount);
-	void changeNodeInterpolationTypeIn(unsigned int index, InterpolationType interpolationInType);
+	void changeNodeEaseIn(unsigned int index, double easeInAmount);
+	void changeNodeEases(unsigned int index, double easeOutAmount, double easeInAmount);
 	void changeNodeInterpolationTypeOut(unsigned int index, InterpolationType interpolationOutType);
-	void changeNodeInterpolationTypes(unsigned int index, InterpolationType interpolationInType, InterpolationType interpolationOutType);
+	void changeNodeInterpolationTypeIn(unsigned int index, InterpolationType interpolationInType);
+	void changeNodeInterpolationTypes(unsigned int index, InterpolationType interpolationOutType, InterpolationType interpolationInType);
 	unsigned int getNodeCount() const;
 
 private:
