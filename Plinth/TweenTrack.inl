@@ -94,14 +94,14 @@ T Track<positionT, T, interpolationAlphaT, positionCastT>::getValue(const positi
 	{
 		//return linear(lowerNode->value, higherNode->value, static_cast<interpolationAlphaT>(static_cast<positionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)));
 
-		if (lowerNode->inType == InterpolationType::Step)
+		if (lowerNode->outType == InterpolationType::Step)
 			return lowerNode->value;
-		if (lowerNode->inType == InterpolationType::Linear && higherNode->outType == InterpolationType::Linear)
+		if (lowerNode->outType == InterpolationType::Linear && higherNode->inType == InterpolationType::Linear)
 			return linear(lowerNode->value, higherNode->value, static_cast<interpolationAlphaT>(static_cast<positionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)));
 		
-		const double in{ lowerNode->inType == InterpolationType::Ease ? lowerNode->inAmount : 0.0 };
-		const double out{ higherNode->outType == InterpolationType::Ease ? higherNode->outAmount : 0.0 };
-		m_ease.setRangeAndStrengths(lowerNode->value, higherNode->value, in, out);
+		const double out{ lowerNode->outType == InterpolationType::Ease ? lowerNode->outAmount : 0.0 };
+		const double in{ higherNode->inType == InterpolationType::Ease ? higherNode->inAmount : 0.0 };
+		m_ease.setRangeAndStrengths(lowerNode->value, higherNode->value, out, in);
 		const double alpha{ static_cast<double>(static_cast<positionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)) };
 		return static_cast<T>(m_ease.getValue(alpha));
 	}
@@ -110,7 +110,7 @@ T Track<positionT, T, interpolationAlphaT, positionCastT>::getValue(const positi
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodePosition(const unsigned int index, const positionT& position)
 {
-	if (index >= m_nodes.size())
+	if (!priv_isValidNodeIndex(index))
 		return;
 
 	m_nodes[index].position = position;
@@ -120,44 +120,35 @@ void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodePosition
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeValue(const unsigned int index, const T& value)
 {
-	if (index >= m_nodes.size())
+	if (!priv_isValidNodeIndex(index))
 		return;
 
 	m_nodes[index].value = value;
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeEaseIn(const unsigned int index, const double easeInAmount)
-{
-	if (index >= m_nodes.size())
-		return;
-
-	m_nodes[index].inAmount = easeInAmount;
-}
-
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeEaseOut(const unsigned int index, const double easeOutAmount)
 {
-	if (index >= m_nodes.size())
+	if (!priv_isValidNodeIndex(index))
 		return;
 
 	m_nodes[index].outAmount = easeOutAmount;
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeEases(const unsigned int index, const double easeInAmount, const double easeOutAmount)
-{
-	changeNodeEaseOut(index, easeOutAmount);
-	changeNodeEaseIn(index, easeInAmount);
-}
-
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeInterpolationTypeIn(const unsigned int index, const InterpolationType interpolationInType)
+void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeEaseIn(const unsigned int index, const double easeInAmount)
 {
 	if (!priv_isValidNodeIndex(index))
 		return;
 
-	m_nodes[index].inType = interpolationInType;
+	m_nodes[index].inAmount = easeInAmount;
+}
+
+template <class positionT, class T, class interpolationAlphaT, class positionCastT>
+void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeEases(const unsigned int index, const double easeOutAmount, const double easeInAmount)
+{
+	changeNodeEaseOut(index, easeOutAmount);
+	changeNodeEaseIn(index, easeInAmount);
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
@@ -170,10 +161,19 @@ void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeInterpol
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeInterpolationTypes(const unsigned int index, const InterpolationType interpolationInType, const InterpolationType interpolationOutType)
+void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeInterpolationTypeIn(const unsigned int index, const InterpolationType interpolationInType)
 {
-	changeNodeInterpolationTypeIn(index, interpolationInType);
+	if (!priv_isValidNodeIndex(index))
+		return;
+
+	m_nodes[index].inType = interpolationInType;
+}
+
+template <class positionT, class T, class interpolationAlphaT, class positionCastT>
+void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeInterpolationTypes(const unsigned int index, const InterpolationType interpolationOutType, const InterpolationType interpolationInType)
+{
 	changeNodeInterpolationTypeOut(index, interpolationOutType);
+	changeNodeInterpolationTypeIn(index, interpolationInType);
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
