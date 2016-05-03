@@ -51,10 +51,9 @@ void Piecewise<positionT, T, interpolationAlphaT>::DEV_outputNodes()
 */
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-Piecewise<positionT, T, interpolationAlphaT, positionCastT>::Piecewise() :
-m_nodes()
+Piecewise<positionT, T, interpolationAlphaT, positionCastT>::Piecewise()
+	: m_nodes()
 {
-
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>

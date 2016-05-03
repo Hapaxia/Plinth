@@ -38,6 +38,7 @@
 #include <math.h>
 #include "Bezier.hpp"
 #include "TweenPiecewise.hpp"
+#include "TweenTrack.hpp"
 
 namespace plinth
 {
@@ -97,7 +98,7 @@ template <typename T, typename alphaT, typename amountT>
 // Eases Tween using bezier (creates and destroys a bezier object on each call). All types must be castable to double
 T slowEase(T start, T end, alphaT alpha, amountT in, amountT out);
 
-template <typename T, typename alphaT, typename strengthT>
+template <typename T, typename alphaT = double, typename strengthT = double>
 // Ease class - uses bezier cubic. All types must be castable to double
 class Ease
 {
