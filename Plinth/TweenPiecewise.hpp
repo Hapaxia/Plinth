@@ -39,7 +39,7 @@ namespace plinth
 	namespace Tween
 	{
 
-template <class positionT, class T>
+template <class positionT, class T, class interpolationAlphaT = double>
 class Piecewise
 {
 public:

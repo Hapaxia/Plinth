@@ -40,8 +40,8 @@ namespace plinth
 	{
 
 /*
-template <class positionT, class T>
-void Piecewise<positionT, T>::DEV_outputNodes()
+template <class positionT, class T, class interpolationAlphaT>
+void Piecewise<positionT, T, interpolationAlphaT>::DEV_outputNodes()
 {
 	for (auto& node : m_nodes)
 	{
@@ -50,28 +50,28 @@ void Piecewise<positionT, T>::DEV_outputNodes()
 }
 */
 
-template <class positionT, class T>
-Piecewise<positionT, T>::Piecewise() :
+template <class positionT, class T, class interpolationAlphaT>
+Piecewise<positionT, T, interpolationAlphaT>::Piecewise() :
 m_nodes()
 {
 
 }
 
-template <class positionT, class T>
-void Piecewise<positionT, T>::clearNodes()
+template <class positionT, class T, class interpolationAlphaT>
+void Piecewise<positionT, T, interpolationAlphaT>::clearNodes()
 {
 	m_nodes.clear();
 }
 
-template <class positionT, class T>
-void Piecewise<positionT, T>::addNode(const Node& node)
+template <class positionT, class T, class interpolationAlphaT>
+void Piecewise<positionT, T, interpolationAlphaT>::addNode(const Node& node)
 {
 	m_nodes.push_back(node);
 	std::sort(m_nodes.begin(), m_nodes.end());
 }
 
-template <class positionT, class T>
-T Piecewise<positionT, T>::getValue(positionT position) const
+template <class positionT, class T, class interpolationAlphaT>
+T Piecewise<positionT, T, interpolationAlphaT>::getValue(positionT position) const
 {
 	const Node* lowerNode = &m_nodes.front();
 	const Node* higherNode = &m_nodes.back();
@@ -91,11 +91,11 @@ T Piecewise<positionT, T>::getValue(positionT position) const
 	if (lowerNode == higherNode)
 		return lowerNode->value;
 	else
-		return linear(lowerNode->value, higherNode->value, static_cast<float>(position - lowerNode->position) / (higherNode->position - lowerNode->position));
+		return linear(lowerNode->value, higherNode->value, static_cast<interpolationAlphaT>(position - lowerNode->position) / (higherNode->position - lowerNode->position));
 }
 
-template <class positionT, class T>
-void Piecewise<positionT, T>::changeNodePosition(unsigned int index, positionT position)
+template <class positionT, class T, class interpolationAlphaT>
+void Piecewise<positionT, T, interpolationAlphaT>::changeNodePosition(unsigned int index, positionT position)
 {
 	if (index >= m_nodes.size())
 		return;
@@ -104,8 +104,8 @@ void Piecewise<positionT, T>::changeNodePosition(unsigned int index, positionT p
 	std::sort(m_nodes.begin(), m_nodes.end());
 }
 
-template <class positionT, class T>
-void Piecewise<positionT, T>::changeNodeValue(unsigned int index, T value)
+template <class positionT, class T, class interpolationAlphaT>
+void Piecewise<positionT, T, interpolationAlphaT>::changeNodeValue(unsigned int index, T value)
 {
 	if (index >= m_nodes.size())
 		return;
@@ -113,8 +113,8 @@ void Piecewise<positionT, T>::changeNodeValue(unsigned int index, T value)
 	m_nodes[index].value = value;
 }
 
-template <class positionT, class T>
-unsigned int Piecewise<positionT, T>::getNodeCount() const
+template <class positionT, class T, class interpolationAlphaT>
+unsigned int Piecewise<positionT, T, interpolationAlphaT>::getNodeCount() const
 {
 	return m_nodes.size();
 }
