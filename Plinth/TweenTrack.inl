@@ -93,6 +93,9 @@ T Track<positionT, T, interpolationAlphaT, positionCastT>::getValue(const positi
 	else
 	{
 		//return linear(lowerNode->value, higherNode->value, static_cast<interpolationAlphaT>(static_cast<positionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)));
+
+		if (lowerNode->inType == InterpolationType::Step)
+			return lowerNode->value;
 		if (lowerNode->inType == InterpolationType::Linear && higherNode->outType == InterpolationType::Linear)
 			return linear(lowerNode->value, higherNode->value, static_cast<interpolationAlphaT>(static_cast<positionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)));
 		

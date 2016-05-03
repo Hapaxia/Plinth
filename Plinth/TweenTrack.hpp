@@ -44,6 +44,7 @@ class Ease;
 
 enum class InterpolationType
 {
+	Step,
 	Linear,
 	Ease
 };
