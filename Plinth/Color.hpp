@@ -67,6 +67,21 @@ struct Rgb
 	Rgb(long int value);
 	std::string getHex();
 	double getRelativeLuminance();
+	void clampStandardRange();
+	Rgb operator+(const Rgb& other) const;
+	Rgb operator-(const Rgb& other) const;
+	Rgb operator*(const Rgb& other) const;
+	template <class T>
+	Rgb operator*(const T& scalar) const;
+	template <class T>
+	Rgb operator/(const T& scalar) const;
+	Rgb& operator+=(const Rgb& other);
+	Rgb& operator-=(const Rgb& other);
+	Rgb& operator*=(const Rgb& other);
+	template <class T>
+	Rgb& operator*=(const T& scalar);
+	template <class T>
+	Rgb& operator/=(const T& scalar);
 
 private:
 	void priv_setRgbFromCmh(double c, double m, double h);
@@ -107,6 +122,67 @@ struct Cmyk
 	explicit Cmyk(double newC, double newM, double newY, double newK);
 	explicit Cmyk(const Rgb& other);
 };
+
+inline Rgb Rgb::operator+(const Rgb& other) const
+{
+	return Rgb(r + other.r, g + other.g, b + other.b);
+}
+
+inline Rgb Rgb::operator-(const Rgb& other) const
+{
+	return Rgb(r - other.r, g - other.g, b - other.b);
+}
+
+inline Rgb Rgb::operator*(const Rgb& other) const
+{
+	return Rgb(r * other.r, g * other.g, b * other.b);
+}
+
+template <class T>
+inline Rgb Rgb::operator*(const T& scalar) const
+{
+	const double x{ static_cast<double>(scalar) };
+	return Rgb(r * x, g * x, b * x);
+}
+
+template <class T>
+inline Rgb Rgb::operator/(const T& scalar) const
+{
+	const double x{ static_cast<double>(scalar) };
+	return Rgb(r / x, g / x, b / x);
+}
+
+inline Rgb& Rgb::operator+=(const Rgb& other)
+{
+	*this = *this + other;
+	return *this;
+}
+
+inline Rgb& Rgb::operator-=(const Rgb& other)
+{
+	*this = *this - other;
+	return *this;
+}
+
+inline Rgb& Rgb::operator*=(const Rgb& other)
+{
+	*this = *this * other;
+	return *this;
+}
+
+template <class T>
+inline Rgb& Rgb::operator*=(const T& scalar)
+{
+	*this = *this * other;
+	return *this;
+}
+
+template <class T>
+inline Rgb& Rgb::operator/=(const T& scalar)
+{
+	*this = *this / other;
+	return *this;
+}
 
 	} // namespace Color
 } // namespace plinth

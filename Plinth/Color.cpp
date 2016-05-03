@@ -160,6 +160,13 @@ Rgb::Rgb(const Hsv& other)
 	priv_setRgbFromCmh(c, other.v - c, other.h);
 }
 
+void Rgb::clampStandardRange()
+{
+	r = alphaRange.clamp(r);
+	g = alphaRange.clamp(g);
+	b = alphaRange.clamp(b);
+}
+
 void Rgb::priv_setRgbFromCmh(double c, double m, double h)
 {
 	double x{ c * (1.0 - abs(mod(h * 6.0, 2.0) - 1.0)) };

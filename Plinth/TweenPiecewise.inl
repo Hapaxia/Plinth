@@ -91,7 +91,7 @@ T Piecewise<positionT, T>::getValue(positionT position) const
 	if (lowerNode == higherNode)
 		return lowerNode->value;
 	else
-		return linear(lowerNode->value, higherNode->value, static_cast<double>(position - lowerNode->position) / (higherNode->position - lowerNode->position));
+		return linear(lowerNode->value, higherNode->value, static_cast<float>(position - lowerNode->position) / (higherNode->position - lowerNode->position));
 }
 
 template <class positionT, class T>
