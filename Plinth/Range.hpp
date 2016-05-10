@@ -57,6 +57,7 @@ struct Range
 	T clamp(const T& value) const;
 	T clampLoop(const T& value) const;
 	T clampCycle(const T& value) const;
+	Range& pull(const T& hook, bool keepSize = false);
 };
 
 } // namespace plinth

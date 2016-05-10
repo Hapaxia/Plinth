@@ -94,6 +94,9 @@ struct RangeArea
 	Vector2<T> clamp(const Vector2<T>& vector) const;
 	Vector2<T> clampLoop(const Vector2<T>& vector) const;
 	Vector2<T> clampCycle(const Vector2<T>& vector) const;
+	Range<T> pullHorizontal(const T& hook, bool keepSize = false);
+	Range<T> pullVertical(const T& hook, bool keepSize = false);
+	RangeArea& pull(const Vector2<T>& hook, bool keepSize = false);
 };
 
 } // namespace plinth

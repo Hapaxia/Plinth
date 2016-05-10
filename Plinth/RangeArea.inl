@@ -268,5 +268,31 @@ bool RangeArea<T>::overlaps(const RangeArea& rangeArea) const
 		getVerticalRange().overlaps(rangeArea.getVerticalRange());
 }
 
+template <class T>
+Range<T> RangeArea<T>::pullHorizontal(const T& hook, const bool keepSize)
+{
+	Range<T> range = getHorizontalRange().pull(hook, keepSize);
+	left = range.min;
+	right = range.max;
+	return range;
+}
+
+template <class T>
+Range<T> RangeArea<T>::pullVertical(const T& hook, const bool keepSize)
+{
+	Range<T> range = getVerticalRange().pull(hook, keepSize);
+	bottom = range.min;
+	top = range.max;
+	return range;
+}
+
+template <class T>
+RangeArea<T>& RangeArea<T>::pull(const Vector2<T>& hook, const bool keepSize)
+{
+	pullHorizontal(hook.x, keepSize);
+	pullVertical(hook.y, keepSize);
+	return *this;
+}
+
 } // namespace plinth
 #endif // PLINTH_RANGEAREA_INL

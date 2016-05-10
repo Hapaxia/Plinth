@@ -115,5 +115,24 @@ inline T Range<T>::clampCycle(const T& value) const
 		return value;
 }
 
+template <class T>
+Range<T>& Range<T>::pull(const T& hook, const bool keepSize)
+{
+	const T rangeSize = getSize();
+	if (hook < min)
+	{
+		min = hook;
+		if (keepSize)
+			max = min + rangeSize;
+	}
+	else if (hook > max)
+	{
+		max = hook;
+		if (keepSize)
+			min = max - rangeSize;
+	}
+	return *this;
+}
+
 } // namespace plinth
 #endif // PLINTH_RANGE_INL
