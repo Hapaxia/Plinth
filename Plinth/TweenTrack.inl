@@ -27,10 +27,6 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-/*
-#include <iostream> // for "DEV_" functions
-*/
-
 #ifndef PLINTH_TWEENTRACK_INL
 #define PLINTH_TWEENTRACK_INL
 
@@ -38,17 +34,6 @@ namespace plinth
 {
 	namespace Tween
 	{
-
-/*
-template <class positionT, class T, class interpolationAlphaT>
-void Piecewise<positionT, T, interpolationAlphaT>::DEV_outputNodes()
-{
-	for (auto& node : m_nodes)
-	{
-		std::cout << node.position << "       \t" << node.value << std::endl;
-	}
-}
-*/
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 Track<positionT, T, interpolationAlphaT, positionCastT>::Track()
@@ -58,7 +43,7 @@ Track<positionT, T, interpolationAlphaT, positionCastT>::Track()
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track<positionT, T, interpolationAlphaT, positionCastT>::clearNodes()
+void Track<positionT, T, interpolationAlphaT, positionCastT>::clear()
 {
 	m_nodes.clear();
 }
@@ -180,6 +165,13 @@ template <class positionT, class T, class interpolationAlphaT, class positionCas
 unsigned int Track<positionT, T, interpolationAlphaT, positionCastT>::getNodeCount() const
 {
 	return m_nodes.size();
+}
+
+template <class positionT, class T, class interpolationAlphaT, class positionCastT>
+Track<positionT, T, interpolationAlphaT, positionCastT>& Track<positionT, T, interpolationAlphaT, positionCastT>::operator+=(const Node& node)
+{
+	this->addNode(node);
+	return *this;
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
