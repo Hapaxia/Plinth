@@ -60,6 +60,8 @@ struct Text : public Transformable
 	Track<unsigned int> style;
 	Track<unsigned int> fontId;
 	Track<unsigned int> stringId;
+	Track<unsigned int> substringOffset;
+	Track<unsigned int> substringLength;
 };
 
 struct Shape : public Transformable
