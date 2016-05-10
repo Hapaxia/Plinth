@@ -27,25 +27,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_BASE_ALL_HPP
-#define PLINTH_BASE_ALL_HPP
+#ifndef PLINTH_TWEENTRACKS_HPP
+#define PLINTH_TWEENTRACKS_HPP
 
-#include "Ascii.hpp"
-#include "Bezier.hpp"
-#include "Color.hpp"
-#include "File.hpp"
-#include "Generic.hpp"
-#include "IndexedMap.hpp"
-#include "Math.hpp"
-#include "NumberBase.hpp"
-#include "Random.hpp"
-#include "Ranges.hpp"
-#include "Sizes.hpp"
-#include "StringFrom.hpp"
-#include "Strings.hpp"
-#include "Tween.hpp"
-#include "TweenPiecewise.hpp"
-#include "TweenTracks.hpp"
-#include "Vectors.hpp"
+#include "TweenTrack.hpp"
+#include "TweenTrack2.hpp"
+#include "TweenTrack3.hpp"
 
-#endif // PLINTH_BASE_ALL_HPP
+#endif // PLINTH_TWEENTRACKS_HPP

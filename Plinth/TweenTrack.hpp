@@ -57,15 +57,15 @@ public:
 	{
 		positionT position;
 		T value;
-		InterpolationType outType;
 		InterpolationType inType;
-		double outAmount;
+		InterpolationType outType;
 		double inAmount;
+		double outAmount;
 		Node()
-			: outType(InterpolationType::Linear)
-			, inType(InterpolationType::Linear)
-			, outAmount(0.0)
+			: inType(InterpolationType::Linear)
+			, outType(InterpolationType::Linear)
 			, inAmount(0.0)
+			, outAmount(0.0)
 		{
 		}
 		Node(const positionT& p, const T& v)
@@ -74,13 +74,19 @@ public:
 			position = p;
 			value = v;
 		}
+		Node(const positionT& p, const T& v, const double in, const double out)
+			: Node(p, v)
+		{
+			inAmount = in;
+			outAmount = out;
+			inType = inAmount == 0.0 ? InterpolationType::Linear : InterpolationType::Ease;
+			outType = outAmount == 0.0 ? InterpolationType::Linear : InterpolationType::Ease;
+		}
 		bool operator<(const Node& rhs) { return this->position < rhs.position; }
 	};
 
-	//void DEV_outputNodes();
-
 	Track();
-	void clearNodes();
+	void clear();
 	void addNode(const Node& node);
 	T getValue(const positionT& position) const;
 	void changeNodePosition(unsigned int index, const positionT& position);
@@ -92,6 +98,7 @@ public:
 	void changeNodeInterpolationTypeIn(unsigned int index, InterpolationType interpolationInType);
 	void changeNodeInterpolationTypes(unsigned int index, InterpolationType interpolationOutType, InterpolationType interpolationInType);
 	unsigned int getNodeCount() const;
+	Track& operator+=(const Node& node);
 
 private:
 	std::vector<Node> m_nodes;
