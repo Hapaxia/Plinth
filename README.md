@@ -1,7 +1,7 @@
 # Plinth
 by Hapax
 
-A library of helpful classes/functions.
+A foundation library of many helpful classes/functions.
 
 Requires C++11.
 
