@@ -114,6 +114,16 @@ std::string replaceChars(std::string string, const std::string& charactersToRepl
 std::string replaceChars(const std::string& string, const std::string& charactersToReplace, const std::string& stringToReplaceWith);
 
 // [does not alter any parameters]
+// remove all characters in string that matches the given character
+// e.g. remove 'a': Hapax -> Hpx
+std::string removeChars(std::string string, char characterToRemove);
+
+// [does not alter any parameters]
+// remove any characters in string that matches any characters in the supplementary string
+// e.g. remove "Hpx": Hapax -> aa
+std::string removeChars(std::string string, const std::string& charactersToRemove);
+
+// [does not alter any parameters]
 // returns a formatted string based on the format parameter and the following arguments (passed in a vector)
 // argument type is templated. all arguments are sent through stringFrom()
 // formats a maximum of 10 arguments (%0 - %9). excess arguments are ignored.

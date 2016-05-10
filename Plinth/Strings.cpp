@@ -29,6 +29,8 @@
 
 #include "Strings.hpp"
 
+#include <algorithm> // for std::remove
+
 namespace
 {
 
@@ -226,6 +228,25 @@ std::string replaceChars(const std::string& string, const std::string& character
 			result += character;
 	}
 	return result;
+}
+
+// [does not alter any parameters]
+// remove all characters in string that matches the given character
+// e.g. remove 'a': Hapax -> Hpx
+std::string removeChars(std::string string, const char characterToRemove)
+{
+	string.erase(std::remove(string.begin(), string.end(), characterToRemove), string.end());
+	return string;
+}
+
+// [does not alter any parameters]
+// remove any characters in string that matches any characters in the supplementary string
+// e.g. remove "Hpx": Hapax -> aa
+std::string removeChars(std::string string, const std::string& charactersToRemove)
+{
+	for (auto& character : charactersToRemove)
+		string.erase(std::remove(string.begin(), string.end(), character), string.end());
+	return string;
 }
 
 } // namespace plinth
