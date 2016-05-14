@@ -33,6 +33,8 @@
 #include "Common.hpp"
 #include "Size2.hpp"
 
+#include <algorithm> // for std::swap
+
 namespace plinth
 {
 
@@ -55,6 +57,11 @@ struct Vector2
 	Vector2& operator-=(const Vector2& offset);
 	Vector2& operator*=(const T& scalar);
 	Vector2& operator/=(const T& scalar);
+	friend void swap(Vector2& a, Vector2& b)
+	{
+		std::swap(a.x, b.x);
+		std::swap(a.y, b.y);
+	}
 };
 
 using Vector2u = Vector2<unsigned int>;
