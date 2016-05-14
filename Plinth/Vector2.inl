@@ -115,7 +115,7 @@ Vector2<T>& Vector2<T>::operator*=(const T& scalar)
 }
 
 template <class T>
-Vector2<T> & Vector2<T>::operator/=(const T& scalar)
+Vector2<T>& Vector2<T>::operator/=(const T& scalar)
 {
 	*this = *this / scalar;
 	return *this;
