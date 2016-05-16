@@ -50,53 +50,53 @@ template <typename T, typename alphaT>
 // Type alphaT should be a POD type in range 0 to 1.
 // Type T must have required operators available (*, +)
 // and be able to be multiplied (scaled) by a POD type (alphaT)
-inline T linear(T start, T end, alphaT alpha);
+inline T linear(const T& start, const T& end, const alphaT& alpha);
 
 template <typename alphaT, typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to alphaT
 // The first template parameter is used to determine the return type
-inline alphaT inverseLinear(T start, T end, T value);
+inline alphaT inverseLinear(const T& start, const T& end, const T& value);
 
 template <typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to double (the return type of alpha)
-inline double inverseLinear(T start, T end, T value);
+inline double inverseLinear(const T& start, const T& end, const T& value);
 
 template <typename toT, typename fromT>
 // Converts value's position in range to its position in a different range.
 // Each range may have its own type.
-toT convertRange(toT toStart, toT toEnd, fromT fromStart, fromT fromEnd, fromT value);
+toT convertRange(const toT& toStart, const toT& toEnd, const fromT& fromStart, const fromT& fromEnd, const fromT& value);
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in and out by "amount". An amount of zero is a linear Tween
-T easeInOut(T start, T end, alphaT alpha, amountT amount);
+T easeInOut(const T& start, const T& end, const alphaT& alpha, const amountT& amount);
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in by "amount". An amount of zero is a linear Tween
-T easeIn(T start, T end, alphaT alpha, amountT amount);
+T easeIn(const T& start, const T& end, const alphaT& alpha, const amountT& amount);
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween out by "amount". An amount of zero is a linear Tween
-T easeOut(T start, T end, alphaT alpha, amountT amount);
+T easeOut(const T& start, const T& end, const alphaT& alpha, const amountT& amount);
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in by "in" and out by "out". Zero means no easing. If in and out are both zero, it becomes a linear Tween
-T oldEase(T start, T end, alphaT alpha, amountT in, amountT out);
+T oldEase(const T& start, const T& end, const alphaT& alpha, const amountT& in, const amountT& out);
 
 template <typename T, typename alphaT>
 // "Smoothstep" as found at http://guihaire.com/code/?p=229
-T quickerEase(T start, T end, alphaT alpha);
+T quickerEase(const T& start, const T& end, const alphaT& alpha);
 
 template <typename T, typename alphaT>
 // "Smootherstep" as found at http://guihaire.com/code/?p=229
-T quickEase(T start, T end, alphaT alpha);
+T quickEase(const T& start, const T& end, const alphaT& alpha);
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween using bezier (creates and destroys a bezier object on each call). All types must be castable to double
-T slowEase(T start, T end, alphaT alpha, amountT in, amountT out);
+T slowEase(const T& start, const T& end, const alphaT& alpha, const amountT& in, const amountT& out);
 
 template <typename T, typename alphaT = double, typename strengthT = double>
 // Ease class - uses bezier cubic. All types must be castable to double

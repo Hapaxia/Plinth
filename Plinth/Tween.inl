@@ -40,7 +40,7 @@ template <typename T, typename alphaT>
 // Type alphaT should be a POD type in range 0 to 1.
 // Type T must have required operators available (*, +)
 // and be able to be multiplied (scaled) by a POD type (alpha)
-inline T linear(const T start, const T end, const alphaT alpha)
+inline T linear(const T& start, const T& end, const alphaT& alpha)
 {
 	return static_cast<T>(start * (1 - alpha) + end * alpha); // blend from low to high using alpha
 }
@@ -50,7 +50,7 @@ template <typename alphaT, typename T>
 // Type T must have required operators available (-)
 // and be able to be cast to alphaT
 // The first template parameter is used to determine the return type
-inline alphaT inverseLinear(const T start, const T end, const T value)
+inline alphaT inverseLinear(const T& start, const T& end, const T& value)
 {
 	return static_cast<alphaT>(value - start) / (end - start);
 }
@@ -59,7 +59,7 @@ template <typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to double (the return type of alpha)
-inline double inverseLinear(const T start, const T end, const T value)
+inline double inverseLinear(const T& start, const T& end, const T& value)
 {
 	return static_cast<double>(value - start) / (end - start);
 }
@@ -67,14 +67,14 @@ inline double inverseLinear(const T start, const T end, const T value)
 template <typename toT, typename fromT>
 // Converts value's position in range to its position in a different range.
 // Each range may have its own type.
-toT convertRange(const toT toStart, const toT toEnd, const fromT fromStart, const fromT fromEnd, const fromT value)
+toT convertRange(const toT& toStart, const toT& toEnd, const fromT& fromStart, const fromT& fromEnd, const fromT& value)
 {
 	return linear(toStart, toEnd, inverseLinear(fromStart, fromEnd, value));
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in and out by "amount". An amount of zero is a linear Tween
-T easeInOut(const T start, const T end, const alphaT alpha, const amountT amount)
+T easeInOut(const T& start, const T& end, const alphaT& alpha, const amountT& amount)
 {
 	double strength{ static_cast<double>(amount)+1 }; // use range from 1 (straight line) in calculations instead of supplied 0
 	double pow1{ pow(alpha, strength) };
@@ -85,21 +85,21 @@ T easeInOut(const T start, const T end, const alphaT alpha, const amountT amount
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in by "amount". An amount of zero is a linear Tween
-T easeIn(const T start, const T end, const alphaT alpha, const amountT amount)
+T easeIn(const T& start, const T& end, const alphaT& alpha, const amountT& amount)
 {
 	return easeInOut(start, end + (end - start), alpha / 2, amount);
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween out by "amount". An amount of zero is a linear Tween
-T easeOut(const T start, const T end, const alphaT alpha, const amountT amount)
+T easeOut(const T& start, const T& end, const alphaT& alpha, const amountT& amount)
 {
 	return easeInOut(start - (end - start), end, 0.5 + alpha / 2, amount);
 }
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween in by "in" and out by "out". Zero means no easing. If in and out are both zero, it becomes a linear Tween
-T oldEase(const T start, const T end, const alphaT alpha, const amountT in, const amountT out)
+T oldEase(const T& start, const T& end, const alphaT& alpha, const amountT& in, const amountT& out)
 {
 	T easedIn{ easeIn(start, end, alpha, in) };
 	T easedOut{ easeOut(start, end, alpha, out) };
@@ -108,14 +108,14 @@ T oldEase(const T start, const T end, const alphaT alpha, const amountT in, cons
 
 template <typename T, typename alphaT>
 // "Smoothstep" as found at http://guihaire.com/code/?p=229
-T quickerEase(const T start, const T end, const alphaT alpha)
+T quickerEase(const T& start, const T& end, const alphaT& alpha)
 {
 	return linear(start, end, alpha * alpha * (3 - 2 * alpha));
 }
 
 template <typename T, typename alphaT>
 // "Smootherstep" as found at http://guihaire.com/code/?p=229
-T quickEase(const T start, const T end, const alphaT alpha)
+T quickEase(const T& start, const T& end, const alphaT& alpha)
 {
 	return linear(start, end, alpha * alpha * alpha * (10 + alpha * (6 * alpha - 15)));
 }
