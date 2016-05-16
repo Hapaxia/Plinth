@@ -136,16 +136,6 @@ Color::Rgb rgbFromColor(const sf::Color& color)
 		Tween::inverseLinear(0u, 255u, static_cast<unsigned int>(color.b))};
 }
 
-sf::Color colorBlend(const sf::Color& colorA, const sf::Color& colorB, const double alpha)
-{
-	return sf::Color(Tween::linear(colorA.r, colorB.r, alpha), Tween::linear(colorA.g, colorB.g, alpha), Tween::linear(colorA.b, colorB.b, alpha), Tween::linear(colorA.a, colorB.a, alpha));
-}
-
-sf::Color colorBlend(const sf::Color& colorA, const sf::Color& colorB, float alpha)
-{
-	return colorBlend(colorA, colorB, static_cast<double>(alpha));
-}
-
 float lengthSquared(const sf::Vector2f& vector)
 {
 	return vector.x * vector.x + vector.y * vector.y;

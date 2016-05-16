@@ -63,8 +63,6 @@ Vector3i vector3(const sf::Vector3i& vector);
 sf::Color colorFromValue(long int value);
 sf::Color colorFromRgb(const Color::Rgb& rgb);
 Color::Rgb rgbFromColor(const sf::Color& color);
-sf::Color colorBlend(const sf::Color& colorA, const sf::Color& colorB, double alpha);
-sf::Color colorBlend(const sf::Color& colorA, const sf::Color& colorB, float alpha);
 
 float lengthSquared(const sf::Vector2f& vector);
 float length(const sf::Vector2f& vector);
