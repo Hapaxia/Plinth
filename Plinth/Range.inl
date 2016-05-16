@@ -32,6 +32,7 @@
 
 #include "Generic.hpp"
 #include "Math.hpp"
+#include "Tween.hpp"
 
 namespace plinth
 {
@@ -132,6 +133,13 @@ Range<T>& Range<T>::pull(const T& hook, const bool keepSize)
 			min = max - rangeSize;
 	}
 	return *this;
+}
+
+template <class T>
+template <class alphaT>
+alphaT Range<T>::getAlpha(const T& value) const
+{
+	return Tween::inverseLinear(min, max, value);
 }
 
 } // namespace plinth

@@ -58,6 +58,8 @@ struct Range
 	T clampLoop(const T& value) const;
 	T clampCycle(const T& value) const;
 	Range& pull(const T& hook, bool keepSize = false);
+	template <class alphaT = double>
+	alphaT getAlpha(const T& value) const;
 };
 
 } // namespace plinth
