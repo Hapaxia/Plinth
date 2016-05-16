@@ -30,7 +30,9 @@
 #ifndef PLINTH_SFML_ALL_HPP
 #define PLINTH_SFML_ALL_HPP
 
+#include "Common.hpp"
 #include "Anchor.hpp"
+#include "Animation.hpp"
 #include "Colors.hpp"
 #include "Generic.hpp"
 #include "Image.hpp"
@@ -38,5 +40,6 @@
 #include "KeyMap.hpp"
 #include "ResourceManagerBasic.hpp"
 #include "StringFrom.hpp"
+#include "Tween.hpp"
 
 #endif // PLINTH_SFML_ALL_HPP
