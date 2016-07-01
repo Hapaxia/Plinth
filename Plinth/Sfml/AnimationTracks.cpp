@@ -54,6 +54,36 @@ namespace plinth
 	namespace Animation
 	{
 
+TrackBool::TrackBool()
+	: m_track()
+{
+}
+
+void TrackBool::clear()
+{
+	m_track.clear();
+}
+
+void TrackBool::addKey(const sf::Time time, const bool value)
+{
+	m_track.addKey(time, value ? 1u : 0u, 0.f, 0.f, InterpolationType::Step, InterpolationType::Step);
+}
+
+void TrackBool::addKey(const float timeInSeconds, const bool value)
+{
+	addKey(sf::seconds(timeInSeconds), value ? 1u : 0u);
+}
+
+bool TrackBool::get(const sf::Time time) const
+{
+	return m_track.get(time) != 0;
+}
+
+bool TrackBool::get(const float timeInSeconds) const
+{
+	return get(sf::seconds(timeInSeconds));
+}
+
 TrackColor::TrackColor()
 	: r()
 	, g()

@@ -135,6 +135,20 @@ private:
 	Track<T> left, top, width, height;
 };
 
+class TrackBool
+{
+public:
+	TrackBool();
+	void clear();
+	void addKey(sf::Time time, bool value);
+	void addKey(float timeInSeconds, bool value);
+	bool get(sf::Time time) const;
+	bool get(float timeInSeconds) const;
+
+private:
+	Track<unsigned int> m_track;
+};
+
 class TrackColor
 {
 public:
