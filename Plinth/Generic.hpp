@@ -37,15 +37,10 @@
 #include "Common.hpp"
 #include "Math.hpp"
 
+#include <utility>
+
 namespace plinth
 {
-
-#ifdef min
-#undef min
-#endif // min
-#ifdef max
-#undef max
-#endif // max
 
 template <class T>
 // returns the highest value in a pair
@@ -73,7 +68,7 @@ inline void orderLowHigh(T& low, T& high);
 
 template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
-// e.g. a = !b, a becomes opposite of b. a = toggle(b), a becomes opposite of what b was but b is now identical to a.
+// e.g. a = !b, a becomes opposite of b. a = toggle(b), b becomes its opposite and a also becomes that opposite.
 inline T toggle(T& b);
 
 template <class TInteger>

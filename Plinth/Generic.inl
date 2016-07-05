@@ -37,14 +37,14 @@ template<class T>
 // returns the highest value in a pair
 inline T max(const T& a, const T& b)
 {
-	return a > b ? a : b;
+	return std::max(a, b);
 }
 
 template<class T>
 // returns the lowest value in a pair
 inline T min(const T& a, const T& b)
 {
-	return a < b ? a : b;
+	return std::min(a, b);
 }
 
 template<class T>
@@ -53,10 +53,13 @@ inline T max(const std::vector<T>& values)
 {
 	if (values.size() == 0)
 		return T();
-	T result{ values[0] };
-	for (unsigned int i{ 1 }; i < values.size(); ++i)
-		result = max(result, values[i]);
-	return result;
+	std::vector<T>::const_iterator result = values.begin();
+	for (std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
+	{
+		if (*result < *it)
+			result = it;
+	}
+	return *result;
 }
 
 template<class T>
@@ -65,36 +68,36 @@ inline T min(const std::vector<T>& values)
 {
 	if (values.size() == 0)
 		return T();
-	T result{ values[0] };
-	for (unsigned int i{ 1 }; i < values.size(); ++i)
-		result = min(result, values[i]);
-	return result;
+	std::vector<T>::const_iterator result = values.begin();
+	for (std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
+	{
+		if (*it < *result)
+			result = it;
+	}
+	return *result;
 }
 
 template<class T>
 // swaps two values
 inline void swap(T& a, T& b)
 {
-	T c = a;
-	a = b;
-	b = c;
+	std::swap(a, b);
 }
 
 template<class T>
 // order two values (low - high)
 inline void orderLowHigh(T& low, T& high)
 {
-	if (low > high)
+	if (high < low)
 		swap(low, high);
 }
 
 template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
-// e.g. a = !b, a becomes opposite of b. a = toggle(b), a becomes opposite of what b was but b is now identical to a.
+// e.g. a = !b, a becomes opposite of b. a = toggle(b), b becomes its opposite and a also becomes that opposite.
 inline T toggle(T& b)
 {
-	b = !b;
-	return b;
+	return b = !b;
 }
 
 template <class IntegerType>

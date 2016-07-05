@@ -30,6 +30,14 @@
 #ifndef PLINTH_COMMON_HPP
 #define PLINTH_COMMON_HPP
 
+// remove unwanted min/max macros
+#ifdef min
+#undef min
+#endif // min
+#ifdef max
+#undef max
+#endif // max
+
 #include "Exception.hpp"
 
 #ifndef PLINTH_NO_NAMESPACE_SHORTCUT
