@@ -30,6 +30,9 @@
 #ifndef PLINTH_STRINGFROM_INL
 #define PLINTH_STRINGFROM_INL
 
+#include <sstream>
+#include <iomanip>
+
 namespace plinth
 {
 
@@ -46,6 +49,14 @@ template <class T>
 std::string stringFrom(const T& from)
 {
 	return std::to_string(from);
+}
+
+template <class T>
+std::string stringFrom(const T& from, const unsigned int decimalPlaces)
+{
+	std::stringstream ss;
+	ss << std::setprecision(decimalPlaces + 1) << static_cast<long double>(from);
+	return ss.str();
 }
 
 template<class T>

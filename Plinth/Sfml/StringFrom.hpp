@@ -38,6 +38,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/System/Time.hpp>
 
 namespace plinth
 {
@@ -62,6 +63,8 @@ std::string stringFrom(sf::Color, SfmlColorList colorList = SfmlColorList::Exten
 std::string stringFrom(sf::VideoMode, bool sizeOnly = false);
 
 std::string stringFrom(sf::Keyboard::Key);
+
+std::string stringFrom(sf::Time);
 
 } // namespace plinth
 #include "StringFrom.inl"

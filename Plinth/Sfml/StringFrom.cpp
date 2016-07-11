@@ -442,4 +442,9 @@ std::string stringFrom(const sf::Keyboard::Key from)
 	}
 }
 
+std::string stringFrom(const sf::Time time)
+{
+	return stringFrom(time.asSeconds()) + " seconds";
+}
+
 } // namespace plinth
