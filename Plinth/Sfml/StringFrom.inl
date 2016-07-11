@@ -37,7 +37,7 @@ std::string stringFrom(const sf::Vector2<T> from)
 }
 
 template<class T>
-std::string stringFrom(const sf::Vector2<T>, const unsigned int decimalPrecision)
+std::string stringFrom(const sf::Vector2<T> from, const unsigned int decimalPrecision)
 {
 	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ")";
 }
@@ -49,7 +49,7 @@ std::string stringFrom(const sf::Vector3<T> from)
 }
 
 template<class T>
-std::string stringFrom(const sf::Vector3<T>, const unsigned int decimalPrecision)
+std::string stringFrom(const sf::Vector3<T> from, const unsigned int decimalPrecision)
 {
 	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ", " + stringFrom(from.z, decimalPrecision) + ")";
 }
