@@ -52,10 +52,10 @@ std::string stringFrom(const T& from)
 }
 
 template <class T>
-std::string stringFrom(const T& from, const unsigned int decimalPlaces)
+std::string stringFrom(const T& from, const unsigned int decimalPrecision)
 {
 	std::stringstream ss;
-	ss << std::setprecision(decimalPlaces + 1) << static_cast<long double>(from);
+	ss << std::setprecision(decimalPrecision) << static_cast<long double>(from);
 	return ss.str();
 }
 

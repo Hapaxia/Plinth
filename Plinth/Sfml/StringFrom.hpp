@@ -65,6 +65,7 @@ std::string stringFrom(sf::VideoMode, bool sizeOnly = false);
 std::string stringFrom(sf::Keyboard::Key);
 
 std::string stringFrom(sf::Time);
+std::string stringFrom(sf::Time, unsigned int decimalPrecision);
 
 } // namespace plinth
 #include "StringFrom.inl"

@@ -49,7 +49,7 @@ std::string stringFrom(const T&);
 std::string stringFrom(bool);
 
 template <class T>
-std::string stringFrom(const T&, unsigned int decimalPlaces);
+std::string stringFrom(const T&, unsigned int decimalPrecision);
 
 template<class T>
 std::string stringFrom(pl::Vector2<T>);

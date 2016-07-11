@@ -447,4 +447,9 @@ std::string stringFrom(const sf::Time time)
 	return stringFrom(time.asSeconds()) + " seconds";
 }
 
+std::string stringFrom(const sf::Time time, unsigned int decimalPrecision)
+{
+	return stringFrom(time.asSeconds(), decimalPrecision) + " seconds";
+}
+
 } // namespace plinth
