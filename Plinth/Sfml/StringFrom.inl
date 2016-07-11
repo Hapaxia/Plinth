@@ -33,13 +33,25 @@ namespace plinth
 template<class T>
 std::string stringFrom(const sf::Vector2<T> from)
 {
-	return "(" + std::to_string(from.x) + ", " + std::to_string(from.y) + ")";
+	return "(" + stringFrom(from.x) + ", " + stringFrom(from.y) + ")";
+}
+
+template<class T>
+std::string stringFrom(const sf::Vector2<T>, const unsigned int decimalPrecision)
+{
+	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ")";
 }
 
 template<class T>
 std::string stringFrom(const sf::Vector3<T> from)
 {
-	return "(" + std::to_string(from.x) + ", " + std::to_string(from.y) + ", " + std::to_string(from.z) + ")";
+	return "(" + stringFrom(from.x) + ", " + stringFrom(from.y) + ", " + stringFrom(from.z) + ")";
+}
+
+template<class T>
+std::string stringFrom(const sf::Vector3<T>, const unsigned int decimalPrecision)
+{
+	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ", " + stringFrom(from.z, decimalPrecision) + ")";
 }
 
 } // namespace plinth

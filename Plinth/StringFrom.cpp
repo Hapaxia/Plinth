@@ -42,14 +42,4 @@ std::string stringFrom(const bool from)
 	return (from ? "true" : "false");
 }
 
-std::string stringFrom(const pl::Vector2<std::string> from)
-{
-	return "(" + from.x + ", " + from.y + ")";
-}
-
-std::string stringFrom(const pl::Vector3<std::string> from)
-{
-	return "(" + from.x + ", " + from.y + ", " + from.z + ")";
-}
-
 } // namespace plinth

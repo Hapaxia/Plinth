@@ -52,10 +52,14 @@ enum class SfmlColorList
 
 template<class T>
 std::string stringFrom(sf::Vector2<T>);
+template<class T>
+std::string stringFrom(sf::Vector2<T>, unsigned int decimalPrecision);
 std::string stringFrom(sf::Vector2<std::string>);
 
 template<class T>
 std::string stringFrom(sf::Vector3<T>);
+template<class T>
+std::string stringFrom(sf::Vector3<T>, unsigned int decimalPrecision);
 std::string stringFrom(sf::Vector3<std::string>);
 
 std::string stringFrom(sf::Color, SfmlColorList colorList = SfmlColorList::Extended, bool separateAlpha = true);
