@@ -52,6 +52,13 @@ inline T mod(const T& a, const T& b)
 }
 
 template <class T>
+// returns either the parameter - if not negtive - or its positive counterpart
+inline T abs(const T& value)
+{
+	return value < 0 ? -value : value;
+}
+
+template <class T>
 // returns the dot product of two vectors with the same number of elements
 T dot(const std::vector<T>& a, const std::vector<T>& b)
 {
