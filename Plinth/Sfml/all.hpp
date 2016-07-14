@@ -34,6 +34,7 @@
 #include "Anchor.hpp"
 #include "Animation.hpp"
 #include "Colors.hpp"
+#include "FrameSequence.hpp"
 #include "Generic.hpp"
 #include "Image.hpp"
 #include "ImageChannel.hpp"
