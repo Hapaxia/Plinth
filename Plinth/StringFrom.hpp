@@ -40,6 +40,7 @@ namespace plinth
 {
 
 std::string stringFrom(const std::string& = "");
+std::string stringFrom(const char*);
 
 template <class T>
 std::string stringFrom(const std::vector<T>);

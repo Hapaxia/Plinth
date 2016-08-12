@@ -37,6 +37,11 @@ std::string stringFrom(const std::string& from)
 	return from;
 }
 
+std::string stringFrom(const char* from)
+{
+	return std::string(from);
+}
+
 std::string stringFrom(const bool from)
 {
 	return (from ? "true" : "false");
