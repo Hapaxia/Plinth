@@ -34,21 +34,50 @@
 #include "Size3.hpp"
 
 #include <algorithm> // for std::swap
+#include <initializer_list> // for std::initializer_list
 
 namespace plinth
 {
 
 template <class T>
-struct Vector3
+class Vector3
 {
+public:
 	T x, y, z;
+
 	Vector3();
+	Vector3(const T& single);
+	Vector3(std::initializer_list<T> list);
 	Vector3(const T& newX, const T& newY, const T& newZ);
 	template <class U>
 	Vector3(const Vector3<U>& vector);
 	template <class U>
 	Vector3(const Size3<U>& size);
+
+	void zero();
+
+	void setLength(long double length);
+
 	Size3<T> getSize3() const;
+	template <class U = double>
+	U getLengthSquared() const;
+	template <class U = double>
+	U getLength() const;
+	template <class U = double>
+	Vector3<U> getUnit() const;
+
+	T dot(const Vector3& other) const;
+	Vector3 cross(const Vector3& other) const;
+
+	bool operator==(const Vector3& other) const;
+	bool operator!=(const Vector3& other) const;
+
+	Vector3& operator=(const Vector3& other);
+	template <class U>
+	Vector3& operator=(const Vector3<U>& other);
+	template <class U>
+	Vector3& operator=(const U& value);
+
 	Vector3 operator+(const Vector3& offset) const;
 	Vector3 operator-(const Vector3& offset) const;
 	Vector3 operator*(const T& scalar) const;
@@ -57,17 +86,27 @@ struct Vector3
 	Vector3& operator-=(const Vector3& offset);
 	Vector3& operator*=(const T& scalar);
 	Vector3& operator/=(const T& scalar);
+
+	friend void std::swap(Vector3& a, Vector3& b);
+	/*
 	friend void swap(Vector3& a, Vector3& b)
 	{
 		std::swap(a.x, b.x);
 		std::swap(a.y, b.y);
 		std::swap(a.z, b.z);
 	}
+	*/
+
+private:
+	const long double m_epsilon;
+
+	bool isNotZero() const;
 };
 
 using Vector3u = Vector3<unsigned int>;
 using Vector3i = Vector3<int>;
 using Vector3d = Vector3<double>;
+using Vector3f = Vector3<float>;
 
 } // namespace plinth
 #include "Vector3.inl"

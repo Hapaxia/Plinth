@@ -34,21 +34,55 @@
 #include "Size2.hpp"
 
 #include <algorithm> // for std::swap
+#include <initializer_list> // for std::initializer_list
 
 namespace plinth
 {
 
 template <class T>
-struct Vector2
+class Vector2
 {
+public:
 	T x, y;
+
 	Vector2();
+	Vector2(const T& single);
+	Vector2(std::initializer_list<T> list);
 	Vector2(const T& newX, const T& newY);
 	template <class U>
 	Vector2(const Vector2<U>& vector);
 	template <class U>
 	Vector2(const Size2<U>& size);
+
+	void setPolar(long double length, long double angleInDegrees);
+	void setPolarUsingRadians(long double length, long double angleInRadians);
+	void setLength(long double length);
+	void setAngle(long double angleInDegrees);
+	void setAngleUsingRadians(long double angleInRadians);
+
 	Size2<T> getSize2() const;
+	template <class U = double>
+	U getLengthSquared() const;
+	template <class U = double>
+	U getLength() const;
+	template <class U = double>
+	U getAngle() const;
+	template <class U = double>
+	U getAngleAsRadians() const;
+	template <class U = double>
+	Vector2<U> getUnit() const;
+
+	T dot(const Vector2& other) const;
+
+	bool operator==(const Vector2& other) const;
+	bool operator!=(const Vector2& other) const;
+
+	Vector2& operator=(const Vector2& other);
+	template <class U>
+	Vector2& operator=(const Vector2<U>& other);
+	template <class U>
+	Vector2& operator=(const U& value);
+
 	Vector2 operator+(const Vector2& offset) const;
 	Vector2 operator-(const Vector2& offset) const;
 	Vector2 operator*(const T& scalar) const;
@@ -57,16 +91,19 @@ struct Vector2
 	Vector2& operator-=(const Vector2& offset);
 	Vector2& operator*=(const T& scalar);
 	Vector2& operator/=(const T& scalar);
-	friend void swap(Vector2& a, Vector2& b)
-	{
-		std::swap(a.x, b.x);
-		std::swap(a.y, b.y);
-	}
+
+	friend void std::swap(Vector2& a, Vector2& b);
+
+private:
+	const long double m_epsilon;
+
+	bool isNotZero() const;
 };
 
 using Vector2u = Vector2<unsigned int>;
 using Vector2i = Vector2<int>;
 using Vector2d = Vector2<double>;
+using Vector2f = Vector2<float>;
 
 } // namespace plinth
 #include "Vector2.inl"

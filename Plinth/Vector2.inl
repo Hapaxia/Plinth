@@ -32,6 +32,9 @@
 
 #include "Vector2.hpp"
 
+#include "Math.hpp"
+#include <cmath>
+
 namespace plinth
 {
 
@@ -39,6 +42,7 @@ template <class T>
 Vector2<T>::Vector2()
 	: x(static_cast<T>(0))
 	, y(static_cast<T>(0))
+	, m_epsilon(static_cast<long double>(defaultEpsilon))
 {
 }
 
@@ -46,29 +50,163 @@ template <class T>
 Vector2<T>::Vector2(const T& newX, const T& newY)
 	: x(newX)
 	, y(newY)
+	, m_epsilon(static_cast<long double>(defaultEpsilon))
 {
+}
+
+template <class T>
+Vector2<T>::Vector2(const T& single)
+	: Vector2(single, single)
+{
+}
+
+template <class T>
+Vector2<T>::Vector2(std::initializer_list<T> list)
+	: Vector2()
+{
+	const auto size{ list.size() };
+	const auto begin{ list.begin() };
+	if (size > 0)
+	{
+		x = *begin;
+		if (size > 1)
+			y = *(begin + 1);
+	}
 }
 
 template <class T>
 template <class U>
 Vector2<T>::Vector2(const Vector2<U>& vector)
-	: x(static_cast<T>(vector.x))
-	, y(static_cast<T>(vector.y))
+	: Vector2(static_cast<T>(vector.x), static_cast<T>(vector.y))
 {
 }
 
 template <class T>
 template <class U>
 Vector2<T>::Vector2(const Size2<U>& size)
-	: x(static_cast<T>(size.width))
-	, y(static_cast<T>(size.height))
+	: Vector2(static_cast<T>(size.width), static_cast<T>(size.height))
 {
+}
+
+template <class T>
+void Vector2<T>::setPolar(const long double length, const long double angle)
+{
+	x = static_cast<T>(length * std::cos(radiansFromDegrees(angle)));
+	y = static_cast<T>(length * std::sin(radiansFromDegrees(angle)));
+}
+
+template <class T>
+void Vector2<T>::setPolarUsingRadians(const long double length, const long double angle)
+{
+	x = static_cast<T>(length * std::cos(angle));
+	y = static_cast<T>(length * std::sin(angle));
+}
+
+template <class T>
+void Vector2<T>::setLength(const long double length)
+{
+	*this = getUnit<long double>() * length;
+}
+
+template <class T>
+void Vector2<T>::setAngle(const long double angleInDegrees)
+{
+	setPolar(getLength<long double>(), angleInDegrees);
+}
+
+template <class T>
+void Vector2<T>::setAngleUsingRadians(const long double angleInRadians)
+{
+	setPolarUsingRadians(getLength<long double>(), angleInDegrees);
 }
 
 template <class T>
 Size2<T> Vector2<T>::getSize2() const
 {
 	return{ x, y };
+}
+
+template <class T>
+template <class U>
+U Vector2<T>::getLengthSquared() const
+{
+	return static_cast<U>(x * x + y * y);
+}
+
+template <class T>
+template <class U>
+U Vector2<T>::getLength() const
+{
+	return static_cast<U>(std::sqrt(x * x + y * y));
+}
+
+template <class T>
+template <class U>
+U Vector2<T>::getAngle() const
+{
+	return static_cast<U>(isNotZero() ? degreesFromRadians(std::atan2(y, x)) : 0);
+}
+
+template <class T>
+template <class U>
+U Vector2<T>::getAngleAsRadians() const
+{
+	return static_cast<U>(std::atan2(y, x));
+}
+
+template <class T>
+template <class U>
+Vector2<U> Vector2<T>::getUnit() const
+{
+	// if vector is "close enough" to zero, consider it a zero vector and return that instead (also avoids division by zero)
+	if (isNotZero())
+		return{ Vector2<U>(*this) / getLength<U>() };
+	else
+		return Vector2<T>();
+}
+
+template <class T>
+T Vector2<T>::dot(const Vector2& other) const
+{
+	return x * other.x + y * other.y;
+}
+
+template <class T>
+bool Vector2<T>::operator==(const Vector2& other) const
+{
+	return x == other.x && y == other.y;
+}
+
+template <class T>
+bool Vector2<T>::operator!=(const Vector2& other) const
+{
+	return !(*this == other);
+}
+
+template <class T>
+Vector2<T>& Vector2<T>::operator=(const Vector2& other)
+{
+	x = other.x;
+	y = other.y;
+	return *this;
+}
+
+template <class T>
+template <class U>
+Vector2<T>& Vector2<T>::operator=(const Vector2<U>& other)
+{
+	x = static_cast<T>(other.x);
+	y = static_cast<T>(other.y);
+	return *this;
+}
+
+template <class T>
+template <class U>
+Vector2<T>& Vector2<T>::operator=(const U& value)
+{
+	x = static_cast<T>(value);
+	y = static_cast<T>(value);
+	return *this;
 }
 
 template <class T>
@@ -123,5 +261,33 @@ Vector2<T>& Vector2<T>::operator/=(const T& scalar)
 	return *this;
 }
 
+
+
+// PRIVATE
+
+template <class T>
+bool Vector2<T>::isNotZero() const
+{
+	return (x > m_epsilon) && (x < -m_epsilon) && (y > m_epsilon) && (y < -m_epsilon);
+}
+
+
+
 } // namespace plinth
+
+
+
+// FRIEND
+
+namespace std
+{
+
+template <class T>
+void swap(plinth::Vector2<T>& a, plinth::Vector2<T>& b)
+{
+	swap(a.x, b.x);
+	swap(a.y, b.y);
+}
+
+} // namespace std
 #endif // PLINTH_VECTOR2_INL
