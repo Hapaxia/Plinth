@@ -30,6 +30,8 @@
 #ifndef PLINTH_SFML_ANIMATIONTRACKS_INL
 #define PLINTH_SFML_ANIMATIONTRACKS_INL
 
+#include "AnimationTracks.hpp"
+
 namespace plinth
 {
 	namespace Animation

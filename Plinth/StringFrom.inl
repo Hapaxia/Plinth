@@ -30,6 +30,8 @@
 #ifndef PLINTH_STRINGFROM_INL
 #define PLINTH_STRINGFROM_INL
 
+#include "StringFrom.hpp"
+
 #include <sstream>
 #include <iomanip>
 

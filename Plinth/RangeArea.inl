@@ -30,6 +30,8 @@
 #ifndef PLINTH_RANGEAREA_INL
 #define PLINTH_RANGEAREA_INL
 
+#include "RangeArea.hpp"
+
 namespace plinth
 {
 

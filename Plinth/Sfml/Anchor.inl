@@ -29,6 +29,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
+#include "Anchor.hpp"
+
 namespace plinth
 {
 	namespace Anchor

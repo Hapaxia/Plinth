@@ -30,6 +30,8 @@
 #ifndef PLINTH_FILE_INL
 #define PLINTH_FILE_INL
 
+#include "File.hpp"
+
 namespace plinth
 {
 

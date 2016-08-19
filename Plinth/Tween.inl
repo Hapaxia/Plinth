@@ -30,6 +30,8 @@
 #ifndef PLINTH_TWEEN_INL
 #define PLINTH_TWEEN_INL
 
+#include "Tween.hpp"
+
 namespace plinth
 {
 	namespace Tween

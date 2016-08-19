@@ -30,6 +30,8 @@
 #ifndef PLINTH_INDEXEDMAP_INL
 #define PLINTH_INDEXEDMAP_INL
 
+#include "IndexedMap.hpp"
+
 namespace plinth
 {
 

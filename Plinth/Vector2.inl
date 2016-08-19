@@ -30,6 +30,8 @@
 #ifndef PLINTH_VECTOR2_INL
 #define PLINTH_VECTOR2_INL
 
+#include "Vector2.hpp"
+
 namespace plinth
 {
 

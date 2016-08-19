@@ -30,6 +30,8 @@
 #ifndef PLINTH_BEZIER_INL
 #define PLINTH_BEZIER_INL
 
+#include "Bezier.hpp"
+
 namespace plinth
 {
 

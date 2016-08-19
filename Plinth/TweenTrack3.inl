@@ -30,6 +30,8 @@
 #ifndef PLINTH_TWEENTRACK3_INL
 #define PLINTH_TWEENTRACK3_INL
 
+#include "TweenTrack3.hpp"
+
 namespace plinth
 {
 	namespace Tween

@@ -30,6 +30,8 @@
 #ifndef PLINTH_SFML_TWEEN_INL
 #define PLINTH_SFML_TWEEN_INL
 
+#include "Tween.hpp"
+
 #include "../Tween.hpp"
 #include <SFML/Graphics/Color.hpp>
 

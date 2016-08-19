@@ -30,6 +30,8 @@
 #ifndef PLINTH_RANGE_INL
 #define PLINTH_RANGE_INL
 
+#include "Range.hpp"
+
 #include "Generic.hpp"
 #include "Math.hpp"
 #include "Tween.hpp"

@@ -34,6 +34,8 @@
 #ifndef PLINTH_TWEENPIECEWISE_INL
 #define PLINTH_TWEENPIECEWISE_INL
 
+#include "TweenPiecewise.hpp"
+
 namespace plinth
 {
 	namespace Tween

@@ -30,6 +30,8 @@
 #ifndef PLINTH_GENERIC_INL
 #define PLINTH_GENERIC_INL
 
+#include "Generic.hpp"
+
 namespace plinth
 {
 
