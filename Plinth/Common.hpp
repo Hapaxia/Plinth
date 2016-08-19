@@ -40,6 +40,13 @@
 
 #include "Exception.hpp"
 
+namespace plinth
+{
+
+const long double defaultEpsilon{ 0.00001 };
+
+} // namespace plinth
+
 #ifndef PLINTH_NO_NAMESPACE_SHORTCUT
 namespace pl = plinth; // create shortcut namespace
 #endif // PLINTH_NO_NAMESPACE_SHORTCUT
