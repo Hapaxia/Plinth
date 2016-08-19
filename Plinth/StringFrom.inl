@@ -34,9 +34,25 @@
 
 #include <sstream>
 #include <iomanip>
+#include "NumberBase.hpp"
+#include "Strings.hpp"
 
 namespace plinth
 {
+
+template <class T>
+std::string stringFrom(T* p)
+{
+	std::string unpadded{ upperCase(hexFromDec(reinterpret_cast<std::size_t>(p))) };
+	return padStringLeft(unpadded, unpadded.size() > 32 ? 64u : unpadded.size() > 16 ? 32u : unpadded.size() > 8 ? 16 : 8u, '0');
+}
+
+template <class T>
+std::string stringFrom(T* p, unsigned int minimumSize)
+{
+	std::string padded{ stringFrom(p) };
+	return padStringLeft(padded, padded.size() < minimumSize ? minimumSize : padded.size(), '0');
+}
 
 template <class T>
 std::string stringFrom(const std::vector<T> froms)

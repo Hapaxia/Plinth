@@ -43,6 +43,11 @@ std::string stringFrom(const std::string& = "");
 std::string stringFrom(const char*);
 
 template <class T>
+std::string stringFrom(T*);
+template <class T>
+std::string stringFrom(T*, unsigned int minimumSize);
+
+template <class T>
 std::string stringFrom(const std::vector<T>);
 
 template <class T>
