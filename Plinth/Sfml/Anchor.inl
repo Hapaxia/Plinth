@@ -29,6 +29,9 @@
 
 #include <SFML/System/Vector2.hpp>
 
+#ifndef PLINTH_SFML_ANCHOR_INL
+#define PLINTH_SFML_ANCHOR_INL
+
 #include "Anchor.hpp"
 
 namespace plinth
@@ -155,3 +158,4 @@ sf::Vector2f getBottomRight(const T& object)
 		} // namespace Global
 	} // namespace Anchor
 } // namespace plinth
+#endif // PLINTH_SFML_ANCHOR_INL

@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_STRINGS_INL
+#define PLINTH_STRINGS_INL
+
 #include "Strings.hpp"
 
 #include "Generic.hpp" // for min()
@@ -85,3 +88,4 @@ std::string formattedString(std::string format, const std::vector<T>& arguments)
 }
 
 } // namespace plinth
+#endif // PLINTH_STRINGS_INL

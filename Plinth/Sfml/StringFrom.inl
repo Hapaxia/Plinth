@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_SFML_STRINGFROM_INL
+#define PLINTH_SFML_STRINGFROM_INL
+
 #include "StringFrom.hpp"
 
 namespace plinth
@@ -57,3 +60,4 @@ std::string stringFrom(const sf::Vector3<T> from, const unsigned int decimalPrec
 }
 
 } // namespace plinth
+#endif // PLINTH_SFML_STRINGFROM_INL
