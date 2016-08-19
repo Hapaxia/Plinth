@@ -60,6 +60,11 @@ Vector2u vector2(const sf::Vector2u& vector);
 Vector3d vector3(const sf::Vector3f& vector);
 Vector3i vector3(const sf::Vector3i& vector);
 
+template <class T>
+sf::Vector2<T> vector2(const T& single) { return{ single, single }; }
+template <class T>
+sf::Vector3<T> vector3(const T& single) { return{ single, single, single }; }
+
 sf::Color colorFromValue(long int value);
 sf::Color colorFromRgb(const Color::Rgb& rgb);
 Color::Rgb rgbFromColor(const sf::Color& color);
