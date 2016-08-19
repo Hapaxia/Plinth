@@ -27,10 +27,6 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-/*
-#include <iostream> // for "DEV_" functions
-*/
-
 #ifndef PLINTH_TWEENPIECEWISE_INL
 #define PLINTH_TWEENPIECEWISE_INL
 
@@ -40,17 +36,6 @@ namespace plinth
 {
 	namespace Tween
 	{
-
-/*
-template <class positionT, class T, class interpolationAlphaT>
-void Piecewise<positionT, T, interpolationAlphaT>::DEV_outputNodes()
-{
-	for (auto& node : m_nodes)
-	{
-		std::cout << node.position << "       \t" << node.value << std::endl;
-	}
-}
-*/
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 Piecewise<positionT, T, interpolationAlphaT, positionCastT>::Piecewise()
