@@ -55,8 +55,6 @@ public:
 	template <class U>
 	Vector3(const Size3<U>& size);
 
-	void zero();
-
 	void setLength(long double length);
 
 	Size3<T> getSize3() const;
@@ -89,14 +87,6 @@ public:
 	Vector3& operator/=(const T& scalar);
 
 	friend void std::swap(Vector3& a, Vector3& b);
-	/*
-	friend void swap(Vector3& a, Vector3& b)
-	{
-		std::swap(a.x, b.x);
-		std::swap(a.y, b.y);
-		std::swap(a.z, b.z);
-	}
-	*/
 
 private:
 	const long double m_epsilon;
