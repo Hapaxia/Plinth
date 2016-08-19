@@ -32,6 +32,7 @@
 
 #include "Common.hpp"
 #include "Size2.hpp"
+#include "Lax.hpp"
 
 #include <algorithm> // for std::swap
 #include <initializer_list> // for std::initializer_list
@@ -104,6 +105,8 @@ using Vector2u = Vector2<unsigned int>;
 using Vector2i = Vector2<int>;
 using Vector2d = Vector2<double>;
 using Vector2f = Vector2<float>;
+using Vector2dl = Vector2<Lax<double>>;
+using Vector2fl = Vector2<Lax<float>>;
 
 } // namespace plinth
 #include "Vector2.inl"

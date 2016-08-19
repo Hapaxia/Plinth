@@ -41,6 +41,18 @@ namespace plinth
 {
 
 template <class T>
+std::string stringFrom(const Lax<T> lax)
+{
+	return stringFrom(static_cast<T>(lax));
+}
+
+template <class T>
+std::string stringFrom(const Lax<T> lax, unsigned int decimalPrecision)
+{
+	return stringFrom(static_cast<T>(lax), decimalPrecision);
+}
+
+template <class T>
 std::string stringFrom(T* p)
 {
 	std::string unpadded{ upperCase(hexFromDec(reinterpret_cast<std::size_t>(p))) };

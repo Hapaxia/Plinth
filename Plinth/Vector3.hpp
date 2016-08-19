@@ -32,6 +32,7 @@
 
 #include "Common.hpp"
 #include "Size3.hpp"
+#include "Lax.hpp"
 
 #include <algorithm> // for std::swap
 #include <initializer_list> // for std::initializer_list
@@ -107,6 +108,8 @@ using Vector3u = Vector3<unsigned int>;
 using Vector3i = Vector3<int>;
 using Vector3d = Vector3<double>;
 using Vector3f = Vector3<float>;
+using Vector3dl = Vector3<Lax<double>>;
+using Vector3fl = Vector3<Lax<float>>;
 
 } // namespace plinth
 #include "Vector3.inl"

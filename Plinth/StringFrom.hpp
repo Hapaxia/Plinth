@@ -31,6 +31,7 @@
 #define PLINTH_STRINGFROM_HPP
 
 #include "Common.hpp"
+#include "Lax.hpp"
 #include "Range.hpp"
 #include "RangeArea.hpp"
 #include "Vectors.hpp"
@@ -46,6 +47,11 @@ template <class T>
 std::string stringFrom(T*);
 template <class T>
 std::string stringFrom(T*, unsigned int minimumSize);
+
+template <class T>
+std::string stringFrom(Lax<T> lax);
+template <class T>
+std::string stringFrom(Lax<T> lax, unsigned int decimalPrecision);
 
 template <class T>
 std::string stringFrom(const std::vector<T>);
