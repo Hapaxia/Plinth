@@ -212,6 +212,30 @@ void Ease<T, alphaT, strengthT>::setRangeAndStrengths(const T start, const T end
 }
 
 template <typename T, typename alphaT, typename strengthT>
+T Ease<T, alphaT, strengthT>::getStart() const
+{
+	return m_start;
+}
+
+template <typename T, typename alphaT, typename strengthT>
+T Ease<T, alphaT, strengthT>::getEnd() const
+{
+	return m_end;
+}
+
+template <typename T, typename alphaT, typename strengthT>
+strengthT Ease<T, alphaT, strengthT>::getInStrength() const
+{
+	return m_inStrength;
+}
+
+template <typename T, typename alphaT, typename strengthT>
+strengthT Ease<T, alphaT, strengthT>::getOutStrength() const
+{
+	return m_outStrength;
+}
+
+template <typename T, typename alphaT, typename strengthT>
 T Ease<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha, const strengthT inStrength, const strengthT outStrength)
 {
 	setRangeAndStrengths(start, end, inStrength, outStrength);
@@ -362,6 +386,30 @@ void FastEase<T, alphaT, strengthT>::setRangeAndStrengths(const T start, const T
 	m_inStrength = inStrength;
 	m_outStrength = outStrength;
 	//updatePoints();
+}
+
+template <typename T, typename alphaT, typename strengthT>
+T FastEase<T, alphaT, strengthT>::getStart() const
+{
+	return m_start;
+}
+
+template <typename T, typename alphaT, typename strengthT>
+T FastEase<T, alphaT, strengthT>::getEnd() const
+{
+	return m_end;
+}
+
+template <typename T, typename alphaT, typename strengthT>
+strengthT FastEase<T, alphaT, strengthT>::getInStrength() const
+{
+	return m_inStrength;
+}
+
+template <typename T, typename alphaT, typename strengthT>
+strengthT FastEase<T, alphaT, strengthT>::getOutStrength() const
+{
+	return m_outStrength;
 }
 
 /*
