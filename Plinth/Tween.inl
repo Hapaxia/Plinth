@@ -124,7 +124,7 @@ T quickEase(const T& start, const T& end, const alphaT& alpha)
 
 template <typename T, typename alphaT, typename amountT>
 // Eases Tween using bezier (creates and destroys a bezier object on each call). All types must be castable to double
-T slowEase(const T start, const T end, const alphaT alpha, const amountT in, const amountT out)
+T slowEase(const T& start, const T& end, const alphaT& alpha, const amountT& in, const amountT& out)
 {
 	Bezier<double> bezier;
 	bezier.setPoint(0, { 0.0, static_cast<double>(start) });
