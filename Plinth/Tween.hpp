@@ -37,13 +37,15 @@
 #include "Common.hpp"
 #include <math.h>
 #include "Bezier.hpp"
-#include "TweenPiecewise.hpp"
 #include "TweenTrack.hpp"
 
 namespace plinth
 {
 	namespace Tween
 	{
+
+template <class positionT, class T, class interpolationAlphaT = double, class positionCastT = double>
+class Piecewise;
 
 template <typename T, typename alphaT>
 // Linear Tween (interpolation) of two values using a given "alpha" value of the "blend amount"
@@ -174,7 +176,8 @@ private:
 
 	} // namespace Tween
 } // namespace plinth
-
 #include "Tween.inl"
+
+#include "TweenPiecewise.hpp"
 
 #endif // PLINTH_TWEEN_HPP
