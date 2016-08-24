@@ -181,12 +181,9 @@ float crossProductPoints(const sf::Vector2f& a, const sf::Vector2f& b)
 	return{ a.x * b.y - b.x * a.y };
 }
 
-bool CCW(const std::vector<sf::Vector2f>& points)
+inline bool CCW(const sf::Vector2f& point1, const sf::Vector2f& point2, const sf::Vector2f& point3)
 {
-	if (points.size() != 3)
-		return false;
-
-	return (points[2].y - points[0].y) * (points[1].x - points[0].x) > (points[1].y - points[0].y) * (points[2].x - points[0].x);
+	return (point3.y - point1.y) * (point2.x - point1.x) > (point2.y - point1.y) * (point3.x - point1.x);
 }
 
 // vector of (2) lines. line is a vector of (2) vector2fs (the points of the line).
@@ -198,10 +195,10 @@ bool doLinesIntersect(const std::vector<std::vector<sf::Vector2f>>& lines)
 	if ((lines[0].size() != 2) || (lines[1].size() != 2))
 		return false;
 
-	return	(	CCW({ lines[0][0], lines[1][0], lines[1][1] }) !=
-				CCW({ lines[0][1], lines[1][0], lines[1][1] })) &&
-			(	CCW({ lines[0][0], lines[0][1], lines[1][0] }) !=
-				CCW({ lines[0][0], lines[0][1], lines[1][1] }));
+	return	(	CCW(lines[0][0], lines[1][0], lines[1][1]) !=
+				CCW(lines[0][1], lines[1][0], lines[1][1])) &&
+			(	CCW(lines[0][0], lines[0][1], lines[1][0]) !=
+				CCW(lines[0][0], lines[0][1], lines[1][1]));
 }
 
 bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygonVertices)

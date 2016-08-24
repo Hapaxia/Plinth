@@ -78,7 +78,7 @@ float dotProduct(const sf::Vector2f& a, const sf::Vector2f& b);
 sf::Vector3f crossProduct(const sf::Vector3f& a, const sf::Vector3f& b);
 float crossProductPoints(const sf::Vector2f& a, const sf::Vector2f& b);
 
-bool CCW(const std::vector<sf::Vector2f>& points); // "counter clock-wise" based on vertical axis not being flipped (SFML's is flipped) - used internally by doLinesIntersect
+bool CCW(const sf::Vector2f& point1, const sf::Vector2f& point2, const sf::Vector2f& point3); // "counter clock-wise" based on vertical axis not being flipped (SFML's is flipped) - used internally by doLinesIntersect
 bool doLinesIntersect(const std::vector<std::vector<sf::Vector2f>>& lines);
 bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygonVertices); // creates its own bounding box
 bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygonVertices, const sf::FloatRect& boundingBox);
