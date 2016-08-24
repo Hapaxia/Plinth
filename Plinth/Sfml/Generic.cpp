@@ -234,6 +234,29 @@ bool doClosedPolylinesIntersect(const std::vector<sf::Vector2f>& a, const std::v
 	return false;
 }
 
+bool doTransformedRectsIntersect(const sf::FloatRect& rect1, const sf::Transform& transform1, const sf::FloatRect& rect2, const sf::Transform& transform2)
+{
+	if (!transform1.transformRect(rect1).intersects(transform2.transformRect(rect2)))
+		return false;
+
+	const sf::Vector2f rect1bottomRight{ rect1.left + rect1.width, rect1.top + rect1.height };
+	const sf::Vector2f rect2bottomRight{ rect2.left + rect2.width, rect2.top + rect2.height };
+
+	return doClosedPolylinesIntersect(
+		{
+			transform1.transformPoint({ rect1.left, rect1.top }),
+			transform1.transformPoint({ rect1bottomRight.x, rect1.top }),
+			transform1.transformPoint(rect1bottomRight),
+			transform1.transformPoint({ rect1.left, rect1bottomRight.y })
+		},
+		{
+			transform2.transformPoint({ rect2.left, rect2.top }),
+			transform2.transformPoint({ rect2bottomRight.x, rect2.top }),
+			transform2.transformPoint(rect2bottomRight),
+			transform2.transformPoint({ rect2.left, rect2bottomRight.y })
+		});
+}
+
 sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices)
 {
 	sf::FloatRect box;

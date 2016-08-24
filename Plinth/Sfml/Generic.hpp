@@ -36,6 +36,7 @@
 #include <SFML/System/Vector3.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include "../Generic.hpp"
 #include "../Vectors.hpp"
 #include "../Color.hpp"
@@ -83,6 +84,8 @@ bool doLinesIntersect(const std::vector<std::vector<sf::Vector2f>>& lines);
 bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygonVertices); // creates its own bounding box
 bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygonVertices, const sf::FloatRect& boundingBox);
 bool doClosedPolylinesIntersect(const std::vector<sf::Vector2f>& a, const std::vector<sf::Vector2f>& b);
+
+bool doTransformedRectsIntersect(const sf::FloatRect& rect1, const sf::Transform& transform1, const sf::FloatRect& rect2, const sf::Transform& transform2); // note that the rects provided should not be pre-transformed
 
 // returns a sf::FloatRect that is the bounding box of all of the provided vertices (vector of sf::Vector2f)
 sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices);
