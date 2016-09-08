@@ -37,6 +37,7 @@
 #include <SFML/System/Vector3.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/System/Time.hpp>
 
@@ -65,6 +66,9 @@ std::string stringFrom(sf::Vector3<std::string>);
 std::string stringFrom(sf::Color, SfmlColorList colorList = SfmlColorList::Extended, bool separateAlpha = true);
 
 std::string stringFrom(sf::VideoMode, bool sizeOnly = false);
+
+std::string stringFrom(sf::View, bool withoutViewport = false);
+std::string stringFrom(sf::View, unsigned int decimalPrecision, bool withoutViewport = false);
 
 std::string stringFrom(sf::Keyboard::Key);
 

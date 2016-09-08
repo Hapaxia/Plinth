@@ -29,6 +29,8 @@
 
 #include "StringFrom.hpp"
 
+#include "Generic.hpp"
+
 namespace plinth
 {
 
@@ -228,6 +230,48 @@ std::string stringFrom(const sf::Color from, const SfmlColorList colorList, cons
 std::string stringFrom(const sf::VideoMode from, bool sizeOnly)
 {
 	return stringFrom(pl::Size2u{ from.width, from.height }) + (sizeOnly ? "" : " (" + stringFrom(from.bitsPerPixel) + ")");
+}
+
+std::string stringFrom(const sf::View view, bool withoutViewport)
+{
+	std::string s;
+
+	s += "[ " + stringFrom(view.getCenter()) + ", " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2());
+	if (view.getRotation() != 0.f)
+		s += " " + pl::stringFrom(view.getRotation());
+	s += " ]";
+
+	if (!withoutViewport)
+	{
+		s += "{ ";
+		s += stringFrom(pl::Vector2f{ view.getViewport().left, view.getViewport().top });
+		s += ", ";
+		s += stringFrom(pl::Size2<float>{ view.getViewport().width, view.getViewport().height });
+		s += " }";
+	}
+
+	return s;
+}
+
+std::string stringFrom(const sf::View view, unsigned int decimalPrecision, bool withoutViewport)
+{
+	std::string s;
+
+	s += "[ " + stringFrom(view.getCenter(), decimalPrecision) + " " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2(), decimalPrecision);
+	if (view.getRotation() != 0.f)
+		s += " (" + pl::stringFrom(view.getRotation(), decimalPrecision) + ")";
+	s += " ]";
+
+	if (!withoutViewport)
+	{
+		s += "{ ";
+		s += stringFrom(pl::Vector2f{ view.getViewport().left, view.getViewport().top }, decimalPrecision);
+		s += " ";
+		s += stringFrom(pl::Size2<float>{ view.getViewport().width, view.getViewport().height }, decimalPrecision);
+		s += " }";
+	}
+
+	return s;
 }
 
 std::string stringFrom(const sf::Keyboard::Key from)
