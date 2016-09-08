@@ -146,23 +146,23 @@ std::string stringFrom(const pl::Range<T> from, const unsigned int decimalPrecis
 template<class T>
 std::string stringFrom(const pl::Range<pl::Vector2<T>> from)
 {
-	return stringFrom(pl::Vector2<std::string>{stringFrom(pl::Range<T>{ from.min.x, from.max.x }), stringFrom(pl::Range<T>{ from.min.y, from.max.y })});
+	return stringFrom(pl::Vector2<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }), stringFrom(pl::Range<T>{ from.min.y, from.max.y })));
 }
 template<class T>
 std::string stringFrom(const pl::Range<pl::Vector2<T>> from, const unsigned int decimalPrecision)
 {
-	return stringFrom(pl::Vector2<std::string>{stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision)});
+	return stringFrom(pl::Vector2<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision)));
 }
 
 template<class T>
 std::string stringFrom(const pl::Range<pl::Vector3<T>> from)
 {
-	return stringFrom(pl::Vector3<std::string>{stringFrom(pl::Range<T>{ from.min.x, from.max.x }), stringFrom(pl::Range<T>{ from.min.y, from.max.y }), stringFrom(pl::Range<T>{ from.min.z, from.max.z })});
+	return stringFrom(pl::Vector3<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }), stringFrom(pl::Range<T>{ from.min.y, from.max.y }), stringFrom(pl::Range<T>{ from.min.z, from.max.z })));
 }
 template<class T>
 std::string stringFrom(const pl::Range<pl::Vector3<T>> from, const unsigned int decimalPrecision)
 {
-	return stringFrom(pl::Vector3<std::string>{stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.z, from.max.z }, decimalPrecision)});
+	return stringFrom(pl::Vector3<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.z, from.max.z }, decimalPrecision)));
 }
 
 template<class T>
