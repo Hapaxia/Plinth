@@ -1,6 +1,7 @@
 #ifndef PLINTH_SFML_ERRBLOCKER_HPP
 #define PLINTH_SFML_ERRBLOCKER_HPP
 
+#include "Common.hpp"
 #include <SFML/System/Err.hpp>
 #include <ios>
 
