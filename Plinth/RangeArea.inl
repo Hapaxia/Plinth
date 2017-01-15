@@ -262,6 +262,49 @@ bool RangeArea<T>::contains(const Vector2<T>& vector, RangeAreaBoundaries includ
 }
 
 template <class T>
+bool RangeArea<T>::contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftBottom) const
+{
+	rangeArea.order();
+	switch (includeRangeAreaBoundaries)
+	{
+	case RangeAreaBoundaries::None:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::None) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::None));
+	case RangeAreaBoundaries::Left:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Min) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::None));
+	case RangeAreaBoundaries::Bottom:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::None) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Min));
+	case RangeAreaBoundaries::Right:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Max) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::None));
+	case RangeAreaBoundaries::Top:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::None) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Max));
+	case RangeAreaBoundaries::LeftBottom:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Min) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Min));
+	case RangeAreaBoundaries::BottomRight:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Max) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Min));
+	case RangeAreaBoundaries::RightTop:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Max) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Max));
+	case RangeAreaBoundaries::LeftTop:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Min) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Max));
+	case RangeAreaBoundaries::LeftRight:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Both) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::None));
+	case RangeAreaBoundaries::BottomTop:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::None) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Both));
+	case RangeAreaBoundaries::LeftBottomRight:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Both) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Min));
+	case RangeAreaBoundaries::LeftBottomTop:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Min) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Both));
+	case RangeAreaBoundaries::LeftRightTop:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Both) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Max));
+	case RangeAreaBoundaries::BottomRightTop:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Max) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Both));
+	case RangeAreaBoundaries::All:
+		return (getHorizontalRange().contains(rangeArea.getHorizontalRange(), RangeBoundaries::Both) && getVerticalRange().contains(rangeArea.getVerticalRange(), RangeBoundaries::Both));
+	default:
+		return false;
+	}
+}
+
+template <class T>
 bool RangeArea<T>::overlaps(const RangeArea& rangeArea) const
 {
 	order();

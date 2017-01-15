@@ -53,6 +53,7 @@ struct Range
 	T getSize() const;
 	bool isClosed() const;
 	bool contains(const T& value, RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min) const;
+	bool contains(const Range& range, RangeBoundaries includeRangeBoundaries = RangeBoundaries::Min) const;
 	bool overlaps(const Range& range) const;
 	T clamp(const T& value) const;
 	T clampLoop(const T& value) const;

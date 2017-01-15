@@ -85,6 +85,26 @@ bool Range<T>::contains(const T& value, RangeBoundaries includeRangeBoundaries) 
 }
 
 template <class T>
+bool Range<T>::contains(const Range& range, RangeBoundaries includeRangeBoundaries) const
+{
+	order();
+	range.order();
+	switch (includeRangeBoundaries)
+	{
+	case RangeBoundaries::Both:
+		return ((range.min >= min) && (range.max <= max));
+	case RangeBoundaries::Min:
+		return ((range.min >= min) && (range.max < max));
+	case RangeBoundaries::Max:
+		return ((range.min > min) && (range.max <= max));
+	case RangeBoundaries::None:
+		return ((range.min > min) && (range.max < max));
+	default:
+		return false;
+	}
+}
+
+template <class T>
 bool Range<T>::overlaps(const Range& range) const
 {
 	return !(min > range.max || max < range.min);

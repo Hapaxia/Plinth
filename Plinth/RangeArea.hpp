@@ -88,6 +88,7 @@ struct RangeArea
 	bool isFlatHorizontally() const;
 	bool isFlatVertically() const;
 	bool contains(const Vector2<T>& vector, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftBottom) const;
+	bool contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftBottom) const;
 	bool overlaps(const RangeArea& rangeArea) const;
 	Range<T> getHorizontalRange() const;
 	Range<T> getVerticalRange() const;
