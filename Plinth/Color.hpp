@@ -36,7 +36,7 @@ namespace plinth
 {
 
 template <class T>
-struct Range;
+class Range;
 
 	namespace Color
 	{

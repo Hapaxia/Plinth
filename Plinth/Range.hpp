@@ -32,6 +32,8 @@
 
 #include "Common.hpp"
 
+#include <initializer_list> // for std::initializer_list
+
 namespace plinth
 {
 
@@ -44,10 +46,17 @@ enum class RangeBoundaries
 };
 
 template <class T>
-struct Range
+class Range
 {
+public:
 	mutable T min;
 	mutable T max;
+
+	Range();
+	Range(std::initializer_list<T> list);
+	Range(const T& newMin, const T& newMax);
+	template <class U>
+	Range(const Range<U>& range);
 	void order() const;
 	void set(const T& newMin, const T& newMax);
 	T getSize() const;
@@ -61,6 +70,17 @@ struct Range
 	Range& pull(const T& hook, bool keepSize = false);
 	template <class alphaT = double>
 	alphaT getAlpha(const T& value) const;
+
+	Range& operator=(const Range& other);
+	template <class U>
+	Range& operator=(const Range<U>& other);
+
+	Range operator+(const T& offset) const;
+	Range operator-(const T& offset) const;
+	Range& operator+=(const T& offset);
+	Range& operator-=(const T& offset);
+
+	friend void std::swap(Range& a, Range& b);
 };
 
 } // namespace plinth
