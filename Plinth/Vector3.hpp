@@ -34,7 +34,6 @@
 #include "Size3.hpp"
 #include "Lax.hpp"
 
-#include <algorithm> // for std::swap
 #include <initializer_list> // for std::initializer_list
 
 namespace plinth

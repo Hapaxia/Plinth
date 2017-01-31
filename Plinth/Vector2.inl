@@ -34,6 +34,7 @@
 
 #include "Math.hpp"
 #include <cmath>
+#include <algorithm> // for std::swap
 
 namespace plinth
 {
