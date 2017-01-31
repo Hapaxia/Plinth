@@ -269,7 +269,7 @@ Vector2<T>& Vector2<T>::operator/=(const T& scalar)
 template <class T>
 bool Vector2<T>::isNotZero() const
 {
-	return ((x > m_epsilon) || (x < -m_epsilon)) && ((y > m_epsilon) || (y < -m_epsilon));
+	return (x > m_epsilon) || (x < -m_epsilon) || (y > m_epsilon) || (y < -m_epsilon);
 }
 
 
