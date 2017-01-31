@@ -90,17 +90,17 @@ Vector2<T>::Vector2(const Size2<U>& size)
 }
 
 template <class T>
-void Vector2<T>::setPolar(const long double length, const long double angle)
+void Vector2<T>::setPolar(const long double length, const long double angleInDegrees)
 {
-	x = static_cast<T>(length * std::cos(radiansFromDegrees(angle)));
-	y = static_cast<T>(length * std::sin(radiansFromDegrees(angle)));
+	x = static_cast<T>(length * std::cos(radiansFromDegrees(angleInDegrees)));
+	y = static_cast<T>(length * std::sin(radiansFromDegrees(angleInDegrees)));
 }
 
 template <class T>
-void Vector2<T>::setPolarUsingRadians(const long double length, const long double angle)
+void Vector2<T>::setPolarUsingRadians(const long double length, const long double angleInRadians)
 {
-	x = static_cast<T>(length * std::cos(angle));
-	y = static_cast<T>(length * std::sin(angle));
+	x = static_cast<T>(length * std::cos(angleInRadians));
+	y = static_cast<T>(length * std::sin(angleInRadians));
 }
 
 template <class T>
@@ -118,7 +118,7 @@ void Vector2<T>::setAngle(const long double angleInDegrees)
 template <class T>
 void Vector2<T>::setAngleUsingRadians(const long double angleInRadians)
 {
-	setPolarUsingRadians(getLength<long double>(), angleInDegrees);
+	setPolarUsingRadians(getLength<long double>(), angleInRadians);
 }
 
 template <class T>
@@ -269,7 +269,7 @@ Vector2<T>& Vector2<T>::operator/=(const T& scalar)
 template <class T>
 bool Vector2<T>::isNotZero() const
 {
-	return (x > m_epsilon) && (x < -m_epsilon) && (y > m_epsilon) && (y < -m_epsilon);
+	return ((x > m_epsilon) || (x < -m_epsilon)) && ((y > m_epsilon) || (y < -m_epsilon));
 }
 
 
