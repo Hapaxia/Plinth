@@ -266,19 +266,23 @@ Hsv::Hsv(const Rgb& other)
 	double minimum{ alphaRange.clamp(min(min(other.r, other.g), other.b)) };
 	double range{ maximum - minimum };
 
-	if (other.r > other.g && other.r > other.b)
-		h = mod((other.g - other.b) / range, 6.0) / 6.0;
-	else if (other.g > other.r && other.r > other.b)
-		h = (((other.b - other.r) / range) + 2.0) / 6.0;
+	if (minimum == maximum) // i.e. range is zero
+	{
+		h = 0.0;
+		s = 0.0;
+	}
 	else
-		h = (((other.r - other.g) / range) + 4.0) / 6.0;
+	{
+		if (other.r > other.g && other.r > other.b)
+			h = mod((other.g - other.b) / range, 6.0) / 6.0;
+		else if (other.g > other.r && other.g > other.b)
+			h = (((other.b - other.r) / range) + 2.0) / 6.0;
+		else
+			h = (((other.r - other.g) / range) + 4.0) / 6.0;
+		s = range / maximum;
+	}
 
 	v = maximum;
-
-	if (minimum != maximum)
-		s = range / maximum;
-	else
-		s = 0.0;
 }
 
 	} // namespace Color
