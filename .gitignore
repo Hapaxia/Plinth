@@ -20,12 +20,17 @@ licence for header.txt
 extlibs/
 test/
 test_*/
+temp/
+temp_*/
+temp_storage/
 PropertySheets/
 
 # Build results
 [Dd]ebug/
+[Dd]ebug Static/
 [Dd]ebugPublic/
 [Rr]elease/
+[Rr]elease Static/
 [Rr]eleases/
 x64/
 x86/
