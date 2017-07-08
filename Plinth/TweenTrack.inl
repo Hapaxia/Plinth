@@ -166,7 +166,7 @@ void Track<positionT, T, interpolationAlphaT, positionCastT>::changeNodeInterpol
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 unsigned int Track<positionT, T, interpolationAlphaT, positionCastT>::getNodeCount() const
 {
-	return m_nodes.size();
+	return static_cast<unsigned int>(m_nodes.size());
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>

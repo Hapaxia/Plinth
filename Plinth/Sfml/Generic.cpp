@@ -213,7 +213,7 @@ bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vecto
 
 	bool isInside{ false };
 	sf::Vector2f pointOutsideBoundingBox{ boundingBox.left - 1, boundingBox.top - 1 };
-	for (unsigned int v{ 0 }, w{ polygonVertices.size() - 1 }; v < polygonVertices.size(); w = v++)
+	for (unsigned int v{ 0 }, w{ static_cast<unsigned int>(polygonVertices.size() - 1) }; v < polygonVertices.size(); w = v++)
 	{
 		if (doLinesIntersect({ { polygonVertices[v], polygonVertices[w] }, { pointOutsideBoundingBox, point } }))
 			isInside = !isInside;
@@ -223,9 +223,9 @@ bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vecto
 
 bool doClosedPolylinesIntersect(const std::vector<sf::Vector2f>& a, const std::vector<sf::Vector2f>& b)
 {
-	for (unsigned int l{ 0 }, m{ a.size() - 1 }; l < a.size(); m = l++)
+	for (unsigned int l{ 0 }, m{ static_cast<unsigned int>(a.size() - 1) }; l < a.size(); m = l++)
 	{
-		for (unsigned int v{ 0 }, w{ b.size() - 1 }; v < b.size(); w = v++)
+		for (unsigned int v{ 0 }, w{ static_cast<unsigned int>(b.size() - 1) }; v < b.size(); w = v++)
 		{
 			if (doLinesIntersect({ { a[l], a[m] }, { b[v], b[w] } }))
 				return true;

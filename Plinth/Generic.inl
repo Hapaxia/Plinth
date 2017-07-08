@@ -123,7 +123,7 @@ template <class IntegerType>
 IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isLittleEndian)
 {
 	IntegerType result = 0;
-	const unsigned int numberOfBytes{ bytes.size() };
+	const unsigned int numberOfBytes{ static_cast<unsigned int>(bytes.size()) };
 	if (isLittleEndian)
 	{
 		for (unsigned intint n{ numberOfBytes }; n > 0; --n)

@@ -63,7 +63,7 @@ template <class T>
 std::string stringFrom(T* p, unsigned int minimumSize)
 {
 	std::string padded{ stringFrom(p) };
-	return padStringLeft(padded, padded.size() < minimumSize ? minimumSize : padded.size(), '0');
+	return padStringLeft(padded, padded.size() < minimumSize ? minimumSize : static_cast<unsigned int>(padded.size()), '0');
 }
 
 template <class T>

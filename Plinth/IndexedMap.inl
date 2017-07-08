@@ -164,7 +164,7 @@ keyT IndexedMap<keyT, T>::getKey(const unsigned int index) const
 template <class keyT, class T>
 unsigned int IndexedMap<keyT, T>::getSize() const
 {
-	return m_elements.size();
+	return static_cast<unsigned int>(m_elements.size());
 }
 
 template <class keyT, class T>

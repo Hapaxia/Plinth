@@ -102,7 +102,7 @@ void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodeValu
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
 unsigned int Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getNodeCount() const
 {
-	return m_nodes.size();
+	return static_cast<unsigned int>(m_nodes.size());
 }
 
 	} // namespace Tween

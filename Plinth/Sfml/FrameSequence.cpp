@@ -112,7 +112,7 @@ void FrameSequence::clear()
 
 unsigned int FrameSequence::getNumberOfFrames() const
 {
-	return m_frames.size();
+	return static_cast<unsigned int>(m_frames.size());
 }
 
 FrameSequence::Frame FrameSequence::get(const unsigned int position) const
@@ -203,7 +203,7 @@ unsigned int FrameSequence::priv_getResolvedPosition(int position) const
 	if (m_frames.size() == 0)
 		return 0u;
 
-	const unsigned int size{ m_frames.size() };
+	const unsigned int size{ static_cast<unsigned int>(m_frames.size()) };
 	const unsigned int maxPosition{ size - 1 };
 
 	switch (m_loopType)
@@ -329,7 +329,7 @@ sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 	{
 	case LoopType::PingPong:
 	{
-		const unsigned int pingPongFrames{ m_frames.size() * 2 - 2 };
+		const unsigned int pingPongFrames{ static_cast<unsigned int>(m_frames.size() * 2 - 2) };
 		positionRepeats = std::floor(position / pingPongFrames);
 		position -= positionRepeats * pingPongFrames; // effectively modulo result (position % m_frames.size())
 

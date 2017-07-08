@@ -41,14 +41,14 @@ const std::string alphaNumericCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk
 
 inline void makeLowerCaseChar(char& input)
 {
-	const unsigned int stringPosition{ upperCaseCharacters.find(input) };
+	const std::size_t stringPosition{ upperCaseCharacters.find(input) };
 	if (stringPosition != std::string::npos)
 		input = lowerCaseCharacters[stringPosition];
 }
 
 inline void makeUpperCaseChar(char& input)
 {
-	const unsigned int stringPosition{ lowerCaseCharacters.find(input) };
+	const std::size_t stringPosition{ lowerCaseCharacters.find(input) };
 	if (stringPosition != std::string::npos)
 		input = upperCaseCharacters[stringPosition];
 }
