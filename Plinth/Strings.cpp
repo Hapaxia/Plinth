@@ -29,7 +29,7 @@
 
 #include "Strings.hpp"
 
-#include <algorithm> // for std::remove
+#include <algorithm> // for std::remove and std::remove_if
 
 namespace
 {
@@ -37,7 +37,8 @@ namespace
 const std::string presetWhitespaceCharacters{ " \f\n\r\t\v" };
 const std::string upperCaseCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
 const std::string lowerCaseCharacters{ "abcdefghijklmnopqrstuvwxyz" };
-const std::string alphaNumericCharacters{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" };
+const std::string digits{ "0123456789" };
+const std::string alphaNumericCharacters{ upperCaseCharacters + lowerCaseCharacters + digits };
 
 inline void makeLowerCaseChar(char& input)
 {
@@ -130,22 +131,19 @@ bool doesContainOnly(const std::string& testString, const std::string& validChar
 }
 
 // [does not alter any parameters]
-std::string padStringLeft(std::string string, const unsigned int width, const char character)
+std::string padStringLeft(const std::string& string, const unsigned int width, const char character)
 {
-	if (string.size() >= width)
-		return string;
-	for (unsigned int i{ 0 }; i < string.size() - width; ++i)
-		string = character + string;
+	std::string prefix{ "" };
+	for (unsigned int i{ static_cast<unsigned int>(string.size()) }; i < width; ++i)
+		prefix += character;
 
-	return string;
+	return prefix + string;
 }
 
 // [does not alter any parameters]
 std::string padStringRight(std::string string, const unsigned int width, const char character)
 {
-	if (string.size() >= width)
-		return string;
-	for (unsigned int i{ 0 }; i < string.size() - width; ++i)
+	for (unsigned int i{ static_cast<unsigned int>(string.size()) }; i < width; ++i)
 		string += character;
 
 	return string;
@@ -203,7 +201,7 @@ std::string password(const std::string& string, const char shieldChar)
 
 // [does not alter any parameters]
 // replace any character in string that exists in supplementary string with specific character.
-// e.g. replace 'a' with '-': Hapax -> H-p-x
+// e.g. replace 'a' with '-': Hapaxia -> H-p-xi-
 std::string replaceChars(std::string string, const std::string& charactersToReplace, const char characterToReplaceWith)
 {
 	for (auto& character : string)
@@ -232,7 +230,7 @@ std::string replaceChars(const std::string& string, const std::string& character
 
 // [does not alter any parameters]
 // remove all characters in string that matches the given character
-// e.g. remove 'a': Hapax -> Hpx
+// e.g. remove 'a': Hapaxia -> Hpxi
 std::string removeChars(std::string string, const char characterToRemove)
 {
 	string.erase(std::remove(string.begin(), string.end(), characterToRemove), string.end());
@@ -241,11 +239,10 @@ std::string removeChars(std::string string, const char characterToRemove)
 
 // [does not alter any parameters]
 // remove any characters in string that matches any characters in the supplementary string
-// e.g. remove "Hpx": Hapax -> aa
+// e.g. remove "Hpx": Hapaxia -> aaia
 std::string removeChars(std::string string, const std::string& charactersToRemove)
 {
-	for (auto& character : charactersToRemove)
-		string.erase(std::remove(string.begin(), string.end(), character), string.end());
+	string.erase(std::remove_if(string.begin(), string.end(), [&charactersToRemove](const char& c) { return (charactersToRemove.find(c) != std::string::npos); }), string.end());
 	return string;
 }
 

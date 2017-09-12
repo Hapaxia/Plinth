@@ -68,7 +68,7 @@ bool doesContainOnly(const std::string& testString, const std::string& validChar
 
 // [does not alter any parameters]
 // pad string with given character on the left
-std::string padStringLeft(std::string string, unsigned int width, char character = ' ');
+std::string padStringLeft(const std::string& string, unsigned int width, char character = ' ');
 
 // [does not alter any parameters]
 // pad string with given character on the right
