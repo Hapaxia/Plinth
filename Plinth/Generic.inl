@@ -108,7 +108,7 @@ IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* 
 	IntegerType result = 0;
 	if (isLittleEndian)
 	{
-		for (unsigned intint n{ numberOfBytes }; n > 0; --n)
+		for (unsigned int n{ numberOfBytes }; n > 0; --n)
 			result = (result << 8) + bytes[n - 1];
 	}
 	else
@@ -126,7 +126,7 @@ IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isL
 	const unsigned int numberOfBytes{ static_cast<unsigned int>(bytes.size()) };
 	if (isLittleEndian)
 	{
-		for (unsigned intint n{ numberOfBytes }; n > 0; --n)
+		for (unsigned int n{ numberOfBytes }; n > 0; --n)
 			result = (result << 8) + bytes[n - 1];
 	}
 	else
