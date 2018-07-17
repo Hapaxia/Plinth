@@ -262,7 +262,7 @@ bool RangeArea<T>::contains(const Vector2<T>& vector, RangeAreaBoundaries includ
 }
 
 template <class T>
-bool RangeArea<T>::contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftBottom) const
+bool RangeArea<T>::contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries) const
 {
 	rangeArea.order();
 	switch (includeRangeAreaBoundaries)

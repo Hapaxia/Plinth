@@ -52,7 +52,7 @@ void Track<T>::clear()
 template <class T>
 void Track<T>::addKey(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
-	Tween::Track<sf::Time, T, float, sf::Time>::Node node{ time, value, static_cast<double>(in), static_cast<double>(out) };
+	typename Tween::Track<sf::Time, T, float, sf::Time>::Node node{ time, value, static_cast<double>(in), static_cast<double>(out) };
 	if (inType == pl::Animation::InterpolationType::Step)
 		node.inType = pl::Tween::InterpolationType::Step;
 	if (outType == pl::Animation::InterpolationType::Step)

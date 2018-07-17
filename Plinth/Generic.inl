@@ -55,8 +55,8 @@ inline T max(const std::vector<T>& values)
 {
 	if (values.size() == 0)
 		return T();
-	std::vector<T>::const_iterator result = values.begin();
-	for (std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
+	typename std::vector<T>::const_iterator result = values.begin();
+	for (typename std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
 	{
 		if (*result < *it)
 			result = it;
@@ -70,8 +70,8 @@ inline T min(const std::vector<T>& values)
 {
 	if (values.size() == 0)
 		return T();
-	std::vector<T>::const_iterator result = values.begin();
-	for (std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
+	typename std::vector<T>::const_iterator result = values.begin();
+	for (typename std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
 	{
 		if (*it < *result)
 			result = it;
