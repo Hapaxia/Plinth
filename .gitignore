@@ -35,10 +35,12 @@ PropertySheets/
 
 # Build results
 [Dd]ebug/
-[Dd]ebugStatic/
+[Dd]ebug[Ss]tatic/
+[Dd]ebug [Ss]tatic/
 [Dd]ebugPublic/
 [Rr]elease/
-[Rr]eleaseStatic/
+[Rr]elease[Ss]tatic/
+[Rr]elease [Ss]tatic/
 [Rr]eleases/
 x64/
 x86/
