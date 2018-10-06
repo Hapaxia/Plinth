@@ -42,6 +42,7 @@ namespace plinth
 
 std::string stringFrom(const std::string& = "");
 std::string stringFrom(const char*);
+std::string stringFrom(bool);
 
 template <class T>
 std::string stringFrom(T*);
@@ -55,12 +56,13 @@ std::string stringFrom(Lax<T> lax, unsigned int decimalPrecision);
 
 template <class T>
 std::string stringFrom(const std::vector<T>);
+template <class T>
+std::string stringFrom(const std::vector<T>, const std::string& separator);
 
 template <class T>
 std::string stringFrom(const T&);
 template <class T>
 std::string stringFrom(const T&, unsigned int decimalPrecision);
-std::string stringFrom(bool);
 
 template<class T>
 std::string stringFrom(pl::Vector2<T>);

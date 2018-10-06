@@ -76,6 +76,20 @@ std::string stringFrom(const std::vector<T> froms)
 }
 
 template <class T>
+std::string stringFrom(const std::vector<T> froms, const std::string& separator)
+{
+	std::string to = "";
+	for (auto& begin{ froms.begin() }, end{ froms.end() }, it{ begin }; it != end; ++it)
+	{
+		to += stringFrom(from);
+		if (it + 1 == end)
+			continue;
+		to += separator;
+	}
+	return to;
+}
+
+template <class T>
 std::string stringFrom(const T& from)
 {
 	return std::to_string(from);
