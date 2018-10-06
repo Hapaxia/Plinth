@@ -61,7 +61,17 @@ std::string formattedString(std::string format, const std::vector<T>& arguments)
 
 			if (position != std::string::npos)
 			{
-				if (format.substr(position - 1, 2) != "%%")
+				if (position == 0)
+				{
+					if (format.size() > 1 && format.substr(0, 2) == "%%")
+						continue;
+					else
+					{
+						format.replace(position, 2, argumentString);
+						instanceLoop = false;
+					}
+				}
+				else if (format.substr(position - 1, 2) != "%%")
 				{
 					format.replace(position, 2, argumentString);
 					instanceLoop = false;
