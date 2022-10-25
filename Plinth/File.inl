@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -36,7 +36,7 @@ namespace plinth
 {
 
 template <class sizeT>
-void saveBinaryFile(const char* data, const std::string& filename, sizeT size)
+inline void saveBinaryFile(const char* data, const std::string& filename, sizeT size)
 {
 	std::ofstream file(filename, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (file.is_open())
@@ -47,12 +47,96 @@ void saveBinaryFile(const char* data, const std::string& filename, sizeT size)
 }
 
 template <class sizeT>
-void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, sizeT size)
+inline void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, sizeT size)
 {
 	std::ofstream file(filename, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (file.is_open())
 	{
 		file.write(data.get(), static_cast<std::streampos>(size));
+		file.close();
+	}
+}
+
+inline FileSize getFileSize(const std::string& filename)
+{
+	FileSize size;
+	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
+	if (!file.is_open())
+		return 0u;
+	else
+	{
+		size = static_cast<FileSize>(file.tellg());
+		file.close();
+		return size;
+	}
+}
+
+inline void loadTextFile(std::vector<std::string>& lines, const std::string& filename, const bool stripTrailingNewlines)
+{
+	std::ifstream file(filename, std::ifstream::in);
+	lines.clear();
+	std::string line;
+	if (!file.is_open())
+		return;
+	else
+	{
+		while (std::getline(file, line))
+		{
+			if (stripTrailingNewlines && !line.empty() && line[line.length() - 1] == '\n')
+				line.erase(line.length() - 1);
+			lines.push_back(line);
+		}
+		file.close();
+	}
+}
+
+inline FileSize loadBinaryFile(char* data, const std::string& filename)
+{
+	FileSize size;
+	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
+	if (!file.is_open())
+		return 0u;
+	else
+	{
+		size = static_cast<FileSize>(file.tellg());
+		data = new char[size];
+		file.seekg(0, std::ios::beg);
+		file.read(data, size);
+		file.close();
+		return size;
+	}
+}
+
+inline FileSize loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filename)
+{
+	FileSize size;
+	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
+	if (!file.is_open())
+		return 0u;
+	else
+	{
+		size = static_cast<FileSize>(file.tellg());
+		data.reset(new char[size]);
+		file.seekg(0, std::ios::beg);
+		file.read(data.get(), size);
+		file.close();
+		return size;
+	}
+}
+
+inline void saveTextFile(const std::vector<std::string>& lines, const std::string& filename, const bool addNewlines)
+{
+	std::ofstream file(filename, std::ofstream::out);
+	if (!file.is_open())
+		return;
+	else
+	{
+		for (auto& line : lines)
+		{
+			file << line;
+			if (addNewlines)
+				file << "\n";
+		}
 		file.close();
 	}
 }

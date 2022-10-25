@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2016 M.J.Silk
+// Copyright(c) 2016-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -38,21 +38,21 @@ namespace plinth
 {
 
 template <class T>
-Lax<T>::Lax()
+inline Lax<T>::Lax()
 	: m_epsilon(defaultEpsilon)
 	, m_value(static_cast<T>(0))
 {
 }
 
 template <class T>
-Lax<T>::Lax(const T value)
+inline Lax<T>::Lax(const T value)
 	: Lax()
 {
 	m_value = value;
 }
 
 template <class T>
-Lax<T>::Lax(std::initializer_list<T> list)
+inline Lax<T>::Lax(std::initializer_list<T> list)
 	: Lax()
 {
 	if (list.size() > 0)
@@ -65,7 +65,7 @@ Lax<T>::Lax(std::initializer_list<T> list)
 
 template <class T>
 template <class U>
-Lax<T>::Lax(const U value)
+inline Lax<T>::Lax(const U value)
 	: Lax()
 {
 	m_value = static_cast<T>(value);
@@ -73,14 +73,14 @@ Lax<T>::Lax(const U value)
 
 template <class T>
 template <class U>
-void Lax<T>::setEpsilon(const U epsilon)
+inline void Lax<T>::setEpsilon(const U epsilon)
 {
 	m_epsilon = static_cast<long double>(epsilon);
 }
 
 template <class T>
 template <class U>
-U Lax<T>::getEpsilon() const
+inline U Lax<T>::getEpsilon() const
 {
 	return static_cast<U>(m_epsilon);
 }
@@ -88,33 +88,33 @@ U Lax<T>::getEpsilon() const
 
 
 template <class T>
-bool Lax<T>::operator==(Lax other) const
+inline bool Lax<T>::operator==(Lax other) const
 {
 	return *this == other.m_value;
 }
 
 template <class T>
 template <class U>
-bool Lax<T>::operator==(U value) const
+inline bool Lax<T>::operator==(U value) const
 {
 	return m_value <= static_cast<long double>(value) + m_epsilon && m_value >= static_cast<long double>(value) - m_epsilon;
 }
 
 template <class T>
-bool Lax<T>::operator!=(Lax other) const
+inline bool Lax<T>::operator!=(Lax other) const
 {
 	return *this != other.m_value;
 }
 
 template <class T>
 template <class U>
-bool Lax<T>::operator!=(U value) const
+inline bool Lax<T>::operator!=(U value) const
 {
 	return m_value > static_cast<long double>(value) + m_epsilon || m_value < static_cast<long double>(value) - m_epsilon;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator=(Lax other)
+inline Lax<T>& Lax<T>::operator=(Lax other)
 {
 	m_value = other.m_value;
 	m_epsilon = other.m_epsilon;
@@ -123,28 +123,28 @@ Lax<T>& Lax<T>::operator=(Lax other)
 
 template <class T>
 template <class U>
-Lax<T>& Lax<T>::operator=(U value)
+inline Lax<T>& Lax<T>::operator=(U value)
 {
 	m_value = static_cast<T>(value);
 	return *this;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator++()
+inline Lax<T>& Lax<T>::operator++()
 {
 	++m_value;
 	return *this;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator--()
+inline Lax<T>& Lax<T>::operator--()
 {
 	--m_value;
 	return *this;
 }
 
 template <class T>
-Lax<T> Lax<T>::operator++(int)
+inline Lax<T> Lax<T>::operator++(int)
 {
 	Lax<T> output = *this;
 	++m_value;
@@ -152,7 +152,7 @@ Lax<T> Lax<T>::operator++(int)
 }
 
 template <class T>
-Lax<T> Lax<T>::operator--(int)
+inline Lax<T> Lax<T>::operator--(int)
 {
 	Lax<T> output = *this;
 	--m_value;
@@ -160,65 +160,65 @@ Lax<T> Lax<T>::operator--(int)
 }
 
 template <class T>
-bool Lax<T>::operator<(Lax other) const
+inline bool Lax<T>::operator<(Lax other) const
 {
 	return m_value < other.m_value - m_epsilon;
 }
 
 template <class T>
-bool Lax<T>::operator>(Lax other) const
+inline bool Lax<T>::operator>(Lax other) const
 {
 	return m_value > other.m_value + m_epsilon;
 }
 
 template <class T>
-bool Lax<T>::operator<=(Lax other) const
+inline bool Lax<T>::operator<=(Lax other) const
 {
 	return m_value < other.m_value + m_epsilon;
 }
 
 template <class T>
-bool Lax<T>::operator>=(Lax other) const
+inline bool Lax<T>::operator>=(Lax other) const
 {
 	return m_value > other.m_value - m_epsilon;
 }
 
 template <class T>
 template <class U>
-bool Lax<T>::operator<(U value) const
+inline bool Lax<T>::operator<(U value) const
 {
 	return m_value < static_cast<long double>(value) - m_epsilon;
 }
 
 template <class T>
 template <class U>
-bool Lax<T>::operator>(U value) const
+inline bool Lax<T>::operator>(U value) const
 {
 	return m_value > static_cast<long double>(value) + m_epsilon;
 }
 
 template <class T>
 template <class U>
-bool Lax<T>::operator<=(U value) const
+inline bool Lax<T>::operator<=(U value) const
 {
 	return m_value < static_cast<long double>(value) + m_epsilon;
 }
 
 template <class T>
 template <class U>
-bool Lax<T>::operator>=(U value) const
+inline bool Lax<T>::operator>=(U value) const
 {
 	return m_value > static_cast<long double>(value) - m_epsilon;
 }
 
 template <class T>
-Lax<T> Lax<T>::operator+() const
+inline Lax<T> Lax<T>::operator+() const
 {
 	return *this;
 }
 
 template <class T>
-Lax<T> Lax<T>::operator-() const
+inline Lax<T> Lax<T>::operator-() const
 {
 	Lax<T> lax = *this;
 	lax.m_value = -lax.m_value;
@@ -226,7 +226,7 @@ Lax<T> Lax<T>::operator-() const
 }
 
 template <class T>
-Lax<T> Lax<T>::operator+(Lax other) const
+inline Lax<T> Lax<T>::operator+(Lax other) const
 {
 	Lax<T> lax = *this;
 	lax.m_value += other.m_value;
@@ -234,7 +234,7 @@ Lax<T> Lax<T>::operator+(Lax other) const
 }
 
 template <class T>
-Lax<T> Lax<T>::operator-(Lax other) const
+inline Lax<T> Lax<T>::operator-(Lax other) const
 {
 	Lax<T> lax = *this;
 	lax.m_value -= other.m_value;
@@ -242,7 +242,7 @@ Lax<T> Lax<T>::operator-(Lax other) const
 }
 
 template <class T>
-Lax<T> Lax<T>::operator*(Lax other) const
+inline Lax<T> Lax<T>::operator*(Lax other) const
 {
 	Lax<T> lax = *this;
 	lax.m_value *= other.m_value;
@@ -250,7 +250,7 @@ Lax<T> Lax<T>::operator*(Lax other) const
 }
 
 template <class T>
-Lax<T> Lax<T>::operator/(Lax other) const
+inline Lax<T> Lax<T>::operator/(Lax other) const
 {
 	Lax<T> lax = *this;
 	lax.m_value /= other.m_value;
@@ -258,7 +258,7 @@ Lax<T> Lax<T>::operator/(Lax other) const
 }
 
 template <class T>
-Lax<T> Lax<T>::operator%(Lax other) const
+inline Lax<T> Lax<T>::operator%(Lax other) const
 {
 	Lax<T> lax = *this;
 	lax.m_value = mod(lax.m_value, other.m_value);
@@ -267,7 +267,7 @@ Lax<T> Lax<T>::operator%(Lax other) const
 
 template <class T>
 template <class U>
-Lax<T> Lax<T>::operator+(U value) const
+inline Lax<T> Lax<T>::operator+(U value) const
 {
 	Lax<T> lax = *this;
 	lax.m_value += static_cast<T>(value);
@@ -276,7 +276,7 @@ Lax<T> Lax<T>::operator+(U value) const
 
 template <class T>
 template <class U>
-Lax<T> Lax<T>::operator-(U value) const
+inline Lax<T> Lax<T>::operator-(U value) const
 {
 	Lax<T> lax = *this;
 	lax.m_value -= static_cast<T>(value);
@@ -285,7 +285,7 @@ Lax<T> Lax<T>::operator-(U value) const
 
 template <class T>
 template <class U>
-Lax<T> Lax<T>::operator*(U value) const
+inline Lax<T> Lax<T>::operator*(U value) const
 {
 	Lax<T> lax = *this;
 	lax.m_value *= static_cast<T>(value);
@@ -294,7 +294,7 @@ Lax<T> Lax<T>::operator*(U value) const
 
 template <class T>
 template <class U>
-Lax<T> Lax<T>::operator/(U value) const
+inline Lax<T> Lax<T>::operator/(U value) const
 {
 	Lax<T> lax = *this;
 	lax.m_value /= static_cast<T>(value);
@@ -303,7 +303,7 @@ Lax<T> Lax<T>::operator/(U value) const
 
 template <class T>
 template <class U>
-Lax<T> Lax<T>::operator%(U value) const
+inline Lax<T> Lax<T>::operator%(U value) const
 {
 	Lax<T> lax = *this;
 	lax.m_value = mod(lax.m_value, static_cast<T>(value));
@@ -311,43 +311,43 @@ Lax<T> Lax<T>::operator%(U value) const
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator+=(Lax other)
+inline Lax<T>& Lax<T>::operator+=(Lax other)
 {
 	m_value += other.m_value;
 	return *this;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator-=(Lax other)
+inline Lax<T>& Lax<T>::operator-=(Lax other)
 {
 	m_value -= other.m_value;
 	return *this;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator*=(Lax other)
+inline Lax<T>& Lax<T>::operator*=(Lax other)
 {
 	m_value *= other.m_value;
 	return *this;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator/=(Lax other)
+inline Lax<T>& Lax<T>::operator/=(Lax other)
 {
 	m_value /= other.m_value;
 	return *this;
 }
 
 template <class T>
-Lax<T>& Lax<T>::operator%=(Lax other)
+inline Lax<T>& Lax<T>::operator%=(Lax other)
 {
-	m_value = mod(lax.m_value, other.m_value);
+	m_value = mod(m_value, other.m_value);
 	return *this;
 }
 
 template <class T>
 template <class U>
-Lax<T>& Lax<T>::operator+=(U value)
+inline Lax<T>& Lax<T>::operator+=(U value)
 {
 	m_value += static_cast<T>(value);
 	return *this;
@@ -355,7 +355,7 @@ Lax<T>& Lax<T>::operator+=(U value)
 
 template <class T>
 template <class U>
-Lax<T>& Lax<T>::operator-=(U value)
+inline Lax<T>& Lax<T>::operator-=(U value)
 {
 	m_value -= static_cast<T>(value);
 	return *this;
@@ -363,7 +363,7 @@ Lax<T>& Lax<T>::operator-=(U value)
 
 template <class T>
 template <class U>
-Lax<T>& Lax<T>::operator*=(U value)
+inline Lax<T>& Lax<T>::operator*=(U value)
 {
 	m_value *= static_cast<T>(value);
 	return *this;
@@ -371,7 +371,7 @@ Lax<T>& Lax<T>::operator*=(U value)
 
 template <class T>
 template <class U>
-Lax<T>& Lax<T>::operator/=(U value)
+inline Lax<T>& Lax<T>::operator/=(U value)
 {
 	m_value /= static_cast<T>(value);
 	return *this;
@@ -379,15 +379,15 @@ Lax<T>& Lax<T>::operator/=(U value)
 
 template <class T>
 template <class U>
-Lax<T>& Lax<T>::operator%=(U value)
+inline Lax<T>& Lax<T>::operator%=(U value)
 {
-	m_value = mod(lax.m_value, static_cast<T>(value));
+	m_value = mod(m_value, static_cast<T>(value));
 	return *this;
 }
 
 template <class T>
 template <class U>
-Lax<T>::operator U() const
+inline Lax<T>::operator U() const
 {
 	return static_cast<U>(m_value);
 }
@@ -395,61 +395,61 @@ Lax<T>::operator U() const
 
 
 template <class T, class U>
-U operator+(U left, Lax<T> right)
+inline U operator+(U left, Lax<T> right)
 {
 	return left + static_cast<U>(right);
 }
 
 template <class T, class U>
-U operator-(U left, Lax<T> right)
+inline U operator-(U left, Lax<T> right)
 {
 	return left - static_cast<U>(right);
 }
 
 template <class T, class U>
-U operator*(U left, Lax<T> right)
+inline U operator*(U left, Lax<T> right)
 {
 	return left * static_cast<U>(right);
 }
 
 template <class T, class U>
-U operator/(U left, Lax<T> right)
+inline U operator/(U left, Lax<T> right)
 {
 	return left / static_cast<U>(right);
 }
 
 template <class T, class U>
-U operator%(U left, Lax<T> right)
+inline U operator%(U left, Lax<T> right)
 {
 	return mod(left, static_cast<U>(right));
 }
 
 template <class T, class U>
-U& operator+=(U& left, Lax<T> right)
+inline U& operator+=(U& left, Lax<T> right)
 {
 	return left += static_cast<U>(right);
 }
 
 template <class T, class U>
-U& operator-=(U& left, Lax<T> right)
+inline U& operator-=(U& left, Lax<T> right)
 {
 	return left -= static_cast<U>(right);
 }
 
 template <class T, class U>
-U& operator*=(U& left, Lax<T> right)
+inline U& operator*=(U& left, Lax<T> right)
 {
 	return left *= static_cast<U>(right);
 }
 
 template <class T, class U>
-U& operator/=(U& left, Lax<T> right)
+inline U& operator/=(U& left, Lax<T> right)
 {
 	return left /= static_cast<U>(right);
 }
 
 template <class T, class U>
-U& operator%=(U& left, Lax<T> right)
+inline U& operator%=(U& left, Lax<T> right)
 {
 	return left = mod(left, static_cast<U>(right));
 }

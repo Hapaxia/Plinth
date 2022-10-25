@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -173,17 +173,18 @@ inline Rgb& Rgb::operator*=(const Rgb& other)
 template <class T>
 inline Rgb& Rgb::operator*=(const T& scalar)
 {
-	*this = *this * other;
+	*this = *this * scalar;
 	return *this;
 }
 
 template <class T>
 inline Rgb& Rgb::operator/=(const T& scalar)
 {
-	*this = *this / other;
+	*this = *this / scalar;
 	return *this;
 }
 
 	} // namespace Color
 } // namespace plinth
+#include "Color.inl"
 #endif // PLINTH_COLOR_HPP

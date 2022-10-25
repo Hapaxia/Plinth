@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -32,25 +32,45 @@
 
 #include "AnimationTracks.hpp"
 
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Vector3.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Color.hpp>
+
+namespace
+{
+
+template <class T, class interpolationAlphaT>
+inline void forceStepInterpolationIfSpecified(typename pl::Tween::Track<sf::Time, T, interpolationAlphaT, sf::Time>::Node& node, const pl::Animation::InterpolationType& inType, const pl::Animation::InterpolationType& outType)
+{
+	if (inType == pl::Animation::InterpolationType::Step)
+		node.inType = pl::Tween::InterpolationType::Step;
+	if (outType == pl::Animation::InterpolationType::Step)
+		node.outType = pl::Tween::InterpolationType::Step;
+}
+
+} // namespace
+
 namespace plinth
 {
 	namespace Animation
 	{
 
 template <class T>
-Track<T>::Track()
+inline Track<T>::Track()
 	: m_track()
 {
 }
 
 template <class T>
-void Track<T>::clear()
+inline void Track<T>::clear()
 {
 	m_track.clear();
 }
 
 template <class T>
-void Track<T>::addKey(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void Track<T>::addKey(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	typename Tween::Track<sf::Time, T, float, sf::Time>::Node node{ time, value, static_cast<double>(in), static_cast<double>(out) };
 	if (inType == pl::Animation::InterpolationType::Step)
@@ -61,88 +81,88 @@ void Track<T>::addKey(const sf::Time time, const T& value, const float in, const
 }
 
 template <class T>
-void Track<T>::addKey(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void Track<T>::addKey(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKey(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-T Track<T>::get(const sf::Time time) const
+inline T Track<T>::get(const sf::Time time) const
 {
 	return m_track.getValue(time);
 }
 
 template <class T>
-T Track<T>::get(const float timeInSeconds) const
+inline T Track<T>::get(const float timeInSeconds) const
 {
 	return get(sf::seconds(timeInSeconds));
 }
 
 template <class T>
-TrackVector2<T>::TrackVector2()
+inline TrackVector2<T>::TrackVector2()
 	: x()
 	, y()
 {
 }
 
 template <class T>
-void TrackVector2<T>::clear()
+inline void TrackVector2<T>::clear()
 {
 	x.clear();
 	y.clear();
 }
 
 template <class T>
-void TrackVector2<T>::addKeyX(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector2<T>::addKeyX(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	x.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector2<T>::addKeyY(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector2<T>::addKeyY(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	y.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector2<T>::addKey(const sf::Time time, const sf::Vector2<T>& vector2, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector2<T>::addKey(const sf::Time time, const sf::Vector2<T>& vector2, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyX(time, vector2.x, in, out, inType, outType);
 	addKeyY(time, vector2.y, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector2<T>::addKeyX(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector2<T>::addKeyX(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyX(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector2<T>::addKeyY(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector2<T>::addKeyY(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyY(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector2<T>::addKey(const float timeInSeconds, const sf::Vector2<T>& vector2, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector2<T>::addKey(const float timeInSeconds, const sf::Vector2<T>& vector2, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKey(sf::seconds(timeInSeconds), vector2, in, out, inType, outType);
 }
 
 template <class T>
-sf::Vector2<T> TrackVector2<T>::get(const sf::Time time) const
+inline sf::Vector2<T> TrackVector2<T>::get(const sf::Time time) const
 {
 	return{ x.get(time), y.get(time) };
 }
 
 template <class T>
-sf::Vector2<T> TrackVector2<T>::get(const float timeInSeconds) const
+inline sf::Vector2<T> TrackVector2<T>::get(const float timeInSeconds) const
 {
 	return get(sf::seconds(timeInSeconds));
 }
 
 template <class T>
-TrackVector3<T>::TrackVector3()
+inline TrackVector3<T>::TrackVector3()
 	: x()
 	, y()
 	, z()
@@ -150,7 +170,7 @@ TrackVector3<T>::TrackVector3()
 }
 
 template <class T>
-void TrackVector3<T>::clear()
+inline void TrackVector3<T>::clear()
 {
 	x.clear();
 	y.clear();
@@ -158,25 +178,25 @@ void TrackVector3<T>::clear()
 }
 
 template <class T>
-void TrackVector3<T>::addKeyX(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKeyX(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	x.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector3<T>::addKeyY(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKeyY(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	y.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector3<T>::addKeyZ(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKeyZ(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	z.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector3<T>::addKey(const sf::Time time, const sf::Vector3<T>& vector3, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKey(const sf::Time time, const sf::Vector3<T>& vector3, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyX(time, vector3.x, in, out, inType, outType);
 	addKeyY(time, vector3.y, in, out, inType, outType);
@@ -184,37 +204,37 @@ void TrackVector3<T>::addKey(const sf::Time time, const sf::Vector3<T>& vector3,
 }
 
 template <class T>
-void TrackVector3<T>::addKeyX(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKeyX(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyX(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector3<T>::addKeyY(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKeyY(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyY(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector3<T>::addKeyZ(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKeyZ(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyZ(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackVector3<T>::addKey(const float timeInSeconds, const sf::Vector3<T>& vector3, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackVector3<T>::addKey(const float timeInSeconds, const sf::Vector3<T>& vector3, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKey(sf::seconds(timeInSeconds), vector3, in, out, inType, outType);
 }
 
 template <class T>
-sf::Vector3<T> TrackVector3<T>::get(const sf::Time time) const
+inline sf::Vector3<T> TrackVector3<T>::get(const sf::Time time) const
 {
 	return{ x.get(time), y.get(time), z.get(time) };
 }
 
 template <class T>
-sf::Vector3<T> TrackVector3<T>::get(const float timeInSeconds) const
+inline sf::Vector3<T> TrackVector3<T>::get(const float timeInSeconds) const
 {
 	return get(sf::seconds(timeInSeconds));
 }
@@ -222,7 +242,7 @@ sf::Vector3<T> TrackVector3<T>::get(const float timeInSeconds) const
 
 
 template <class T>
-TrackRect<T>::TrackRect()
+inline TrackRect<T>::TrackRect()
 	: left()
 	, top()
 	, width()
@@ -231,7 +251,7 @@ TrackRect<T>::TrackRect()
 }
 
 template <class T>
-void TrackRect<T>::clear()
+inline void TrackRect<T>::clear()
 {
 	left.clear();
 	top.clear();
@@ -240,31 +260,31 @@ void TrackRect<T>::clear()
 }
 
 template <class T>
-void TrackRect<T>::addKeyLeft(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyLeft(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	left.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKeyTop(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyTop(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	top.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKeyWidth(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyWidth(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	width.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKeyHeight(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyHeight(const sf::Time time, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	height.addKey(time, value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKey(const sf::Time time, const sf::Rect<T>& rect, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKey(const sf::Time time, const sf::Rect<T>& rect, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyLeft(time, rect.left, in, out, inType, outType);
 	addKeyTop(time, rect.top, in, out, inType, outType);
@@ -273,43 +293,152 @@ void TrackRect<T>::addKey(const sf::Time time, const sf::Rect<T>& rect, const fl
 }
 
 template <class T>
-void TrackRect<T>::addKeyLeft(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyLeft(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyLeft(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKeyTop(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyTop(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyTop(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKeyWidth(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyWidth(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyWidth(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKeyHeight(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKeyHeight(const float timeInSeconds, const T& value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKeyHeight(sf::seconds(timeInSeconds), value, in, out, inType, outType);
 }
 
 template <class T>
-void TrackRect<T>::addKey(const float timeInSeconds, const sf::Rect<T>& rect, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+inline void TrackRect<T>::addKey(const float timeInSeconds, const sf::Rect<T>& rect, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
 {
 	addKey(sf::seconds(timeInSeconds), rect, in, out, inType, outType);
 }
 
 template <class T>
-sf::Rect<T> TrackRect<T>::get(const sf::Time time) const
+inline sf::Rect<T> TrackRect<T>::get(const sf::Time time) const
 {
 	return{ left.get(time), top.get(time), width.get(time), height.get(time) };
 }
 
 template <class T>
-sf::Rect<T> TrackRect<T>::get(const float timeInSeconds) const
+inline sf::Rect<T> TrackRect<T>::get(const float timeInSeconds) const
+{
+	return get(sf::seconds(timeInSeconds));
+}
+
+inline TrackBool::TrackBool()
+	: m_track()
+{
+}
+
+inline void TrackBool::clear()
+{
+	m_track.clear();
+}
+
+inline void TrackBool::addKey(const sf::Time time, const bool value)
+{
+	m_track.addKey(time, value ? 1u : 0u, 0.f, 0.f, InterpolationType::Step, InterpolationType::Step);
+}
+
+inline void TrackBool::addKey(const float timeInSeconds, const bool value)
+{
+	addKey(sf::seconds(timeInSeconds), value ? 1u : 0u);
+}
+
+inline bool TrackBool::get(const sf::Time time) const
+{
+	return m_track.get(time) != 0;
+}
+
+inline bool TrackBool::get(const float timeInSeconds) const
+{
+	return get(sf::seconds(timeInSeconds));
+}
+
+inline TrackColor::TrackColor()
+	: r()
+	, g()
+	, b()
+	, a()
+{
+}
+
+inline void TrackColor::clear()
+{
+	r.clear();
+	g.clear();
+	b.clear();
+	a.clear();
+}
+
+inline void TrackColor::addKeyR(const sf::Time time, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	r.addKey(time, value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyG(const sf::Time time, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	g.addKey(time, value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyB(const sf::Time time, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	b.addKey(time, value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyA(const sf::Time time, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	a.addKey(time, value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKey(const sf::Time time, const sf::Color& color, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	addKeyR(time, color.r, in, out, inType, outType);
+	addKeyG(time, color.g, in, out, inType, outType);
+	addKeyB(time, color.b, in, out, inType, outType);
+	addKeyA(time, color.a, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyR(const float timeInSeconds, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	addKeyR(sf::seconds(timeInSeconds), value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyG(const float timeInSeconds, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	addKeyG(sf::seconds(timeInSeconds), value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyB(const float timeInSeconds, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	addKeyB(sf::seconds(timeInSeconds), value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKeyA(const float timeInSeconds, const unsigned int value, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	addKeyA(sf::seconds(timeInSeconds), value, in, out, inType, outType);
+}
+
+inline void TrackColor::addKey(const float timeInSeconds, const sf::Color& color, const float in, const float out, const InterpolationType inType, const InterpolationType outType)
+{
+	addKey(sf::seconds(timeInSeconds), color, in, out, inType, outType);
+}
+
+inline sf::Color TrackColor::get(const sf::Time time) const
+{
+	return sf::Color(r.get(time), g.get(time), b.get(time), a.get(time));
+}
+
+inline sf::Color TrackColor::get(const float timeInSeconds) const
 {
 	return get(sf::seconds(timeInSeconds));
 }

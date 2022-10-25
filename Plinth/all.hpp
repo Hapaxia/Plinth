@@ -36,6 +36,7 @@
 #include "File.hpp"
 #include "Generic.hpp"
 #include "IndexedMap.hpp"
+#include "Lax.hpp"
 #include "Math.hpp"
 #include "NumberBase.hpp"
 #include "Random.hpp"

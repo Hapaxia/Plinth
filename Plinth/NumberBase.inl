@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_NUMBERBASE_INL
+#define PLINTH_NUMBERBASE_INL
+
 #include "NumberBase.hpp"
 
 #include <sstream>
@@ -34,16 +37,17 @@
 namespace plinth
 {
 
-std::string hexFromDec(int dec)
+inline std::string hexFromDec(int dec)
 {
 	std::stringstream ss;
 	ss << std::hex << dec;
 	return ss.str();
 }
 
-int decFromHex(const std::string& hex)
+inline int decFromHex(const std::string& hex)
 {
 	return std::stoi(hex, 0, 16);
 }
 
 } // namespace plinth
+#endif // PLINTH_NUMBERBASE_INL

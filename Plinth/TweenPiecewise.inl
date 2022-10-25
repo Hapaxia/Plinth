@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -38,26 +38,26 @@ namespace plinth
 	{
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-Piecewise<positionT, T, interpolationAlphaT, positionCastT>::Piecewise()
+inline Piecewise<positionT, T, interpolationAlphaT, positionCastT>::Piecewise()
 	: m_nodes()
 {
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::clearNodes()
+inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::clearNodes()
 {
 	m_nodes.clear();
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Node& node)
+inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Node& node)
 {
 	m_nodes.push_back(node);
 	std::sort(m_nodes.begin(), m_nodes.end());
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-T Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getValue(positionT position) const
+inline T Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getValue(positionT position) const
 {
 	const Node* lowerNode = &m_nodes.front();
 	const Node* higherNode = &m_nodes.back();
@@ -81,7 +81,7 @@ T Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getValue(position
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodePosition(unsigned int index, positionT position)
+inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodePosition(unsigned int index, positionT position)
 {
 	if (index >= m_nodes.size())
 		return;
@@ -91,7 +91,7 @@ void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodePosi
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodeValue(unsigned int index, T value)
+inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodeValue(unsigned int index, T value)
 {
 	if (index >= m_nodes.size())
 		return;
@@ -100,7 +100,7 @@ void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodeValu
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-unsigned int Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getNodeCount() const
+inline unsigned int Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getNodeCount() const
 {
 	return static_cast<unsigned int>(m_nodes.size());
 }

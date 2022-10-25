@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -36,7 +36,7 @@ namespace plinth
 {
 
 template <class T>
-RangeArea<T>::RangeArea()
+inline RangeArea<T>::RangeArea()
 	: left(0)
 	, bottom(0)
 	, right(0)
@@ -46,7 +46,7 @@ RangeArea<T>::RangeArea()
 
 template <class T>
 template <class U>
-RangeArea<T>::RangeArea(const RangeArea<U>& rangeArea)
+inline RangeArea<T>::RangeArea(const RangeArea<U>& rangeArea)
 	: left(static_cast<T>(rangeArea.left))
 	, bottom(static_cast<T>(rangeArea.bottom))
 	, right(static_cast<T>(rangeArea.right))
@@ -55,7 +55,7 @@ RangeArea<T>::RangeArea(const RangeArea<U>& rangeArea)
 }
 
 template <class T>
-RangeArea<T>::RangeArea(const T& newLeft, const T& newBottom, const T& newRight, const T& newTop)
+inline RangeArea<T>::RangeArea(const T& newLeft, const T& newBottom, const T& newRight, const T& newTop)
 	: left(newLeft)
 	, bottom(newBottom)
 	, right(newRight)
@@ -64,7 +64,7 @@ RangeArea<T>::RangeArea(const T& newLeft, const T& newBottom, const T& newRight,
 }
 
 template <class T>
-RangeArea<T>::RangeArea(const Range<T>& horizontalRange, const Range<T>& verticalRange)
+inline RangeArea<T>::RangeArea(const Range<T>& horizontalRange, const Range<T>& verticalRange)
 	: left(horizontalRange.min)
 	, bottom(verticalRange.min)
 	, right(horizontalRange.max)
@@ -73,7 +73,7 @@ RangeArea<T>::RangeArea(const Range<T>& horizontalRange, const Range<T>& vertica
 }
 
 template <class T>
-RangeArea<T>::RangeArea(const Vector2<T>& leftBottom, const Vector2<T>& rightTop)
+inline RangeArea<T>::RangeArea(const Vector2<T>& leftBottom, const Vector2<T>& rightTop)
 	: left(leftBottom.x)
 	, bottom(leftBottom.y)
 	, right(rightTop.x)
@@ -82,7 +82,7 @@ RangeArea<T>::RangeArea(const Vector2<T>& leftBottom, const Vector2<T>& rightTop
 }
 
 template <class T>
-RangeArea<T>::RangeArea(const Size2<T>& size)
+inline RangeArea<T>::RangeArea(const Size2<T>& size)
 	: left(0)
 	, bottom(0)
 	, right(size.width)
@@ -91,136 +91,136 @@ RangeArea<T>::RangeArea(const Size2<T>& size)
 }
 
 template <class T>
-Size2<T> RangeArea<T>::getSize2() const
+inline Size2<T> RangeArea<T>::getSize2() const
 {
 	return{ getWidth(), getHeight() };
 }
 
 template <class T>
-T RangeArea<T>::getSize() const
+inline T RangeArea<T>::getSize() const
 {
 	return getWidth() * getHeight();
 }
 
 template <class T>
-T RangeArea<T>::getWidth() const
+inline T RangeArea<T>::getWidth() const
 {
 	orderHoriz();
 	return right - left;
 }
 
 template <class T>
-T RangeArea<T>::getHeight() const
+inline T RangeArea<T>::getHeight() const
 {
 	orderVert();
 	return top - bottom;
 }
 
 template <class T>
-void RangeArea<T>::set(Vector2<T> leftBottom, Vector2<T> rightTop)
+inline void RangeArea<T>::set(Vector2<T> leftBottom, Vector2<T> rightTop)
 {
 	setLeftBottom(leftBottom);
 	setRightTop(rightTop);
 }
 
 template <class T>
-void RangeArea<T>::setLeftBottom(Vector2<T> leftBottom)
+inline void RangeArea<T>::setLeftBottom(Vector2<T> leftBottom)
 {
 	left = leftBottom.x;
 	bottom = leftBottom.y;
 }
 
 template <class T>
-void RangeArea<T>::setRightTop(Vector2<T> rightTop)
+inline void RangeArea<T>::setRightTop(Vector2<T> rightTop)
 {
 	right = rightTop.x;
 	top = rightTop.y;
 }
 
 template <class T>
-Vector2<T> RangeArea<T>::getLeftBottom() const
+inline Vector2<T> RangeArea<T>::getLeftBottom() const
 {
 	return{ left, bottom };
 }
 
 template <class T>
-Vector2<T> RangeArea<T>::getRightTop() const
+inline Vector2<T> RangeArea<T>::getRightTop() const
 {
 	return{ right, top };
 }
 
 template <class T>
-void RangeArea<T>::order() const
+inline void RangeArea<T>::order() const
 {
 	orderHoriz();
 	orderVert();
 }
 
 template <class T>
-void RangeArea<T>::orderHoriz() const
+inline void RangeArea<T>::orderHoriz() const
 {
 	orderLowHigh(left, right);
 }
 
 template <class T>
-void RangeArea<T>::orderVert() const
+inline void RangeArea<T>::orderVert() const
 {
 	orderLowHigh(bottom, top);
 }
 
 template <class T>
-bool RangeArea<T>::isPoint() const
+inline bool RangeArea<T>::isPoint() const
 {
 	return isFlatHorizontally() && isFlatVertically();
 }
 
 template <class T>
-bool RangeArea<T>::isFlatHorizontally() const
+inline bool RangeArea<T>::isFlatHorizontally() const
 {
 	return left == right;
 }
 
 template <class T>
-bool RangeArea<T>::isFlatVertically() const
+inline bool RangeArea<T>::isFlatVertically() const
 {
 	return bottom == top;
 }
 
 template <class T>
-Range<T> RangeArea<T>::getHorizontalRange() const
+inline Range<T> RangeArea<T>::getHorizontalRange() const
 {
 	return{ left, right };
 }
 
 template <class T>
-Range<T> RangeArea<T>::getVerticalRange() const
+inline Range<T> RangeArea<T>::getVerticalRange() const
 {
 	return{ bottom, top };
 }
 
 template <class T>
-Vector2<T> RangeArea<T>::clamp(const Vector2<T>& vector) const
+inline Vector2<T> RangeArea<T>::clamp(const Vector2<T>& vector) const
 {
 	order();
 	return{ getHorizontalRange().clamp(vector.x), getVerticalRange().clamp(vector.y) };
 }
 
 template <class T>
-Vector2<T> RangeArea<T>::clampLoop(const Vector2<T>& vector) const
+inline Vector2<T> RangeArea<T>::clampLoop(const Vector2<T>& vector) const
 {
 	order();
 	return{ getHorizontalRange().clampLoop(vector.x), getVerticalRange().clampLoop(vector.y) };
 }
 
 template <class T>
-Vector2<T> RangeArea<T>::clampCycle(const Vector2<T>& vector) const
+inline Vector2<T> RangeArea<T>::clampCycle(const Vector2<T>& vector) const
 {
 	order();
 	return{ getHorizontalRange().clampCycle(vector.x), getVerticalRange().clampCycle(vector.y) };
 }
 
 template <class T>
-bool RangeArea<T>::contains(const Vector2<T>& vector, RangeAreaBoundaries includeRangeAreaBoundaries) const
+inline bool RangeArea<T>::contains(const Vector2<T>& vector, RangeAreaBoundaries includeRangeAreaBoundaries) const
 {
 	switch (includeRangeAreaBoundaries)
 	{
@@ -262,7 +262,7 @@ bool RangeArea<T>::contains(const Vector2<T>& vector, RangeAreaBoundaries includ
 }
 
 template <class T>
-bool RangeArea<T>::contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries) const
+inline bool RangeArea<T>::contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries) const
 {
 	rangeArea.order();
 	switch (includeRangeAreaBoundaries)
@@ -305,7 +305,7 @@ bool RangeArea<T>::contains(const RangeArea& rangeArea, RangeAreaBoundaries incl
 }
 
 template <class T>
-bool RangeArea<T>::overlaps(const RangeArea& rangeArea) const
+inline bool RangeArea<T>::overlaps(const RangeArea& rangeArea) const
 {
 	order();
 	rangeArea.order();
@@ -314,7 +314,7 @@ bool RangeArea<T>::overlaps(const RangeArea& rangeArea) const
 }
 
 template <class T>
-Range<T> RangeArea<T>::pullHorizontal(const T& hook, const bool keepSize)
+inline Range<T> RangeArea<T>::pullHorizontal(const T& hook, const bool keepSize)
 {
 	Range<T> range = getHorizontalRange().pull(hook, keepSize);
 	left = range.min;
@@ -323,7 +323,7 @@ Range<T> RangeArea<T>::pullHorizontal(const T& hook, const bool keepSize)
 }
 
 template <class T>
-Range<T> RangeArea<T>::pullVertical(const T& hook, const bool keepSize)
+inline Range<T> RangeArea<T>::pullVertical(const T& hook, const bool keepSize)
 {
 	Range<T> range = getVerticalRange().pull(hook, keepSize);
 	bottom = range.min;
@@ -332,7 +332,7 @@ Range<T> RangeArea<T>::pullVertical(const T& hook, const bool keepSize)
 }
 
 template <class T>
-RangeArea<T>& RangeArea<T>::pull(const Vector2<T>& hook, const bool keepSize)
+inline RangeArea<T>& RangeArea<T>::pull(const Vector2<T>& hook, const bool keepSize)
 {
 	pullHorizontal(hook.x, keepSize);
 	pullVertical(hook.y, keepSize);

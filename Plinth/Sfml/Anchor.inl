@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 #ifndef PLINTH_SFML_ANCHOR_INL
 #define PLINTH_SFML_ANCHOR_INL
@@ -42,55 +42,55 @@ namespace plinth
 		{
 
 template <class T>
-sf::Vector2f getTopLeft(const T& object)
+inline sf::Vector2f getTopLeft(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left, bounds.top };
 }
 template <class T>
-sf::Vector2f getTopCenter(const T& object)
+inline sf::Vector2f getTopCenter(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left + bounds.width / 2.f, bounds.top };
 }
 template <class T>
-sf::Vector2f getTopRight(const T& object)
+inline sf::Vector2f getTopRight(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left + bounds.width, bounds.top };
 }
 template <class T>
-sf::Vector2f getCenterLeft(const T& object)
+inline sf::Vector2f getCenterLeft(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left, bounds.top + bounds.height / 2.f };
 }
 template <class T>
-sf::Vector2f getCenter(const T& object)
+inline sf::Vector2f getCenter(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f };
 }
 template <class T>
-sf::Vector2f getCenterRight(const T& object)
+inline sf::Vector2f getCenterRight(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left + bounds.width, bounds.top + bounds.height / 2.f };
 }
 template <class T>
-sf::Vector2f getBottomLeft(const T& object)
+inline sf::Vector2f getBottomLeft(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left, bounds.top + bounds.height };
 }
 template <class T>
-sf::Vector2f getBottomCenter(const T& object)
+inline sf::Vector2f getBottomCenter(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left + bounds.width / 2.f, bounds.top + bounds.height };
 }
 template <class T>
-sf::Vector2f getBottomRight(const T& object)
+inline sf::Vector2f getBottomRight(const T& object)
 {
 	const sf::FloatRect bounds{ object.getLocalBounds() };
 	return{ bounds.left + bounds.width, bounds.top + bounds.height };
@@ -101,55 +101,55 @@ sf::Vector2f getBottomRight(const T& object)
 		{
 
 template <class T>
-sf::Vector2f getTopLeft(const T& object)
+inline sf::Vector2f getTopLeft(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left, bounds.top };
 }
 template <class T>
-sf::Vector2f getTopCenter(const T& object)
+inline sf::Vector2f getTopCenter(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left + bounds.width / 2.f, bounds.top };
 }
 template <class T>
-sf::Vector2f getTopRight(const T& object)
+inline sf::Vector2f getTopRight(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left + bounds.width, bounds.top };
 }
 template <class T>
-sf::Vector2f getCenterLeft(const T& object)
+inline sf::Vector2f getCenterLeft(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left, bounds.top + bounds.height / 2.f };
 }
 template <class T>
-sf::Vector2f getCenter(const T& object)
+inline sf::Vector2f getCenter(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f };
 }
 template <class T>
-sf::Vector2f getCenterRight(const T& object)
+inline sf::Vector2f getCenterRight(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left + bounds.width, bounds.top + bounds.height / 2.f };
 }
 template <class T>
-sf::Vector2f getBottomLeft(const T& object)
+inline sf::Vector2f getBottomLeft(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left, bounds.top + bounds.height };
 }
 template <class T>
-sf::Vector2f getBottomCenter(const T& object)
+inline sf::Vector2f getBottomCenter(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left + bounds.width / 2.f, bounds.top + bounds.height };
 }
 template <class T>
-sf::Vector2f getBottomRight(const T& object)
+inline sf::Vector2f getBottomRight(const T& object)
 {
 	const sf::FloatRect bounds{ object.getGlobalBounds() };
 	return{ bounds.left + bounds.width, bounds.top + bounds.height };

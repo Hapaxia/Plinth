@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -36,14 +36,14 @@ namespace plinth
 {
 
 template <class T>
-Bezier<T>::Bezier()
+inline Bezier<T>::Bezier()
 	: m_numberOfIterationsForSolve(100u)
 	, m_points(4, { 0.0, 0.0 })
 {
 }
 
 template <class T>
-Bezier<T>::Bezier(const std::vector<Vector2<T>>& points)
+inline Bezier<T>::Bezier(const std::vector<Vector2<T>>& points)
 	: m_numberOfIterationsForSolve(100u)
 {
 	for (auto& point : points)
@@ -53,14 +53,14 @@ Bezier<T>::Bezier(const std::vector<Vector2<T>>& points)
 }
 
 template <class T>
-void Bezier<T>::setAllPoints(const Vector2<T> point)
+inline void Bezier<T>::setAllPoints(const Vector2<T> point)
 {
 	for (auto& p : m_points)
 		p = point;
 }
 
 template <class T>
-void Bezier<T>::setPoints(const std::vector<Vector2<T>>& points, const unsigned int startIndex)
+inline void Bezier<T>::setPoints(const std::vector<Vector2<T>>& points, const unsigned int startIndex)
 {
 	for (unsigned int p = 0; p < points.size(); ++p)
 	{
@@ -70,7 +70,7 @@ void Bezier<T>::setPoints(const std::vector<Vector2<T>>& points, const unsigned 
 }
 
 template <class T>
-void Bezier<T>::setPoint(const unsigned int index, const Vector2<T> point)
+inline void Bezier<T>::setPoint(const unsigned int index, const Vector2<T> point)
 {
 	if (index > m_points.size())
 		return;
@@ -79,7 +79,7 @@ void Bezier<T>::setPoint(const unsigned int index, const Vector2<T> point)
 }
 
 template <class T>
-Vector2<T> Bezier<T>::getPoint(const unsigned int index) const
+inline Vector2<T> Bezier<T>::getPoint(const unsigned int index) const
 {
 	if (index > m_points.size())
 		return{ 0.0, 0.0 };
@@ -88,31 +88,31 @@ Vector2<T> Bezier<T>::getPoint(const unsigned int index) const
 }
 
 template <class T>
-void Bezier<T>::setNumberOfIterationsForSolve(const unsigned int numberOfIterations)
+inline void Bezier<T>::setNumberOfIterationsForSolve(const unsigned int numberOfIterations)
 {
 	m_numberOfIterationsForSolve = numberOfIterations;
 }
 
 template <class T>
-unsigned int Bezier<T>::getNumberOfIterationsForSolver() const
+inline unsigned int Bezier<T>::getNumberOfIterationsForSolver() const
 {
 	return m_numberOfIterationsForSolve;
 }
 
 template <class T>
-T Bezier<T>::getX(const T t) const
+inline T Bezier<T>::getX(const T t) const
 {
 	return priv_calculate({ m_points[0].x, m_points[1].x, m_points[2].x, m_points[3].x }, t);
 }
 
 template <class T>
-T Bezier<T>::getY(const T t) const
+inline T Bezier<T>::getY(const T t) const
 {
 	return priv_calculate({ m_points[0].y, m_points[1].y, m_points[2].y, m_points[3].y }, t);
 }
 
 template <class T>
-T Bezier<T>::solveYForX(const T x) const
+inline T Bezier<T>::solveYForX(const T x) const
 {
 	// unfinished. see header.
 	T minimum{ static_cast<T>(0.0) };
@@ -131,7 +131,7 @@ T Bezier<T>::solveYForX(const T x) const
 }
 
 template <class T>
-T Bezier<T>::solveXForY(const T y) const
+inline T Bezier<T>::solveXForY(const T y) const
 {
 	// unfinished. see header.
 	// untested - adapted from solveYForX
@@ -151,7 +151,7 @@ T Bezier<T>::solveXForY(const T y) const
 }
 
 template <class T>
-T Bezier<T>::priv_calculate(const std::vector<T>& a, const T t) const
+inline T Bezier<T>::priv_calculate(const std::vector<T>& a, const T t) const
 {
 	T t2{ 1 - t };
 	return a[0] * t2 * t2 * t2 +

@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2016 M.J.Silk
+// Copyright(c) 2016-2022 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_SFML_FRAMESEQUENCE_INL
+#define PLINTH_SFML_FRAMESEQUENCE_INL
+
 #include "FrameSequence.hpp"
 
 #include <SFML/Graphics/PrimitiveType.hpp>
@@ -47,7 +50,7 @@ int intFromFloor(const float& f)
 namespace plinth
 {
 
-FrameSequence::FrameSequence()
+	inline FrameSequence::FrameSequence()
 	: m_frames()
 	, m_position(0.f)
 	//, m_initialFrame(0)
@@ -55,141 +58,141 @@ FrameSequence::FrameSequence()
 {
 }
 
-void FrameSequence::setLoopType(LoopType loopType)
+inline void FrameSequence::setLoopType(LoopType loopType)
 {
 	m_loopType = loopType;
 }
 
-FrameSequence::LoopType FrameSequence::getLoopType() const
+inline FrameSequence::LoopType FrameSequence::getLoopType() const
 {
 	return m_loopType;
 }
 
-void FrameSequence::setReverse(const bool reverse)
+inline void FrameSequence::setReverse(const bool reverse)
 {
 	m_reverse = reverse;
 }
 
-bool FrameSequence::getReverse() const
+inline bool FrameSequence::getReverse() const
 {
 	return m_reverse;
 }
 
-void FrameSequence::add(const std::vector<Frame>& frames)
+inline void FrameSequence::add(const std::vector<Frame>& frames)
 {
 	m_frames.insert(m_frames.end(), frames.begin(), frames.end());
 }
 
-void FrameSequence::add(const Frame& frame)
+inline void FrameSequence::add(const Frame& frame)
 {
 	m_frames.push_back(frame);
 }
 
-void FrameSequence::removeAllWithExhibit(const unsigned int exhibit)
+inline void FrameSequence::removeAllWithExhibit(const unsigned int exhibit)
 {
 	m_frames.erase(std::remove_if(m_frames.begin(), m_frames.end(), [&exhibit](const Frame& frame) { return frame.id == exhibit; }));
 }
 
-void FrameSequence::set(const unsigned int position, const Frame& frame)
+inline void FrameSequence::set(const unsigned int position, const Frame& frame)
 {
 	m_frames[position] = frame;
 }
 
-void FrameSequence::add(const unsigned int position, const Frame& frame)
+inline void FrameSequence::add(const unsigned int position, const Frame& frame)
 {
 	m_frames.insert(m_frames.begin() + position, frame);
 }
 
-void FrameSequence::remove(const unsigned int position)
+inline void FrameSequence::remove(const unsigned int position)
 {
 	m_frames.erase(m_frames.begin() + position);
 }
 
-void FrameSequence::clear()
+inline void FrameSequence::clear()
 {
 	m_frames.clear();
 }
 
-unsigned int FrameSequence::getNumberOfFrames() const
+inline unsigned int FrameSequence::getNumberOfFrames() const
 {
 	return static_cast<unsigned int>(m_frames.size());
 }
 
-FrameSequence::Frame FrameSequence::get(const unsigned int position) const
+inline FrameSequence::Frame FrameSequence::get(const unsigned int position) const
 {
 	return m_frames[priv_getResolvedPosition(position)];
 }
 
-FrameSequence::Frame FrameSequence::get(const float position) const
+inline FrameSequence::Frame FrameSequence::get(const float position) const
 {
 	return m_frames[priv_getResolvedPosition(intFromFloor(position))];
 }
 
-FrameSequence::Frame FrameSequence::get() const
+inline FrameSequence::Frame FrameSequence::get() const
 {
 	return m_frames[priv_getResolvedPosition(intFromFloor(m_position))];
 }
 
-void FrameSequence::setPosition(const float position)
+inline void FrameSequence::setPosition(const float position)
 {
 	m_position = position;
 }
 
-float FrameSequence::getPosition() const
+inline float FrameSequence::getPosition() const
 {
 	return m_position;
 }
 
-void FrameSequence::setTime(const sf::Time time)
+inline void FrameSequence::setTime(const sf::Time time)
 {
 	m_position = priv_getPositionFromTime(time);
 }
 
-sf::Time FrameSequence::getTime() const
+inline sf::Time FrameSequence::getTime() const
 {
 	return priv_getTimeFromPosition(m_position);
 }
 
-FrameSequence& FrameSequence::operator++()
+inline FrameSequence& FrameSequence::operator++()
 {
 	++m_position;
 
 	return *this;
 }
 
-FrameSequence& FrameSequence::operator--()
+inline FrameSequence& FrameSequence::operator--()
 {
 	--m_position;
 
 	return *this;
 }
 
-void FrameSequence::operator+=(const unsigned int numberOfFrames)
+inline void FrameSequence::operator+=(const unsigned int numberOfFrames)
 {
 	m_position += numberOfFrames;
 }
 
-void FrameSequence::operator-=(const unsigned int numberOfFrames)
+inline void FrameSequence::operator-=(const unsigned int numberOfFrames)
 {
 	m_position -= numberOfFrames;
 }
 
-void FrameSequence::operator+=(const float positionOffset)
+inline void FrameSequence::operator+=(const float positionOffset)
 {
 	m_position += positionOffset;
 }
 
-void FrameSequence::operator-=(const float positionOffset)
+inline void FrameSequence::operator-=(const float positionOffset)
 {
 	m_position -= positionOffset;
 }
 
-void FrameSequence::operator+=(const sf::Time time)
+inline void FrameSequence::operator+=(const sf::Time time)
 {
 	m_position = priv_getPositionFromTime(priv_getTimeFromPosition(m_position) + time);
 }
 
-void FrameSequence::operator-=(const sf::Time time)
+inline void FrameSequence::operator-=(const sf::Time time)
 {
 	m_position = priv_getPositionFromTime(priv_getTimeFromPosition(m_position) - time);
 }
@@ -198,7 +201,7 @@ void FrameSequence::operator-=(const sf::Time time)
 
 // PRIVATE
 
-unsigned int FrameSequence::priv_getResolvedPosition(int position) const
+inline unsigned int FrameSequence::priv_getResolvedPosition(int position) const
 {
 	if (m_frames.size() == 0)
 		return 0u;
@@ -231,7 +234,7 @@ unsigned int FrameSequence::priv_getResolvedPosition(int position) const
 	return m_reverse ? maxPosition - position : position;
 }
 
-float FrameSequence::priv_getPositionFromTime(sf::Time time) const
+inline float FrameSequence::priv_getPositionFromTime(sf::Time time) const
 {
 	float position{ 0.f };
 	float positionRepeatOffset{ 0.f };
@@ -309,7 +312,7 @@ float FrameSequence::priv_getPositionFromTime(sf::Time time) const
 	return positionRepeatOffset + position;
 }
 
-sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
+inline sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 {
 	sf::Time time{ sf::Time::Zero };
 	float positionRepeats{ 0.f };
@@ -390,3 +393,5 @@ sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 }
 
 } // namespace plinth
+
+#endif // PLINTH_SFML_FRAMESEQUENCE_INL
