@@ -14,6 +14,8 @@
 *.vc.db
 *.vc.vc.opendb
 
+*.bak
+
 licence for header.txt
 
 # wip folders
@@ -24,6 +26,7 @@ extlibs/
 backup/
 backup_*/
 test/
+test*/
 test_*/
 temp/
 temp_*/
