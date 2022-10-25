@@ -29,6 +29,7 @@ test/
 test*/
 test_*/
 temp/
+temp*/
 temp_*/
 temp_storage/
 PropertySheets/
