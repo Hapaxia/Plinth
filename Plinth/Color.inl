@@ -39,15 +39,16 @@
 #include "Tween.hpp"
 #include <math.h>
 
-namespace
-{
-	
-pl::Range<double> alphaRange{ 0.0, 1.0 };
-
-} // namespace
-
 namespace plinth
 {
+
+	namespace
+{
+
+pl::Range<double> alphaRange{ 0.0, 1.0 };
+
+	} // namespace
+
 	namespace Color
 	{
 
