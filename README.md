@@ -1,16 +1,25 @@
 # Plinth
 by [Hapaxia](https://github.com/Hapaxia)
 
-A foundation library of many helpful classes and functions.  
-Includes an extension module of SFML-based classes and functions.
+A fully-header-only/templated foundation library of many helpful classes and functions.  
+Includes an extension section of SFML-based classes and functions.
 
-Requires C++11.
+Requires a minimum of C++11.
 
 For information, view the [Wiki].
 
 
 **IMPORTANT**  
-This library has recently been converted to a fully-templated library and that version is currently on [fully-template-version branch](https://github.com/Hapaxia/Plinth/tree/fully-template-version). The version with some non-templated functions will be eventually replaced on the master branch.
+This library has been converted to a fully-header-only/templated library and is now available on the main branch.
+
+**MAIN BRANCH**  
+Note also that the main branch was originally named master. To update your clone if you cloned before it was named main, run these commands from your clone:
+```
+git branch -m master main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
+```
 
 
 
