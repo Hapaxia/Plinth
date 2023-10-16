@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -103,7 +103,7 @@ inline T toggle(T& b)
 }
 
 template <class IntegerType>
-IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, const bool isLittleEndian)
+inline IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, const bool isLittleEndian)
 {
 	IntegerType result = 0;
 	if (isLittleEndian)
@@ -120,7 +120,7 @@ IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* 
 }
 
 template <class IntegerType>
-IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isLittleEndian)
+inline IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isLittleEndian)
 {
 	IntegerType result = 0;
 	const unsigned int numberOfBytes{ static_cast<unsigned int>(bytes.size()) };

@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -38,7 +38,7 @@ namespace plinth
 	{
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-Track3<positionT, T, interpolationAlphaT, positionCastT>::Track3()
+inline Track3<positionT, T, interpolationAlphaT, positionCastT>::Track3()
 	: a()
 	, b()
 	, c()
@@ -46,7 +46,7 @@ Track3<positionT, T, interpolationAlphaT, positionCastT>::Track3()
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-Track3<positionT, T, interpolationAlphaT, positionCastT>::Track3(const Track3<positionT, T, interpolationAlphaT, positionCastT>& track3)
+inline Track3<positionT, T, interpolationAlphaT, positionCastT>::Track3(const Track3<positionT, T, interpolationAlphaT, positionCastT>& track3)
 	: a(track3.a)
 	, b(track3.b)
 	, c(track3.c)
@@ -54,13 +54,13 @@ Track3<positionT, T, interpolationAlphaT, positionCastT>::Track3(const Track3<po
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-Vector3<T> Track3<positionT, T, interpolationAlphaT, positionCastT>::getValue(const positionT& position) const
+inline Vector3<T> Track3<positionT, T, interpolationAlphaT, positionCastT>::getValue(const positionT& position) const
 {
 	return{ a.getValue(position), b.getValue(position), c.getValue(position) };
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track3<positionT, T, interpolationAlphaT, positionCastT>::clear()
+inline void Track3<positionT, T, interpolationAlphaT, positionCastT>::clear()
 {
 	a.clear();
 	b.clear();
@@ -68,7 +68,7 @@ void Track3<positionT, T, interpolationAlphaT, positionCastT>::clear()
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track3<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Node3& node3)
+inline void Track3<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Node3& node3)
 {
 	a.addNode(node3.nodeA);
 	b.addNode(node3.nodeB);
@@ -76,7 +76,7 @@ void Track3<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Nod
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-void Track3<positionT, T, interpolationAlphaT, positionCastT>::addNode(const unsigned int trackNumber, const typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node& node)
+inline void Track3<positionT, T, interpolationAlphaT, positionCastT>::addNode(const unsigned int trackNumber, const typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node& node)
 {
 	switch (trackNumber)
 	{
@@ -95,7 +95,7 @@ void Track3<positionT, T, interpolationAlphaT, positionCastT>::addNode(const uns
 }
 
 template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-Track3<positionT, T, interpolationAlphaT, positionCastT>& Track3<positionT, T, interpolationAlphaT, positionCastT>::operator+=(const Node3& node3)
+inline Track3<positionT, T, interpolationAlphaT, positionCastT>& Track3<positionT, T, interpolationAlphaT, positionCastT>::operator+=(const Node3& node3)
 {
 	this->addNode(node3);
 	return *this;

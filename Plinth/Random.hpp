@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -80,4 +80,5 @@ T Random::priv_value(T min, T max)
 }
 
 } // namespace plinth
+#include "Random.inl"
 #endif // PLINTH_RANDOM_HPP

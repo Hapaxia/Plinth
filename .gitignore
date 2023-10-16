@@ -14,7 +14,10 @@
 *.vc.db
 *.vc.vc.opendb
 
+*.lnk
 *.bak
+priv*.*
+priv_*.*
 
 licence for header.txt
 
@@ -33,26 +36,29 @@ temp*/
 temp_*/
 temp_storage/
 PropertySheets/
+priv/
+priv_*/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Build results
 [Dd]ebug/
-[Dd]ebug[Ss]tatic/
-[Dd]ebug [Ss]tatic/
 [Dd]ebugPublic/
+[Dd]ebugStatic/
 [Rr]elease/
-[Rr]elease[Ss]tatic/
-[Rr]elease [Ss]tatic/
+[Rr]eleaseStatic/
 [Rr]eleases/
 x64/
 x86/
-build/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
 bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+[Ll]ogs/
 
 # Visual Studio 2015 cache/options directory
 .vs/

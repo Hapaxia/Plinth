@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -36,6 +36,7 @@
 #include "RangeArea.hpp"
 #include "Vectors.hpp"
 #include "Sizes.hpp"
+#include "Color.hpp"
 
 namespace plinth
 {
@@ -43,6 +44,7 @@ namespace plinth
 std::string stringFrom(const std::string& = "");
 std::string stringFrom(const char*);
 std::string stringFrom(bool);
+std::string stringFrom(Color::Rgb rgb);
 
 template <class T>
 std::string stringFrom(T*);

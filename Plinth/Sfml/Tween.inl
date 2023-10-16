@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -43,7 +43,7 @@ namespace plinth
 // Linear Tween (interpolation) of two SFML colours (sf::Color) using a given "alpha" value of the "blend amount"
 // Type alphaT should be a POD type in range 0 to 1.
 template <class alphaT>
-sf::Color linear(const sf::Color& start, const sf::Color& end, const alphaT& alpha)
+inline sf::Color linear(const sf::Color& start, const sf::Color& end, const alphaT& alpha)
 {
 	return{ linear(start.r, end.r, alpha), linear(start.g, end.g, alpha), linear(start.b, end.b, alpha), linear(start.a, end.a, alpha) };
 }

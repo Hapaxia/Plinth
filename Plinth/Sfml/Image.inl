@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_SFML_IMAGE_INL
+#define PLINTH_SFML_IMAGE_INL
+
 #include "Image.hpp"
 #include "../Tween.hpp"
 
@@ -44,7 +47,7 @@ namespace plinth
 
 using namespace Sfml;
 
-void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb&)> process)
+inline void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb&)> process)
 {
 	// preserves pixel alpha
 	const sf::Vector2u imageSize{ image.getSize() };
@@ -61,7 +64,7 @@ void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb&)> pro
 	}
 }
 
-void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> process)
+inline void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> process)
 {
 	const sf::Vector2u imageSize{ image.getSize() };
 	for (unsigned int y{ 0 }; y < imageSize.y; ++y)
@@ -75,7 +78,7 @@ void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> pr
 	}
 }
 
-void convertToGrayscale(sf::Image& image, const GrayscaleConversionType conversionType)
+inline void convertToGrayscale(sf::Image& image, const GrayscaleConversionType conversionType)
 {
 	switch (conversionType)
 	{
@@ -139,7 +142,7 @@ void convertToGrayscale(sf::Image& image, const GrayscaleConversionType conversi
 	}
 }
 
-void createMaskFromAlpha(sf::Image& image)
+inline void createMaskFromAlpha(sf::Image& image)
 {
 	processAllPixelsColor(image, [](sf::Color& pixel)
 	{
@@ -150,7 +153,7 @@ void createMaskFromAlpha(sf::Image& image)
 	});
 }
 
-void invert(sf::Image& image)
+inline void invert(sf::Image& image)
 {
 	processAllPixelsRgb(image, [](Color::Rgb& pixel)
 	{
@@ -160,7 +163,7 @@ void invert(sf::Image& image)
 	});
 }
 
-void setAlpha(sf::Image& image, const unsigned char alpha)
+inline void setAlpha(sf::Image& image, const unsigned char alpha)
 {
 	processAllPixelsColor(image, [&alpha](sf::Color& pixel)
 	{
@@ -168,7 +171,7 @@ void setAlpha(sf::Image& image, const unsigned char alpha)
 	});
 }
 
-void invertAlpha(sf::Image& image)
+inline void invertAlpha(sf::Image& image)
 {
 	processAllPixelsColor(image, [](sf::Color& pixel)
 	{
@@ -176,7 +179,7 @@ void invertAlpha(sf::Image& image)
 	});
 }
 
-void makeOpaque(sf::Image& image)
+inline void makeOpaque(sf::Image& image)
 {
 	processAllPixelsColor(image, [](sf::Color& pixel)
 	{
@@ -184,7 +187,7 @@ void makeOpaque(sf::Image& image)
 	});
 }
 
-void clearWithColorButRetainTransparency(sf::Image& image, const sf::Color color)
+inline void clearWithColorButRetainTransparency(sf::Image& image, const sf::Color color)
 {
 	processAllPixelsColor(image, [&color](sf::Color& pixel)
 	{
@@ -195,42 +198,42 @@ void clearWithColorButRetainTransparency(sf::Image& image, const sf::Color color
 	});
 }
 
-void setRedFromChannel(sf::Image& image, const Channel& channel)
+inline void setRedFromChannel(sf::Image& image, const Channel& channel)
 {
 	if (image.getSize() != channel.getSize())
 		throw Exception(exceptionPrefix + "Cannot set image red from channel. Sizes do not match.");
 	channel.copyToImage(image, ColorChannel::Red);
 }
 
-void setGreenFromChannel(sf::Image& image, const Channel& channel)
+inline void setGreenFromChannel(sf::Image& image, const Channel& channel)
 {
 	if (image.getSize() != channel.getSize())
 		throw Exception(exceptionPrefix + "Cannot set image green from channel. Sizes do not match.");
 	channel.copyToImage(image, ColorChannel::Green);
 }
 
-void setBlueFromChannel(sf::Image& image, const Channel& channel)
+inline void setBlueFromChannel(sf::Image& image, const Channel& channel)
 {
 	if (image.getSize() != channel.getSize())
 		throw Exception(exceptionPrefix + "Cannot set image blue from channel. Sizes do not match.");
 	channel.copyToImage(image, ColorChannel::Blue);
 }
 
-void setRgbFromChannel(sf::Image& image, const Channel& channel)
+inline void setRgbFromChannel(sf::Image& image, const Channel& channel)
 {
 	if (image.getSize() != channel.getSize())
 		throw Exception(exceptionPrefix + "Cannot set image rgb from channel. Sizes do not match.");
 	channel.copyToImage(image, ColorChannel::Rgb);
 }
 
-void setAlphaFromChannel(sf::Image& image, const Channel& channel)
+inline void setAlphaFromChannel(sf::Image& image, const Channel& channel)
 {
 	if (image.getSize() != channel.getSize())
 		throw Exception(exceptionPrefix + "Cannot set image alpha from channel. Sizes do not match.");
 	channel.copyToImage(image, ColorChannel::Alpha);
 }
 
-void setAlphaFromMask(sf::Image& image, const Channel& mask)
+inline void setAlphaFromMask(sf::Image& image, const Channel& mask)
 {
 	if (image.getSize() != mask.getSize())
 		throw Exception(exceptionPrefix + "Cannot set image alpha from mask. Sizes do not match.");
@@ -239,3 +242,5 @@ void setAlphaFromMask(sf::Image& image, const Channel& mask)
 
 	} // namspace Image
 } // namespace plinth
+
+#endif // PLINTH_SFML_IMAGE_INL

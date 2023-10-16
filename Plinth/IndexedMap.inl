@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -36,25 +36,25 @@ namespace plinth
 {
 
 template <class keyT, class T>
-IndexedMap<keyT, T>::IndexedMap()
+inline IndexedMap<keyT, T>::IndexedMap()
 	: m_exceptionPrefix("Indexed Map: ")
 {
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::add(const keyT& key, const T& value)
+inline void IndexedMap<keyT, T>::add(const keyT& key, const T& value)
 {
 	m_elements.push_back(Element{ key, value });
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::add(const T& value)
+inline void IndexedMap<keyT, T>::add(const T& value)
 {
 	add("", value);
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::remove(const keyT& key)
+inline void IndexedMap<keyT, T>::remove(const keyT& key)
 {
 	m_elements.erase(std::remove_if(m_elements.begin(), m_elements.end(),
 		[&key](const Element& element)
@@ -65,14 +65,14 @@ void IndexedMap<keyT, T>::remove(const keyT& key)
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::remove(const unsigned int index)
+inline void IndexedMap<keyT, T>::remove(const unsigned int index)
 {
 	if (priv_indexIsValid(index))
 		m_elements.erase(m_elements.begin() + index);
 }
 
 template <class keyT, class T>
-T IndexedMap<keyT, T>::get(const keyT& key) const
+inline T IndexedMap<keyT, T>::get(const keyT& key) const
 {
 	for (auto& element : m_elements)
 	{
@@ -83,7 +83,7 @@ T IndexedMap<keyT, T>::get(const keyT& key) const
 }
 
 template <class keyT, class T>
-T IndexedMap<keyT, T>::get(const unsigned int index) const
+inline T IndexedMap<keyT, T>::get(const unsigned int index) const
 {
 	if (priv_indexIsValid(index))
 		return m_elements[index].value;
@@ -92,7 +92,7 @@ T IndexedMap<keyT, T>::get(const unsigned int index) const
 }
 
 template <class keyT, class T>
-T& IndexedMap<keyT, T>::access(const keyT& key)
+inline T& IndexedMap<keyT, T>::access(const keyT& key)
 {
 	for (auto& element : m_elements)
 	{
@@ -103,7 +103,7 @@ T& IndexedMap<keyT, T>::access(const keyT& key)
 }
 
 template <class keyT, class T>
-T& IndexedMap<keyT, T>::access(const unsigned int index)
+inline T& IndexedMap<keyT, T>::access(const unsigned int index)
 {
 	if (priv_indexIsValid(index))
 		return m_elements[index].value;
@@ -112,7 +112,7 @@ T& IndexedMap<keyT, T>::access(const unsigned int index)
 }
 
 template <class keyT, class T>
-bool IndexedMap<keyT, T>::valid(const keyT& key) const
+inline bool IndexedMap<keyT, T>::valid(const keyT& key) const
 {
 	for (auto& element : m_elements)
 	{
@@ -123,13 +123,13 @@ bool IndexedMap<keyT, T>::valid(const keyT& key) const
 }
 
 template <class keyT, class T>
-bool IndexedMap<keyT, T>::valid(const unsigned int index) const
+inline bool IndexedMap<keyT, T>::valid(const unsigned int index) const
 {
 	return priv_indexIsValid(index);
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::set(const keyT& key, const T& value)
+inline void IndexedMap<keyT, T>::set(const keyT& key, const T& value)
 {
 	for (auto& element : m_elements)
 	{
@@ -139,21 +139,21 @@ void IndexedMap<keyT, T>::set(const keyT& key, const T& value)
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::set(const unsigned int index, const T& value)
+inline void IndexedMap<keyT, T>::set(const unsigned int index, const T& value)
 {
 	if (priv_indexIsValid(index))
 		m_elements[index].value = value;
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::setKey(const unsigned int index, const keyT& key)
+inline void IndexedMap<keyT, T>::setKey(const unsigned int index, const keyT& key)
 {
 	if (priv_indexIsValid(index))
 		m_elements[index].key = key;
 }
 
 template <class keyT, class T>
-keyT IndexedMap<keyT, T>::getKey(const unsigned int index) const
+inline keyT IndexedMap<keyT, T>::getKey(const unsigned int index) const
 {
 	if (priv_indexIsValid(index))
 		return m_elements[index].key;
@@ -162,20 +162,20 @@ keyT IndexedMap<keyT, T>::getKey(const unsigned int index) const
 }
 
 template <class keyT, class T>
-unsigned int IndexedMap<keyT, T>::getSize() const
+inline unsigned int IndexedMap<keyT, T>::getSize() const
 {
 	return static_cast<unsigned int>(m_elements.size());
 }
 
 template <class keyT, class T>
-void IndexedMap<keyT, T>::clear()
+inline void IndexedMap<keyT, T>::clear()
 {
 	m_elements.clear();
 }
 
 // PRIVATE
 template <class keyT, class T>
-bool IndexedMap<keyT, T>::priv_indexIsValid(const unsigned int index) const
+inline bool IndexedMap<keyT, T>::priv_indexIsValid(const unsigned int index) const
 {
 	return index < m_elements.size();
 }

@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -72,10 +72,10 @@ template<class T>
 inline T toggle(T& b);
 
 template <class TInteger>
-TInteger intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, bool isLittleEndian = true);
+inline TInteger intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, bool isLittleEndian = true);
 
 template <class TInteger>
-TInteger intFromBytes(const std::vector<unsigned char>& bytes, bool isLittleEndian = true);
+inline TInteger intFromBytes(const std::vector<unsigned char>& bytes, bool isLittleEndian = true);
 
 } // namespace plinth
 #include "Generic.inl"

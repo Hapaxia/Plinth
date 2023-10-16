@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -40,14 +40,14 @@ namespace plinth
 {
 
 template <class T>
-Range<T>::Range()
+inline Range<T>::Range()
 	: min(static_cast<T>(0))
 	, max(static_cast<T>(0))
 {
 }
 
 template <class T>
-Range<T>::Range(std::initializer_list<T> list)
+inline Range<T>::Range(std::initializer_list<T> list)
 	: Range()
 {
 	const auto size{ list.size() };
@@ -68,7 +68,7 @@ Range<T>::Range(std::initializer_list<T> list)
 }
 
 template <class T>
-Range<T>::Range(const T& newMin, const T& newMax)
+inline Range<T>::Range(const T& newMin, const T& newMax)
 	: min(newMin)
 	, max(newMax)
 {
@@ -76,40 +76,40 @@ Range<T>::Range(const T& newMin, const T& newMax)
 
 template <class T>
 template <class U>
-Range<T>::Range(const Range<U>& range)
+inline Range<T>::Range(const Range<U>& range)
 	: min(static_cast<T>(range.min))
 	, max(static_cast<T>(range.max))
 {
 }
 
 template <class T>
-void Range<T>::order() const
+inline void Range<T>::order() const
 {
 	orderLowHigh(min, max);
 }
 
 template <class T>
-void Range<T>::set(const T& newMin, const T& newMax)
+inline void Range<T>::set(const T& newMin, const T& newMax)
 {
 	min = newMin;
 	max = newMax;
 }
 
 template <class T>
-T Range<T>::getSize() const
+inline T Range<T>::getSize() const
 {
 	order();
 	return max - min;
 }
 
 template <class T>
-bool Range<T>::isClosed() const
+inline bool Range<T>::isClosed() const
 {
 	return min == max;
 }
 
 template <class T>
-bool Range<T>::contains(const T& value, RangeBoundaries includeRangeBoundaries) const
+inline bool Range<T>::contains(const T& value, RangeBoundaries includeRangeBoundaries) const
 {
 	order();
 	switch (includeRangeBoundaries)
@@ -128,7 +128,7 @@ bool Range<T>::contains(const T& value, RangeBoundaries includeRangeBoundaries) 
 }
 
 template <class T>
-bool Range<T>::contains(const Range& range, RangeBoundaries includeRangeBoundaries) const
+inline bool Range<T>::contains(const Range& range, RangeBoundaries includeRangeBoundaries) const
 {
 	order();
 	range.order();
@@ -148,20 +148,20 @@ bool Range<T>::contains(const Range& range, RangeBoundaries includeRangeBoundari
 }
 
 template <class T>
-bool Range<T>::overlaps(const Range& range) const
+inline bool Range<T>::overlaps(const Range& range) const
 {
 	return !(min > range.max || max < range.min);
 }
 
 template <class T>
-T Range<T>::clamp(const T& value) const
+inline T Range<T>::clamp(const T& value) const
 {
 	order();
 	return value > max ? max : value < min ? min : value;
 }
 
 template <class T>
-T Range<T>::clampLoop(const T& value) const
+inline T Range<T>::clampLoop(const T& value) const
 {
 	order();
 	return value > max ? min : value < min ? max : value;
@@ -182,7 +182,7 @@ inline T Range<T>::clampCycle(const T& value) const
 }
 
 template <class T>
-Range<T>& Range<T>::pull(const T& hook, const bool keepSize)
+inline Range<T>& Range<T>::pull(const T& hook, const bool keepSize)
 {
 	const T rangeSize = getSize();
 	if (hook < min)
@@ -202,13 +202,13 @@ Range<T>& Range<T>::pull(const T& hook, const bool keepSize)
 
 template <class T>
 template <class alphaT>
-alphaT Range<T>::getAlpha(const T& value) const
+inline alphaT Range<T>::getAlpha(const T& value) const
 {
 	return Tween::inverseLinear(min, max, value);
 }
 
 template <class T>
-Range<T>& Range<T>::operator=(const Range& other)
+inline Range<T>& Range<T>::operator=(const Range& other)
 {
 	min = other.min;
 	max = other.max;
@@ -217,7 +217,7 @@ Range<T>& Range<T>::operator=(const Range& other)
 
 template <class T>
 template <class U>
-Range<T>& Range<T>::operator=(const Range<U>& other)
+inline Range<T>& Range<T>::operator=(const Range<U>& other)
 {
 	min = static_cast<T>(other.min);
 	max = static_cast<T>(other.max);
@@ -225,26 +225,26 @@ Range<T>& Range<T>::operator=(const Range<U>& other)
 }
 
 template <class T>
-Range<T> Range<T>::operator+(const T& offset) const
+inline Range<T> Range<T>::operator+(const T& offset) const
 {
 	return{ min + offset, max + offset };
 }
 
 template <class T>
-Range<T> Range<T>::operator-(const T& offset) const
+inline Range<T> Range<T>::operator-(const T& offset) const
 {
 	return{ min - offset, max - offset };
 }
 
 template <class T>
-Range<T>& Range<T>::operator+=(const T& offset)
+inline Range<T>& Range<T>::operator+=(const T& offset)
 {
 	*this = *this + offset;
 	return *this;
 }
 
 template <class T>
-Range<T>& Range<T>::operator-=(const T& offset)
+inline Range<T>& Range<T>::operator-=(const T& offset)
 {
 	*this = *this - offset;
 	return *this;
@@ -260,7 +260,7 @@ namespace std
 {
 
 template <class T>
-void swap(plinth::Range<T>& a, plinth::Range<T>& b)
+inline void swap(plinth::Range<T>& a, plinth::Range<T>& b)
 {
 	swap(a.min, b.max);
 	swap(a.min, b.max);

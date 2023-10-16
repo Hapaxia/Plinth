@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,6 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef PLINTH_SFML_IMAGECHANNEL_INL
+#define PLINTH_SFML_IMAGECHANNEL_INL
+
 #include "ImageChannel.hpp"
 
 namespace plinth
@@ -34,57 +37,57 @@ namespace plinth
 	namespace Image
 	{
 
-Channel::Channel()
+inline Channel::Channel()
 	: m_exceptionPrefix("SFML/ImageChannel: ")
 	, m_size({ 0u, 0u })
 	, m_pixels()
 {
 }
 
-Channel::Channel(const sf::Vector2u size)
+inline Channel::Channel(const sf::Vector2u size)
 	: Channel()
 {
 	setSize(size);
 }
 
-Channel::Channel(const sf::Vector2u size, const unsigned char value)
+inline Channel::Channel(const sf::Vector2u size, const unsigned char value)
 	: Channel(size)
 {
 	clear(value);
 }
 
-Channel::Channel(const sf::Image& image, const ColorChannel colorChannel)
+inline Channel::Channel(const sf::Image& image, const ColorChannel colorChannel)
 	: Channel(image.getSize())
 {
 	copyFromImage(image, colorChannel, false); // no need to resize as resizing is done in constructor initialisation
 }
 
-void Channel::setSize(const sf::Vector2u size)
+inline void Channel::setSize(const sf::Vector2u size)
 {
 	m_size = size;
 	m_pixels.resize(m_size.x * m_size.y);
 }
 
-sf::Vector2u Channel::getSize() const
+inline sf::Vector2u Channel::getSize() const
 {
 	return m_size;
 }
 
-void Channel::setPixel(const sf::Vector2u location, const unsigned char value)
+inline void Channel::setPixel(const sf::Vector2u location, const unsigned char value)
 {
 	if (location.x >= m_size.x || location.y >= m_size.y)
 		throw Exception(m_exceptionPrefix + "Could not set pixel; specified location - (" + std::to_string(location.x) + ", " + std::to_string(location.y) + ") - out of bounds.");
 	m_pixels[location.y * m_size.x + location.x] = value;
 }
 
-unsigned char Channel::getPixel(const sf::Vector2u location) const
+inline unsigned char Channel::getPixel(const sf::Vector2u location) const
 {
 	if (location.x >= m_size.x || location.y >= m_size.y)
 		throw Exception(m_exceptionPrefix + "Could not get pixel; specified location - (" + std::to_string(location.x) + ", " + std::to_string(location.y) + ") - out of bounds.");
 	return m_pixels[location.y * m_size.x + location.x];
 }
 
-void Channel::copyFromImage(const sf::Image& image, const ColorChannel colorChannel, const bool resize)
+inline void Channel::copyFromImage(const sf::Image& image, const ColorChannel colorChannel, const bool resize)
 {
 	const sf::Vector2u imageSize{ image.getSize() };
 	if (resize)
@@ -121,7 +124,7 @@ void Channel::copyFromImage(const sf::Image& image, const ColorChannel colorChan
 	}
 }
 
-void Channel::copyToImage(sf::Image& image, const ColorChannel colorChannel) const
+inline void Channel::copyToImage(sf::Image& image, const ColorChannel colorChannel) const
 {
 	const sf::Vector2u imageSize{ image.getSize() };
 	for (unsigned int i{ 0 }; i < m_pixels.size(); ++i)
@@ -154,19 +157,19 @@ void Channel::copyToImage(sf::Image& image, const ColorChannel colorChannel) con
 	}
 }
 
-void Channel::clear(const unsigned char value)
+inline void Channel::clear(const unsigned char value)
 {
 	for (auto& pixel : m_pixels)
 		pixel = value;
 }
 
-void Channel::invert()
+inline void Channel::invert()
 {
 	for (auto& pixel : m_pixels)
 		pixel = ~pixel;
 }
 
-void Channel::generateNoise(const NoiseType type)
+inline void Channel::generateNoise(const NoiseType type)
 {
 	Random random;
 	for (auto& pixel : m_pixels)
@@ -175,3 +178,5 @@ void Channel::generateNoise(const NoiseType type)
 
 	} // namespace Image
 } // namespace plinth
+
+#endif // PLINTH_SFML_IMAGECHANNEL_INL

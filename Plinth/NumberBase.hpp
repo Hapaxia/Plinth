@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2016 M.J.Silk
+// Copyright(c) 2014-2023 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -39,4 +39,5 @@ std::string hexFromDec(int dec);
 int decFromHex(const std::string& hex);
 
 } // namespace plinth
+#include "NumberBase.inl"
 #endif // PLINTH_NUMBERBASE_HPP
