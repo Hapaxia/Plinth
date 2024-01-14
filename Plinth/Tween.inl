@@ -44,7 +44,7 @@ template <typename T, typename alphaT>
 // and be able to be multiplied (scaled) by a POD type (alpha)
 inline T linear(const T& start, const T& end, const alphaT& alpha)
 {
-	return static_cast<T>(start * (1 - alpha) + end * alpha); // blend from low to high using alpha
+	return static_cast<T>((start * (1.0 - alpha)) + (end * alpha)); // blend from low to high using alpha
 }
 
 template <typename alphaT, typename T>

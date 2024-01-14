@@ -69,16 +69,13 @@ inline Vector3<T>::Vector3(std::initializer_list<T> list)
 {
 	const auto size{ list.size() };
 	const auto begin{ list.begin() };
-	if (size > 0)
-	{
-		x = *begin;
-		if (size > 1)
-		{
-			y = *(begin + 1);
-			if (size > 2)
-				z = *(begin + 2);
-		}
-	}
+	x = *begin;
+	if (size == 1u)
+		return;
+	y = *(begin + 1u);
+	if (size == 2u)
+		return;
+	z = *(begin + 2u);
 }
 
 template <class T>
