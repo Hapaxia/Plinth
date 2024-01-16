@@ -191,19 +191,19 @@ inline bool doesContainOnly(const std::string& testString, const std::string& va
 }
 
 // [does not alter any parameters]
-inline std::string padStringLeft(const std::string& string, const unsigned int width, const char character)
+inline std::string padStringLeft(const std::string& string, const std::size_t width, const char character)
 {
 	std::string prefix{ "" };
-	for (unsigned int i{ static_cast<unsigned int>(string.size()) }; i < width; ++i)
+	for (std::size_t i{ string.size() }; i < width; ++i)
 		prefix += character;
 
 	return prefix + string;
 }
 
 // [does not alter any parameters]
-inline std::string padStringRight(std::string string, const unsigned int width, const char character)
+inline std::string padStringRight(std::string string, const std::size_t width, const char character)
 {
-	for (unsigned int i{ static_cast<unsigned int>(string.size()) }; i < width; ++i)
+	for (std::size_t i{ string.size() }; i < width; ++i)
 		string += character;
 
 	return string;
