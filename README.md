@@ -4,7 +4,7 @@ by [Hapaxia](https://github.com/Hapaxia)
 A fully-header-only/templated foundation library of many helpful classes and functions.  
 Includes an extension section of SFML-based classes and functions.
 
-Requires a minimum of C++11.
+Requires a minimum of C++11. Note that some parts may required more modern versions.
 
 For information, view the [Wiki].
 
