@@ -101,7 +101,6 @@ std::string trimWhitespace(const std::string& string);
 // [does not alter any parameters]
 // returns string with each character replaced by the given character
 std::string password(const std::string& string, char shieldChar = '*');
-//std::string password(std::string string, char shieldChar = '*');
 
 // [does not alter any parameters]
 // replace any character in string that exists in supplementary string with specific character.

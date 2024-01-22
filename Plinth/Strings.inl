@@ -203,7 +203,6 @@ inline std::string padStringLeft(const std::string& string, const std::size_t wi
 	std::string prefix{};
 	for (std::size_t i{ string.size() }; i < width; ++i)
 		prefix += character;
-
 	return prefix + string;
 }
 
@@ -212,7 +211,6 @@ inline std::string padStringRight(std::string string, const std::size_t width, c
 {
 	for (std::size_t i{ string.size() }; i < width; ++i)
 		string += character;
-
 	return string;
 }
 
@@ -220,16 +218,14 @@ inline std::string padStringRight(std::string string, const std::size_t width, c
 // trims string from the left of all characters in characterToTrim
 inline std::string trimStringLeft(std::string string, const std::string& charactersToTrim)
 {
-	string.erase(0_uz, string.find_first_not_of(charactersToTrim));
-	return string;
+	return string.erase(0_uz, string.find_first_not_of(charactersToTrim));
 }
 
 // [does not alter any parameters]
 // trims string from the right of all characters in characterToTrim
 inline std::string trimStringRight(std::string string, const std::string& charactersToTrim)
 {
-	string.erase(string.find_last_not_of(charactersToTrim) + 1_uz);
-	return string;
+	return string.erase(string.find_last_not_of(charactersToTrim) + 1_uz);
 }
 
 // [does not alter any parameters]
