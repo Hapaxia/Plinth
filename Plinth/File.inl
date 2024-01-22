@@ -35,110 +35,86 @@
 namespace plinth
 {
 
-template <class sizeT>
-inline void saveBinaryFile(const char* data, const std::string& filename, sizeT size)
+template <class SizeT>
+inline bool saveBinaryFile(const char* data, const std::string& filename, const SizeT size)
 {
 	std::ofstream file(filename, std::ios::out | std::ios::binary | std::ios::trunc);
-	if (file.is_open())
-	{
-		file.write(data, static_cast<std::streampos>(size));
-		file.close();
-	}
+	if (!file.is_open())
+		return false;
+	file.write(data, static_cast<std::streampos>(size));
+	return true;
 }
 
-template <class sizeT>
-inline void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, sizeT size)
+template <class SizeT>
+inline bool saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, const SizeT size)
 {
 	std::ofstream file(filename, std::ios::out | std::ios::binary | std::ios::trunc);
-	if (file.is_open())
-	{
-		file.write(data.get(), static_cast<std::streampos>(size));
-		file.close();
-	}
+	if (!file.is_open())
+		return false;
+	file.write(data.get(), static_cast<std::streampos>(size));
+	return true;
 }
 
-inline FileSize getFileSize(const std::string& filename)
+inline std::size_t getFileSize(const std::string& filename)
 {
-	FileSize size;
 	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
 	if (!file.is_open())
-		return 0u;
-	else
-	{
-		size = static_cast<FileSize>(file.tellg());
-		file.close();
-		return size;
-	}
+		return 0_uz;
+	return static_cast<std::size_t>(file.tellg());
 }
 
-inline void loadTextFile(std::vector<std::string>& lines, const std::string& filename, const bool stripTrailingNewlines)
+inline bool loadTextFile(std::vector<std::string>& lines, const std::string& filename, const bool stripTrailingNewlines)
 {
 	std::ifstream file(filename, std::ifstream::in);
+	if (!file.is_open())
+		return false;
 	lines.clear();
-	std::string line;
-	if (!file.is_open())
-		return;
-	else
+	std::string line{};
+	while (std::getline(file, line))
 	{
-		while (std::getline(file, line))
-		{
-			if (stripTrailingNewlines && !line.empty() && line[line.length() - 1] == '\n')
-				line.erase(line.length() - 1);
-			lines.push_back(line);
-		}
-		file.close();
+		if (stripTrailingNewlines && (!line.empty()) && (line[line.length() - 1_uz] == '\n'))
+			line.erase(line.length() - 1_uz);
+		lines.push_back(line);
 	}
+	return true;
 }
 
-inline FileSize loadBinaryFile(char* data, const std::string& filename)
+inline std::size_t loadBinaryFile(char* data, const std::string& filename)
 {
-	FileSize size;
 	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
 	if (!file.is_open())
-		return 0u;
-	else
-	{
-		size = static_cast<FileSize>(file.tellg());
-		data = new char[size];
-		file.seekg(0, std::ios::beg);
-		file.read(data, size);
-		file.close();
-		return size;
-	}
+		return 0_uz;
+	const std::size_t size{ static_cast<std::size_t>(file.tellg()) };
+	data = new char[size];
+	file.seekg(0_uz, std::ios::beg);
+	file.read(data, size);
+	return size;
 }
 
-inline FileSize loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filename)
+inline std::size_t loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filename)
 {
-	FileSize size;
 	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
 	if (!file.is_open())
-		return 0u;
-	else
-	{
-		size = static_cast<FileSize>(file.tellg());
-		data.reset(new char[size]);
-		file.seekg(0, std::ios::beg);
-		file.read(data.get(), size);
-		file.close();
-		return size;
-	}
+		return 0_uz;
+	const std::size_t size{ static_cast<std::size_t>(file.tellg()) };
+	data = std::make_unique<char[]>(size);
+	file.seekg(0_uz, std::ios::beg);
+	file.read(data.get(), size);
+	return size;
 }
 
-inline void saveTextFile(const std::vector<std::string>& lines, const std::string& filename, const bool addNewlines)
+inline bool saveTextFile(const std::vector<std::string>& lines, const std::string& filename, const bool addNewlines)
 {
 	std::ofstream file(filename, std::ofstream::out);
 	if (!file.is_open())
-		return;
-	else
+		return false;
+	for (auto& line : lines)
 	{
-		for (auto& line : lines)
-		{
-			file << line;
-			if (addNewlines)
-				file << "\n";
-		}
-		file.close();
+		file << line;
+		if (addNewlines)
+			file << "\n";
 	}
+	return true;
 }
 
 } // namespace plinth

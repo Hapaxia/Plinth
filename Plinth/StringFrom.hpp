@@ -41,67 +41,62 @@
 namespace plinth
 {
 
+struct DecimalPrecision
+{
+	std::size_t digits;
+	enum Type
+	{
+		None,
+		DecimalPlaces,
+		SignificantFigures,
+	} type;
+	//DecimalPrecision() : digits{ 6u }, type{ Type::None } { }
+	DecimalPrecision(const std::size_t newDigits, const Type newType = Type::DecimalPlaces) : digits{ newDigits }, type{ newType } { }
+	DecimalPrecision(const Type newType) : digits{ 6u }, type { newType } { }
+	//void operator=(Type newType) { type = newType; }
+};
+
 std::string stringFrom(const std::string& = "");
 std::string stringFrom(const char*);
 std::string stringFrom(bool);
-std::string stringFrom(Color::Rgb rgb);
+std::string stringFrom(Color::Rgb rgb, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template <class T>
 std::string stringFrom(T*);
 template <class T>
-std::string stringFrom(T*, unsigned int minimumSize);
+std::string stringFrom(T*, std::size_t minimumSize);
 
 template <class T>
-std::string stringFrom(Lax<T> lax);
-template <class T>
-std::string stringFrom(Lax<T> lax, unsigned int decimalPrecision);
+std::string stringFrom(const T&, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template <class T>
-std::string stringFrom(const std::vector<T>);
-template <class T>
-std::string stringFrom(const std::vector<T>, const std::string& separator);
+std::string stringFrom(Lax<T> lax, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template <class T>
-std::string stringFrom(const T&);
+std::string stringFrom(const std::vector<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 template <class T>
-std::string stringFrom(const T&, unsigned int decimalPrecision);
+std::string stringFrom(const std::vector<T>, const std::string& separator, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template<class T>
-std::string stringFrom(pl::Vector2<T>);
-template<class T>
-std::string stringFrom(pl::Vector2<T>, unsigned int decimalPrecision);
+std::string stringFrom(pl::Vector2<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template<class T>
-std::string stringFrom(pl::Vector3<T>);
-template<class T>
-std::string stringFrom(pl::Vector3<T>, unsigned int decimalPrecision);
+std::string stringFrom(pl::Vector3<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template<class T>
-std::string stringFrom(pl::Size2<T>);
+std::string stringFrom(pl::Size2<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 template<class T>
-std::string stringFrom(pl::Size2<T>, unsigned int decimalPrecision);
-template<class T>
-std::string stringFrom(pl::Size3<T>);
-template<class T>
-std::string stringFrom(pl::Size3<T>, unsigned int decimalPrecision);
+std::string stringFrom(pl::Size3<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template<class T>
-std::string stringFrom(pl::Range<T>);
+std::string stringFrom(pl::Range<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 template<class T>
-std::string stringFrom(pl::Range<T>, unsigned int decimalPrecision);
+std::string stringFrom(pl::Range<pl::Vector2<T>>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector2<T>>, unsigned int decimalPrecision);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>);
-template<class T>
-std::string stringFrom(pl::Range<pl::Vector3<T>>, unsigned int decimalPrecision);
+std::string stringFrom(pl::Range<pl::Vector3<T>>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 template<class T>
-std::string stringFrom(pl::RangeArea<T>);
-template<class T>
-std::string stringFrom(pl::RangeArea<T>, unsigned int decimalPrecision);
+std::string stringFrom(pl::RangeArea<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 } // namespace plinth
 #include "StringFrom.inl"

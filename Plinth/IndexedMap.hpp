@@ -36,26 +36,26 @@
 namespace plinth
 {
 
-template <class keyT, class T>
+template <class KeyT, class T>
 class IndexedMap
 {
 public:
 	IndexedMap();
-	void add(const keyT& key, const T& value);
+	void add(const KeyT& key, const T& value);
 	void add(const T& value);
-	void remove(const keyT& key);
-	void remove(unsigned int index);
-	T get(const keyT& key) const;
-	T get(unsigned int index) const;
-	T& access(const keyT& key);
-	T& access(unsigned int index);
-	bool valid(const keyT& key) const;
-	bool valid(unsigned int index) const;
-	void set(const keyT& key, const T& value);
-	void set(unsigned int index, const T& value);
-	void setKey(unsigned int index, const keyT& key);
-	keyT getKey(unsigned int index) const;
-	unsigned int getSize() const;
+	void remove(const KeyT& key);
+	void remove(std::size_t index);
+	T get(const KeyT& key) const;
+	T get(std::size_t index) const;
+	T& access(const KeyT& key);
+	T& access(std::size_t index);
+	bool valid(const KeyT& key) const;
+	bool valid(std::size_t index) const;
+	void set(const KeyT& key, const T& value);
+	void set(std::size_t index, const T& value);
+	void setKey(std::size_t index, const KeyT& key);
+	KeyT getKey(std::size_t index) const;
+	std::size_t getSize() const;
 	void clear();
 
 private:
@@ -63,12 +63,12 @@ private:
 
 	struct Element
 	{
-		keyT key;
+		KeyT key;
 		T value;
 	};
 	std::vector<Element> m_elements;
 
-	bool priv_indexIsValid(unsigned int index) const;
+	bool priv_indexIsValid(std::size_t index) const;
 };
 
 } // namespace plinth

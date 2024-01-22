@@ -50,18 +50,18 @@ struct Sprite : public Transformable
 {
 	TrackRect<int> textureRect;
 	TrackColor color;
-	Track<unsigned int> textureId;
+	Track<std::size_t> textureId;
 };
 
 struct Text : public Transformable
 {
 	Track<unsigned int> characterSize;
 	TrackColor color;
-	Track<unsigned int> style;
-	Track<unsigned int> fontId;
-	Track<unsigned int> stringId;
-	Track<unsigned int> substringOffset;
-	Track<unsigned int> substringLength;
+	Track<long unsigned int> style;
+	Track<std::size_t> fontId;
+	Track<std::size_t> stringId;
+	Track<std::size_t> substringOffset;
+	Track<std::size_t> substringLength;
 };
 
 struct Shape : public Transformable
@@ -75,7 +75,7 @@ struct Shape : public Transformable
 struct CircleShape : public Shape
 {
 	Track<float> radius;
-	Track<unsigned int> pointCount;
+	Track<std::size_t> pointCount;
 };
 
 struct RectangleShape : public Shape
@@ -85,13 +85,13 @@ struct RectangleShape : public Shape
 
 struct ConvexShape : public Shape
 {
-	Track<unsigned int> pointCount;
+	Track<std::size_t> pointCount;
 };
 
 struct Texture
 {
-	Track<unsigned int> smooth;
-	Track<unsigned int> repeated;
+	TrackBool smooth;
+	TrackBool repeated;
 };
 
 struct View

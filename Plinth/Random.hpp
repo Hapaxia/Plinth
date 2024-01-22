@@ -33,6 +33,7 @@
 #include "Common.hpp"
 #include <random>
 #include "Generic.hpp"
+#include "Range.hpp"
 
 namespace plinth
 {
@@ -40,44 +41,37 @@ namespace plinth
 class Random
 {
 public:
-	Random();
-	Random(unsigned int min, unsigned int max);
-
-	unsigned int rand(unsigned int rangeSize);
-
-	bool chance(unsigned int samplePoints, unsigned int sampleSpace);
-
-	unsigned int value();
-
 	template <class T>
-	T value(T min, T max) { return priv_value(min, max); }
+	static T value(T min, T max);
+	template <class T, class U>
+	static T value(T min, U max);
+	template <class T>
+	static T value(const Range<T>& range);
 
-	void setMinimum(unsigned int min);
-	void setMaximum(unsigned int max);
-	void setRange(unsigned int min, unsigned int max);
+	static std::size_t rand(std::size_t rangeSize);
+	static bool chance(std::size_t samplePoints, std::size_t sampleSpace);
 
-	template <class seedT>
-	void seed(seedT seed) { m_generator.seed(seed); };
+	template <class SeedT>
+	static void seed(SeedT seed);
+	static void randomSeed();
 
-	void randomSeed();
+	static std::mt19937& getGenerator();
+
+
+
+
+
+
 
 private:
-	std::mt19937 m_generator;
-	unsigned int m_min, m_max;
+	static std::mt19937 m_generator;
 
-	float priv_value(float min, float max);
-	double priv_value(double min, double max);
-	long double priv_value(long double min, long double max);
-	template <class T>
-	T priv_value(T min, T max);
+	static float priv_value(float min, float max);
+	static double priv_value(double min, double max);
+	static long double priv_value(long double min, long double max);
+	template <class IntegerT>
+	static IntegerT priv_value(IntegerT min, IntegerT max);
 };
-
-template <class T>
-T Random::priv_value(T min, T max)
-{
-	orderLowHigh(min, max);
-	return static_cast<T>(std::uniform_int_distribution<long long int>{static_cast<long long int>(min), static_cast<long long int>(max)}(m_generator));
-}
 
 } // namespace plinth
 #include "Random.inl"

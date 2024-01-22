@@ -41,48 +41,48 @@ namespace Controls
 {
 
 	// control code constants (from the lists here: http://en.wikipedia.org/wiki/ASCII and here: http://www.theasciicode.com.ar/)
-	const unsigned char Null{ 0 };
-	const unsigned char StartOfHeader{ 1 };
-	const unsigned char StartOfText{ 2 };
-	const unsigned char EndOfText{ 3 };
-	const unsigned char EndOfTransmission{ 4 };
-	const unsigned char Enquiry{ 5 };
-	const unsigned char Acknowledgment{ 6 };
-	const unsigned char Bell{ 7 };
-	const unsigned char Backspace{ 8 };
-	const unsigned char HorizontalTab{ 9 };
-	const unsigned char LineFeed{ 10 };
-	const unsigned char VerticalTab{ 11 };
-	const unsigned char FormFeed{ 12 };
-	const unsigned char CarriageReturn{ 13 };
-	const unsigned char ShiftOut{ 14 };
-	const unsigned char ShiftIn{ 15 };
-	const unsigned char DataLinkEscape{ 16 };
-	const unsigned char DeviceControl1{ 17 };
-	const unsigned char DeviceControl2{ 18 };
-	const unsigned char DeviceControl3{ 19 };
-	const unsigned char DeviceControl4{ 20 };
-	const unsigned char NegativeAcknowledgment{ 21 };
-	const unsigned char SynchronousIdle{ 22 };
-	const unsigned char EndOfTransmissionBlock{ 23 };
-	const unsigned char Cancel{ 24 };
-	const unsigned char EndOfMedium{ 25 };
-	const unsigned char Substitute{ 26 };
-	const unsigned char Escape{ 27 };
-	const unsigned char FileSeparator{ 28 };
-	const unsigned char GroupSeparator{ 29 };
-	const unsigned char RecordSeparator{ 30 };
-	const unsigned char UnitSeparator{ 31 };
-	const unsigned char Delete{ 127 };
+	constexpr unsigned char Null{ 0_uc };
+	constexpr unsigned char StartOfHeader{ 1_uc };
+	constexpr unsigned char StartOfText{ 2_uc };
+	constexpr unsigned char EndOfText{ 3_uc };
+	constexpr unsigned char EndOfTransmission{ 4_uc };
+	constexpr unsigned char Enquiry{ 5_uc };
+	constexpr unsigned char Acknowledgment{ 6_uc };
+	constexpr unsigned char Bell{ 7_uc };
+	constexpr unsigned char Backspace{ 8_uc };
+	constexpr unsigned char HorizontalTab{ 9_uc };
+	constexpr unsigned char LineFeed{ 10_uc };
+	constexpr unsigned char VerticalTab{ 11_uc };
+	constexpr unsigned char FormFeed{ 12_uc };
+	constexpr unsigned char CarriageReturn{ 13_uc };
+	constexpr unsigned char ShiftOut{ 14_uc };
+	constexpr unsigned char ShiftIn{ 15_uc };
+	constexpr unsigned char DataLinkEscape{ 16_uc };
+	constexpr unsigned char DeviceControl1{ 17_uc };
+	constexpr unsigned char DeviceControl2{ 18_uc };
+	constexpr unsigned char DeviceControl3{ 19_uc };
+	constexpr unsigned char DeviceControl4{ 20_uc };
+	constexpr unsigned char NegativeAcknowledgment{ 21_uc };
+	constexpr unsigned char SynchronousIdle{ 22_uc };
+	constexpr unsigned char EndOfTransmissionBlock{ 23_uc };
+	constexpr unsigned char Cancel{ 24_uc };
+	constexpr unsigned char EndOfMedium{ 25_uc };
+	constexpr unsigned char Substitute{ 26_uc };
+	constexpr unsigned char Escape{ 27_uc };
+	constexpr unsigned char FileSeparator{ 28_uc };
+	constexpr unsigned char GroupSeparator{ 29_uc };
+	constexpr unsigned char RecordSeparator{ 30_uc };
+	constexpr unsigned char UnitSeparator{ 31_uc };
+	constexpr unsigned char Delete{ 127_uc };
 
 	// aliases
-	const unsigned char Newline{ LineFeed };
-	const unsigned char Return{ CarriageReturn };
-	const unsigned char Tab{ HorizontalTab };
-	const unsigned char XOn{ DeviceControl1 };
-	const unsigned char XOff{ DeviceControl3 };
-	const unsigned char CtrlZ{ Substitute };
-	const unsigned char EndOfFile{ Substitute };
+	constexpr unsigned char Newline{ LineFeed };
+	constexpr unsigned char Return{ CarriageReturn };
+	constexpr unsigned char Tab{ HorizontalTab };
+	constexpr unsigned char XOn{ DeviceControl1 };
+	constexpr unsigned char XOff{ DeviceControl3 };
+	constexpr unsigned char CtrlZ{ Substitute };
+	constexpr unsigned char EndOfFile{ Substitute };
 	//const unsigned char EOF{ EndOfFile };
 
 } // namespace Controls
@@ -92,7 +92,7 @@ namespace Characters
 	{
 
 		// character constants
-		const unsigned char Space{ 32 };
+		constexpr unsigned char Space{ 32_uc };
 
 	} // namespace Standard
 	namespace Extended
@@ -101,49 +101,49 @@ namespace Characters
 		{
 
 			// (as listed here: http://www.theasciicode.com.ar/)
-			const unsigned char Pound{ short int(156) };
-			const unsigned char Multiply{ 158 };
-			const unsigned char Function{ 159 };
-			const unsigned char Registered{ 169 };
-			const unsigned char Copyright{ 184 };
-			const unsigned char Cent{ 189 };
-			const unsigned char Yen{ 190 };
-			const unsigned char Pipe{ 221 };
-			const unsigned char Divide{ 246 };
-			const unsigned char Degree{ 248 };
+			constexpr unsigned char Pound{ 156_uc };
+			constexpr unsigned char Multiply{ 158_uc };
+			constexpr unsigned char Function{ 159_uc };
+			constexpr unsigned char Registered{ 169_uc };
+			constexpr unsigned char Copyright{ 184_uc };
+			constexpr unsigned char Cent{ 189_uc };
+			constexpr unsigned char Yen{ 190_uc };
+			constexpr unsigned char Pipe{ 221_uc };
+			constexpr unsigned char Divide{ 246_uc };
+			constexpr unsigned char Degree{ 248_uc };
 
 		} // namespace Set1
 		namespace Iso88591
 		{
 
 			// (as listed here: http://www.ascii-code.com/ - "ISO 8859-1, also called ISO Latin-1")
-			const unsigned char Euro{ 128 };
-			const unsigned char Function{ 131 };
-			const unsigned char Bullet{ 149 };
-			const unsigned char EnDash{ 150 };
-			const unsigned char EmDash{ 151 };
-			const unsigned char TradeMark{ 153 };
-			const unsigned char Cent{ 162 };
-			const unsigned char Pount{ 163 };
-			const unsigned char Currency{ 164 };
-			const unsigned char Yen{ 165 };
-			const unsigned char Pipe{ 166 };
-			const unsigned char Copyright{ 169 };
-			const unsigned char RegisteredTradeMark{ 174 };
-			const unsigned char Degree{ 176 };
-			const unsigned char PlusMinus{ 177 };
-			const unsigned char Micro{ 181 };
-			const unsigned char MiddleDot{ 183 };
-			const unsigned char OneQuarter{ 188 };
-			const unsigned char OneHalf{ 189 };
-			const unsigned char ThreeQuarters{ 190 };
-			const unsigned char Multiply{ 215 };
-			const unsigned char Divide{ 247 };
+			constexpr unsigned char Euro{ 128_uc };
+			constexpr unsigned char Function{ 131_uc };
+			constexpr unsigned char Bullet{ 149_uc };
+			constexpr unsigned char EnDash{ 150_uc };
+			constexpr unsigned char EmDash{ 151_uc };
+			constexpr unsigned char TradeMark{ 153_uc };
+			constexpr unsigned char Cent{ 162_uc };
+			constexpr unsigned char Pount{ 163_uc };
+			constexpr unsigned char Currency{ 164_uc };
+			constexpr unsigned char Yen{ 165_uc };
+			constexpr unsigned char Pipe{ 166_uc };
+			constexpr unsigned char Copyright{ 169_uc };
+			constexpr unsigned char RegisteredTradeMark{ 174_uc };
+			constexpr unsigned char Degree{ 176_uc };
+			constexpr unsigned char PlusMinus{ 177_uc };
+			constexpr unsigned char Micro{ 181_uc };
+			constexpr unsigned char MiddleDot{ 183_uc };
+			constexpr unsigned char OneQuarter{ 188_uc };
+			constexpr unsigned char OneHalf{ 189_uc };
+			constexpr unsigned char ThreeQuarters{ 190_uc };
+			constexpr unsigned char Multiply{ 215_uc };
+			constexpr unsigned char Divide{ 247_uc };
 
 			// aliases
-			const unsigned char Registered{ RegisteredTradeMark };
-			const unsigned char Quarter{ OneQuarter };
-			const unsigned char Half{ OneHalf };
+			constexpr unsigned char Registered{ RegisteredTradeMark };
+			constexpr unsigned char Quarter{ OneQuarter };
+			constexpr unsigned char Half{ OneHalf };
 
 		} // namespace Iso88591
 	} // namespace Extended

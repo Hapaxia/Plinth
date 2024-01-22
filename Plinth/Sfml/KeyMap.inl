@@ -35,60 +35,70 @@
 namespace plinth
 {
 
-inline KeyMap::KeyMap()
-	: m_keys()
+template <class KeycodeT>
+inline KeyMap<KeycodeT>::KeyMap()
+	: m_keys{}
 {
 }
 
-inline void KeyMap::addKey(const std::string& name, const sf::Keyboard::Key& key)
+template <class KeycodeT>
+inline void KeyMap<KeycodeT>::addKey(const std::string& name, const KeycodeT key)
 {
 	m_keys.add(name, key);
 }
 
-inline void KeyMap::addKey(const sf::Keyboard::Key& key, const std::string& name)
+template <class KeycodeT>
+inline void KeyMap<KeycodeT>::addKey(const KeycodeT key, const std::string& name)
 {
 	addKey(name, key);
 }
 
-inline void KeyMap::addKey(const sf::Keyboard::Key& key)
+template <class KeycodeT>
+inline void KeyMap<KeycodeT>::addKey(const KeycodeT key)
 {
 	addKey("", key);
 }
 
-inline void KeyMap::removeKey(const unsigned int index)
+template <class KeycodeT>
+inline void KeyMap<KeycodeT>::removeKey(const std::size_t index)
 {
 	if (m_keys.valid(index))
 		m_keys.remove(index);
 }
 
-inline void KeyMap::removeKey(const std::string& name)
+template <class KeycodeT>
+inline void KeyMap<KeycodeT>::removeKey(const std::string& name)
 {
 	m_keys.remove(name);
 }
 
-inline sf::Keyboard::Key KeyMap::getKey(const unsigned int index) const
+template <class KeycodeT>
+inline KeycodeT KeyMap<KeycodeT>::getKey(const std::size_t index) const
 {
 	if (m_keys.valid(index))
 		return m_keys.get(index);
 	else
-		return sf::Keyboard::Unknown;
+		return static_cast<KeycodeT>(-1);
 }
 
-inline sf::Keyboard::Key KeyMap::getKey(const std::string& name) const
+template <class KeycodeT>
+inline KeycodeT KeyMap<KeycodeT>::getKey(const std::string& name) const
 {
 	if (m_keys.valid(name))
 		return m_keys.get(name);
 	else
-		return sf::Keyboard::Unknown;
+		return static_cast<KeycodeT>(-1);
 }
 
-inline void KeyMap::setKey(const unsigned int index, const sf::Keyboard::Key& key)
+template <class KeycodeT>
+inline void KeyMap<KeycodeT>::setKey(const std::size_t index, const KeycodeT key)
 {
 	if (m_keys.valid(index))
 		m_keys.set(index, key);
 }
 
-inline std::string KeyMap::getName(const unsigned int index) const
+template <class KeycodeT>
+inline std::string KeyMap<KeycodeT>::getName(const std::size_t index) const
 {
 	if (m_keys.valid(index))
 		return m_keys.getKey(index);
@@ -96,7 +106,8 @@ inline std::string KeyMap::getName(const unsigned int index) const
 		return "";
 }
 
-inline unsigned int KeyMap::getSize() const
+template <class KeycodeT>
+inline std::size_t KeyMap<KeycodeT>::getSize() const
 {
 	return m_keys.getSize();
 }

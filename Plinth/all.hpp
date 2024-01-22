@@ -40,6 +40,7 @@
 #include "Math.hpp"
 #include "NumberBase.hpp"
 #include "Random.hpp"
+#include "RandomDistribution.hpp"
 #include "Ranges.hpp"
 #include "Sizes.hpp"
 #include "StringFrom.hpp"

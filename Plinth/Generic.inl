@@ -32,31 +32,36 @@
 
 #include "Generic.hpp"
 
+#include <utility> // for std::swap
+
+#include "Range.hpp"
+#include "Vector3.hpp"
+
 namespace plinth
 {
 
 template<class T>
 // returns the highest value in a pair
-inline T max(const T& a, const T& b)
+inline constexpr T max(const T& a, const T& b)
 {
 	return std::max(a, b);
 }
 
 template<class T>
 // returns the lowest value in a pair
-inline T min(const T& a, const T& b)
+inline constexpr T min(const T& a, const T& b)
 {
 	return std::min(a, b);
 }
 
 template<class T>
 // returns the highest value of a vector
-inline T max(const std::vector<T>& values)
+inline constexpr T max(const std::vector<T>& values)
 {
-	if (values.size() == 0)
-		return T();
-	typename std::vector<T>::const_iterator result = values.begin();
-	for (typename std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
+	if (values.empty())
+		return T{};
+	auto result{ values.begin() };
+	for (auto end{ values.end() }, it{ result }; it != end; ++it)
 	{
 		if (*result < *it)
 			result = it;
@@ -66,12 +71,12 @@ inline T max(const std::vector<T>& values)
 
 template<class T>
 // returns the lowest value of a vector
-inline T min(const std::vector<T>& values)
+inline constexpr T min(const std::vector<T>& values)
 {
-	if (values.size() == 0)
-		return T();
-	typename std::vector<T>::const_iterator result = values.begin();
-	for (typename std::vector<T>::const_iterator end = values.end(), it = result; it != end; ++it)
+	if (values.empty())
+		return T{};
+	auto result{ values.begin() };
+	for (auto end{ values.end() }, it{ result }; it != end; ++it)
 	{
 		if (*it < *result)
 			result = it;
@@ -88,7 +93,7 @@ inline void swap(T& a, T& b)
 
 template<class T>
 // order two values (low - high)
-inline void orderLowHigh(T& low, T& high)
+inline constexpr void orderLowHigh(T& low, T& high)
 {
 	if (high < low)
 		swap(low, high);
@@ -102,37 +107,37 @@ inline T toggle(T& b)
 	return b = !b;
 }
 
-template <class IntegerType>
-inline IntegerType intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, const bool isLittleEndian)
+template <class IntegerT, class CharT>
+inline IntegerT intFromBytes(const std::size_t numberOfBytes, const CharT* bytes, const bool isLittleEndian)
 {
-	IntegerType result = 0;
+	IntegerT result{ static_cast<IntegerT>(0) };
 	if (isLittleEndian)
 	{
-		for (unsigned int n{ numberOfBytes }; n > 0; --n)
-			result = (result << 8) + bytes[n - 1];
+		for (std::size_t n{ numberOfBytes }; n > 0_uz; --n)
+			result = (result << 8) + static_cast<unsigned char>(bytes[n - 1_uz]);
 	}
 	else
 	{
-		for (unsigned int n{ 0 }; n < numberOfBytes; ++n)
-			result = (result << 8) + bytes[n];
+		for (std::size_t n{ 0_uz }; n < numberOfBytes; ++n)
+			result = (result << 8) + static_cast<unsigned char>(bytes[n]);
 	}
 	return result;
 }
 
-template <class IntegerType>
-inline IntegerType intFromBytes(const std::vector<unsigned char>& bytes, const bool isLittleEndian)
+template <class IntegerT, class CharT>
+inline IntegerT intFromBytes(const std::vector<CharT>& bytes, const bool isLittleEndian)
 {
-	IntegerType result = 0;
-	const unsigned int numberOfBytes{ static_cast<unsigned int>(bytes.size()) };
+	IntegerT result{ static_cast<IntegerT>(0) };
+	const std::size_t numberOfBytes{ bytes.size() };
 	if (isLittleEndian)
 	{
-		for (unsigned int n{ numberOfBytes }; n > 0; --n)
-			result = (result << 8) + bytes[n - 1];
+		for (std::size_t n{ numberOfBytes }; n > 0_uz; --n)
+			result = (result << 8) + static_cast<unsigned char>(bytes[n - 1_uz]);
 	}
 	else
 	{
-		for (unsigned int n{ 0 }; n < numberOfBytes; ++n)
-			result = (result << 8) + bytes[n];
+		for (std::size_t n{ 0_uz }; n < numberOfBytes; ++n)
+			result = (result << 8) + static_cast<unsigned char>(bytes[n]);
 	}
 	return result;
 }

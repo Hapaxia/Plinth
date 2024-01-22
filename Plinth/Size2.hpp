@@ -38,10 +38,12 @@ namespace plinth
 template <class T>
 struct Size2
 {
-	T width, height;
+	T width{ static_cast<T>(0) };
+	T height{ static_cast<T>(0) };
 	T getArea() const { return width * height; }
 };
 
+using Size2uz = Size2<std::size_t>;
 using Size2u = Size2<unsigned int>;
 using Size2d = Size2<double>;
 

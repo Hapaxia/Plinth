@@ -55,159 +55,111 @@ inline std::string stringFrom(const bool from)
 	return (from ? "true" : "false");
 }
 
-inline std::string stringFrom(const Color::Rgb rgb)
+inline std::string stringFrom(const Color::Rgb rgb, const DecimalPrecision decimalPrecision)
 {
-	return stringFrom(Vector3d(rgb.r, rgb.g, rgb.b));
-}
-
-template <class T>
-inline std::string stringFrom(const Lax<T> lax)
-{
-	return stringFrom(static_cast<T>(lax));
-}
-
-template <class T>
-inline std::string stringFrom(const Lax<T> lax, unsigned int decimalPrecision)
-{
-	return stringFrom(static_cast<T>(lax), decimalPrecision);
+	return stringFrom(Vector3d(rgb.r, rgb.g, rgb.b), decimalPrecision);
 }
 
 template <class T>
 inline std::string stringFrom(T* p)
 {
-	std::string unpadded{ upperCase(hexFromDec(reinterpret_cast<std::size_t>(p))) };
-	return padStringLeft(unpadded, unpadded.size() > 32 ? 64u : unpadded.size() > 16 ? 32u : unpadded.size() > 8 ? 16 : 8u, '0');
+	const std::string unpadded{ upperCase(hexFromDec(reinterpret_cast<std::size_t>(p))) };
+	return padStringLeft(unpadded, (unpadded.size() > 32_uz) ? 64_uz : (unpadded.size() > 16_uz) ? 32_uz : (unpadded.size() > 8_uz) ? 16_uz : 8_uz, '0');
 }
 
 template <class T>
-inline std::string stringFrom(T* p, unsigned int minimumSize)
+inline std::string stringFrom(T* p, const std::size_t minimumSize)
 {
-	std::string padded{ stringFrom(p) };
-	return padStringLeft(padded, padded.size() < minimumSize ? minimumSize : static_cast<unsigned int>(padded.size()), '0');
+	const std::string padded{ stringFrom(p) };
+	return padStringLeft(padded, (padded.size() < minimumSize) ? minimumSize : padded.size(), '0');
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Vector2<T> from, const DecimalPrecision decimalPrecision)
+{
+	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ")";
 }
 
 template <class T>
-inline std::string stringFrom(const std::vector<T> froms)
+inline std::string stringFrom(const Lax<T> lax, const DecimalPrecision decimalPrecision)
 {
-	std::string to = "";
+	return stringFrom(static_cast<T>(lax), decimalPrecision);
+}
+
+template <class T>
+inline std::string stringFrom(const std::vector<T> froms, const DecimalPrecision decimalPrecision)
+{
+	std::string to{};
 	for (auto& from : froms)
-		to += stringFrom(from);
+		to += stringFrom(from, decimalPrecision);
 	return to;
 }
 
-template <class T>
-inline std::string stringFrom(const std::vector<T> froms, const std::string& separator)
+template<class T>
+std::string stringFrom(const std::vector<T> froms, const std::string& separator, const DecimalPrecision decimalPrecision)
 {
-	std::string to = "";
-	for (auto& begin{ froms.begin() }, end{ froms.end() }, it{ begin }; it != end; ++it)
+	std::string to{};
+	for (auto begin{ froms.begin() }, end{ froms.end() }, it{ begin }; it != end; ++it)
 	{
-		to += stringFrom(*it);
-		if (it + 1 == end)
-			continue;
-		to += separator;
+		to += stringFrom(*it, decimalPrecision);
+		if ((it + 1_uz) != end)
+			to += separator;
 	}
 	return to;
 }
 
 template <class T>
-inline std::string stringFrom(const T& from)
+inline std::string stringFrom(const T& from, const DecimalPrecision decimalPrecision)
 {
-	return std::to_string(from);
-}
+	if (decimalPrecision.type == DecimalPrecision::None)
+		return std::to_string(from);
 
-template <class T>
-inline std::string stringFrom(const T& from, const unsigned int decimalPrecision)
-{
 	std::stringstream ss;
-	ss << std::setprecision(decimalPrecision) << static_cast<long double>(from);
+	if (decimalPrecision.type == DecimalPrecision::DecimalPlaces)
+		ss << std::fixed;
+	ss << std::setprecision(decimalPrecision.digits) << static_cast<long double>(from);
 	return ss.str();
 }
 
 template<class T>
-inline std::string stringFrom(const pl::Vector2<T> from)
-{
-	return "(" + stringFrom(from.x) + ", " + stringFrom(from.y) + ")";
-}
-template<class T>
-inline std::string stringFrom(const pl::Vector2<T> from, const unsigned int decimalPrecision)
-{
-	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ")";
-}
-
-template<class T>
-inline std::string stringFrom(const pl::Vector3<T> from)
-{
-	return "(" + stringFrom(from.x) + ", " + stringFrom(from.y) + ", " + stringFrom(from.z) + ")";
-}
-template<class T>
-inline std::string stringFrom(const pl::Vector3<T> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const pl::Vector3<T> from, const DecimalPrecision decimalPrecision)
 {
 	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ", " + stringFrom(from.z, decimalPrecision) + ")";
 }
 
 template<class T>
-inline std::string stringFrom(const pl::Size2<T> from)
-{
-	return stringFrom(from.width) + " x " + stringFrom(from.height);
-}
-template<class T>
-inline std::string stringFrom(const pl::Size2<T> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const pl::Size2<T> from, const DecimalPrecision decimalPrecision)
 {
 	return stringFrom(from.width, decimalPrecision) + " x " + stringFrom(from.height, decimalPrecision);
 }
 template<class T>
-inline std::string stringFrom(const pl::Size3<T> from)
-{
-	return stringFrom(from.width) + " x " + stringFrom(from.height) + " x " + stringFrom(from.depth);
-}
-template<class T>
-inline std::string stringFrom(const pl::Size3<T> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const pl::Size3<T> from, const DecimalPrecision decimalPrecision)
 {
 	return stringFrom(from.width, decimalPrecision) + " x " + stringFrom(from.height, decimalPrecision) + " x " + stringFrom(from.depth, decimalPrecision);
 }
 
 template<class T>
-inline std::string stringFrom(const pl::Range<T> from)
-{
-	return stringFrom(from.min) + " - " + stringFrom(from.max);
-}
-template<class T>
-inline std::string stringFrom(const pl::Range<T> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const pl::Range<T> from, const DecimalPrecision decimalPrecision)
 {
 	return stringFrom(from.min, decimalPrecision) + " - " + stringFrom(from.max, decimalPrecision);
 }
 
 template<class T>
-inline std::string stringFrom(const pl::Range<pl::Vector2<T>> from)
-{
-	return stringFrom(pl::Vector2<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }), stringFrom(pl::Range<T>{ from.min.y, from.max.y })));
-}
-template<class T>
-inline std::string stringFrom(const pl::Range<pl::Vector2<T>> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const pl::Range<pl::Vector2<T>> from, const DecimalPrecision decimalPrecision)
 {
 	return stringFrom(pl::Vector2<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision)));
 }
 
 template<class T>
-inline std::string stringFrom(const pl::Range<pl::Vector3<T>> from)
-{
-	return stringFrom(pl::Vector3<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }), stringFrom(pl::Range<T>{ from.min.y, from.max.y }), stringFrom(pl::Range<T>{ from.min.z, from.max.z })));
-}
-template<class T>
-inline std::string stringFrom(const pl::Range<pl::Vector3<T>> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const pl::Range<pl::Vector3<T>> from, const DecimalPrecision decimalPrecision)
 {
 	return stringFrom(pl::Vector3<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.z, from.max.z }, decimalPrecision)));
 }
 
 template<class T>
-inline std::string stringFrom(const pl::RangeArea<T> from)
+inline std::string stringFrom(const pl::RangeArea<T> from, const DecimalPrecision decimalPrecision)
 {
-	return stringFrom(pl::Range<pl::Vector2<T>>{from.getLeftBottom(), from.getRightTop()});
-}
-template<class T>
-inline std::string stringFrom(const pl::RangeArea<T> from, const unsigned int decimalPrecision)
-{
-	return stringFrom(pl::Range<pl::Vector2<T>>{from.getLeftBottom(), from.getRightTop()}, decimalPrecision);
+	return stringFrom(pl::Range<pl::Vector2<T>>{ from.getLeftBottom(), from.getRightTop() }, decimalPrecision);
 }
 
 } // namespace plinth

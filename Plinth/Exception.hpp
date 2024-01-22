@@ -33,27 +33,14 @@
 #include <exception>
 #include <string>
 
-#ifdef _MSC_VER
-#define NOEXCEPT
-#else
-#define NOEXCEPT noexcept
-#endif
-
 namespace plinth
 {
 
 class Exception : public std::exception
 {
 public:
-	Exception(const std::string& errorMessage = "Unknown error.") :
-		m_errorMessage("[Plinth] " + errorMessage)
-	{
-	}
-	virtual const char* what() const NOEXCEPT override
-	{
-		return m_errorMessage.c_str();
-	}
-
+	Exception(const std::string& errorMessage = "Unknown error.") : m_errorMessage("[Plinth] " + errorMessage) { }
+	const char* what() const noexcept override final { return m_errorMessage.c_str(); }
 private:
 	std::string m_errorMessage;
 };

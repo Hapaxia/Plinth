@@ -37,100 +37,105 @@ namespace plinth
 	namespace Tween
 	{
 
-template <typename T, typename alphaT>
+template <typename T, typename AlphaT>
 // Linear Tween (interpolation) of two values using a given "alpha" value of the "blend amount"
-// Type alphaT should be a POD type in range 0 to 1.
+// Type AlphaT should be a POD type in range 0 to 1.
 // Type T must have required operators available (*, +)
 // and be able to be multiplied (scaled) by a POD type (alpha)
-inline T linear(const T& start, const T& end, const alphaT& alpha)
+inline constexpr T linear(const T& start, const T& end, const AlphaT& alpha)
 {
-	return static_cast<T>((start * (1.0 - alpha)) + (end * alpha)); // blend from low to high using alpha
+	return static_cast<T>((start * (static_cast<AlphaT>(1) - alpha)) + (end * alpha)); // blend from low to high using alpha
 }
 
-template <typename alphaT, typename T>
+template <typename AlphaT, typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
-// and be able to be cast to alphaT
+// and be able to be cast to AlphaT
 // The first template parameter is used to determine the return type
-inline alphaT inverseLinear(const T& start, const T& end, const T& value)
+inline constexpr AlphaT inverseLinear(const T& start, const T& end, const T& value)
 {
-	return static_cast<alphaT>(value - start) / (end - start);
+	return static_cast<AlphaT>(value - start) / (end - start);
 }
 
 template <typename T>
 // Inverse Linear Tween (interpolation) which gives the "alpha" value from the actual value's position in the range
 // Type T must have required operators available (-)
 // and be able to be cast to double (the return type of alpha)
-inline double inverseLinear(const T& start, const T& end, const T& value)
+inline constexpr double inverseLinear(const T& start, const T& end, const T& value)
 {
 	return static_cast<double>(value - start) / (end - start);
 }
 
-template <typename toT, typename fromT>
+template <typename ToT, typename FromT>
 // Converts value's position in range to its position in a different range.
 // Each range may have its own type.
-inline toT convertRange(const toT& toStart, const toT& toEnd, const fromT& fromStart, const fromT& fromEnd, const fromT& value)
+inline constexpr ToT convertRange(const ToT& toStart, const ToT& toEnd, const FromT& fromStart, const FromT& fromEnd, const FromT& value)
 {
 	return linear(toStart, toEnd, inverseLinear(fromStart, fromEnd, value));
 }
 
-template <typename T, typename alphaT, typename amountT>
-// Eases Tween in and out by "amount". An amount of zero is a linear Tween
-inline T easeInOut(const T& start, const T& end, const alphaT& alpha, const amountT& amount)
+template <typename T, typename AlphaT>
+// "Smoothstep" as found at http://guihaire.com/code/?p=229
+inline constexpr T quickerEase(const T& start, const T& end, const AlphaT& alpha)
 {
-	double strength{ static_cast<double>(amount)+1 }; // use range from 1 (straight line) in calculations instead of supplied 0
-	double pow1{ pow(alpha, strength) };
-	double pow2{ pow(1 - alpha, strength) };
-	double eased{ pow1 / (pow1 + pow2) };
+	const double a{ static_cast<double>(alpha) };
+	return linear(start, end, a * a * (3.0 - (2.0 * a)));
+}
+
+template <typename T, typename AlphaT>
+// "Smootherstep" as found at http://guihaire.com/code/?p=229
+inline constexpr T quickEase(const T& start, const T& end, const AlphaT& alpha)
+{
+	const double a{ static_cast<double>(alpha) };
+	return linear(start, end, a * a * a * (10.0 + (a * ((6.0 * a) - 15.0))));
+}
+
+template <typename T, typename AlphaT, typename AmountT>
+// Eases Tween in and out by "amount". An amount of zero is a linear Tween
+inline T easeInOut(const T& start, const T& end, const AlphaT& alpha, const AmountT& amount)
+{
+	const double a{ static_cast<double>(alpha) };
+	const double strength{ static_cast<double>(amount) + 1.0 }; // use range from 1 (straight line) in calculations instead of supplied 0
+	const double pow1{ std::pow(a, strength) };
+	const double pow2{ std::pow(1.0 - a, strength) };
+	const double eased{ pow1 / (pow1 + pow2) };
 	return linear(start, end, eased);
 }
 
-template <typename T, typename alphaT, typename amountT>
+template <typename T, typename AlphaT, typename AmountT>
 // Eases Tween in by "amount". An amount of zero is a linear Tween
-inline T easeIn(const T& start, const T& end, const alphaT& alpha, const amountT& amount)
+inline T easeIn(const T& start, const T& end, const AlphaT& alpha, const AmountT& amount)
 {
-	return easeInOut(start, end + (end - start), alpha / 2, amount);
+	return easeInOut(start, end + (end - start), static_cast<double>(alpha) / 2.0, amount);
 }
 
-template <typename T, typename alphaT, typename amountT>
+template <typename T, typename AlphaT, typename AmountT>
 // Eases Tween out by "amount". An amount of zero is a linear Tween
-inline T easeOut(const T& start, const T& end, const alphaT& alpha, const amountT& amount)
+inline T easeOut(const T& start, const T& end, const AlphaT& alpha, const AmountT& amount)
 {
-	return easeInOut(start - (end - start), end, 0.5 + alpha / 2, amount);
+	return easeInOut(start - (end - start), end, (static_cast<double>(alpha) / 2.0) + 0.5, amount);
 }
 
-template <typename T, typename alphaT, typename amountT>
+template <typename T, typename AlphaT, typename AmountT>
 // Eases Tween in by "in" and out by "out". Zero means no easing. If in and out are both zero, it becomes a linear Tween
-inline T oldEase(const T& start, const T& end, const alphaT& alpha, const amountT& in, const amountT& out)
+inline T oldEase(const T& start, const T& end, const AlphaT& alpha, const AmountT& in, const AmountT& out)
 {
-	T easedIn{ easeIn(start, end, alpha, in) };
-	T easedOut{ easeOut(start, end, alpha, out) };
+	const T easedIn{ easeIn(start, end, alpha, in) };
+	const T easedOut{ easeOut(start, end, alpha, out) };
 	return linear(easedIn, easedOut, alpha);
 }
 
-template <typename T, typename alphaT>
-// "Smoothstep" as found at http://guihaire.com/code/?p=229
-inline T quickerEase(const T& start, const T& end, const alphaT& alpha)
-{
-	return linear(start, end, alpha * alpha * (3 - 2 * alpha));
-}
-
-template <typename T, typename alphaT>
-// "Smootherstep" as found at http://guihaire.com/code/?p=229
-inline T quickEase(const T& start, const T& end, const alphaT& alpha)
-{
-	return linear(start, end, alpha * alpha * alpha * (10 + alpha * (6 * alpha - 15)));
-}
-
-template <typename T, typename alphaT, typename amountT>
+template <typename T, typename AlphaT, typename AmountT>
 // Eases Tween using bezier (creates and destroys a bezier object on each call). All types must be castable to double
-inline T slowEase(const T& start, const T& end, const alphaT& alpha, const amountT& in, const amountT& out)
+inline T bezierEase(const T& start, const T& end, const AlphaT& alpha, const AmountT& in, const AmountT& out)
 {
+	const double s{ static_cast<double>(start) };
+	const double e{ static_cast<double>(end) };
 	Bezier<double> bezier;
-	bezier.setPoint(0, { 0.0, static_cast<double>(start) });
-	bezier.setPoint(1, { static_cast<double>(in), static_cast<double>(start) });
-	bezier.setPoint(2, { 1.0 - static_cast<double>(out), static_cast<double>(end) });
-	bezier.setPoint(3, { 1.0, static_cast<double>(end) });
+	bezier.setPoint(0uz, { 0.0, s });
+	bezier.setPoint(1uz, { static_cast<double>(in), s });
+	bezier.setPoint(2uz, { 1.0 - static_cast<double>(out), e });
+	bezier.setPoint(3uz, { 1.0, e });
 	return static_cast<T>(bezier.solveYForX(static_cast<double>(alpha)));
 }
 
@@ -145,64 +150,64 @@ inline T slowEase(const T& start, const T& end, const alphaT& alpha, const amoun
 
 
 
-template <typename T, typename alphaT, typename strengthT>
+template <typename T, typename AlphaT, typename StrengthT>
 // Ease class - uses bezier cubic. All types must be castable to double
-inline Ease<T, alphaT, strengthT>::Ease()
-	: m_start(static_cast<T>(0.0))
-	, m_end(static_cast<T>(1.0))
-	, m_inStrength(static_cast<strengthT>(0.5))
-	, m_outStrength(static_cast<strengthT>(0.5))
-	, m_bezier()
+inline Ease<T, AlphaT, StrengthT>::Ease()
+	: m_start{ static_cast<T>(0) }
+	, m_end{ static_cast<T>(1) }
+	, m_inStrength{ static_cast<StrengthT>(0.5) }
+	, m_outStrength{ static_cast<StrengthT>(0.5) }
+	, m_bezier{}
 {
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setStart(const T start)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setStart(const T start)
 {
 	m_start = start;
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setEnd(const T end)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setEnd(const T end)
 {
 	m_end = end;
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setInStrength(const strengthT inStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setInStrength(const StrengthT inStrength)
 {
 	m_inStrength = inStrength;
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setOutStrength(const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setOutStrength(const StrengthT outStrength)
 {
 	m_outStrength = outStrength;
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setRange(const T start, const T end)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setRange(const T start, const T end)
 {
 	m_start = start;
 	m_end = end;
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setStrengths(const strengthT inStrength, const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setStrengths(const StrengthT inStrength, const StrengthT outStrength)
 {
 	m_inStrength = inStrength;
 	m_outStrength = outStrength;
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::setRangeAndStrengths(const T start, const T end, const strengthT inStrength, const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::setRangeAndStrengths(const T start, const T end, const StrengthT inStrength, const StrengthT outStrength)
 {
 	m_start = start;
 	m_end = end;
@@ -211,57 +216,59 @@ inline void Ease<T, alphaT, strengthT>::setRangeAndStrengths(const T start, cons
 	priv_updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T Ease<T, alphaT, strengthT>::getStart() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T Ease<T, AlphaT, StrengthT>::getStart() const
 {
 	return m_start;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T Ease<T, alphaT, strengthT>::getEnd() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T Ease<T, AlphaT, StrengthT>::getEnd() const
 {
 	return m_end;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline strengthT Ease<T, alphaT, strengthT>::getInStrength() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline StrengthT Ease<T, AlphaT, StrengthT>::getInStrength() const
 {
 	return m_inStrength;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline strengthT Ease<T, alphaT, strengthT>::getOutStrength() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline StrengthT Ease<T, AlphaT, StrengthT>::getOutStrength() const
 {
 	return m_outStrength;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T Ease<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha, const strengthT inStrength, const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline T Ease<T, AlphaT, StrengthT>::getValue(const T start, const T end, const AlphaT alpha, const StrengthT inStrength, const StrengthT outStrength)
 {
 	setRangeAndStrengths(start, end, inStrength, outStrength);
 	return getValue(alpha);
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T Ease<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha)
+template <typename T, typename AlphaT, typename StrengthT>
+inline T Ease<T, AlphaT, StrengthT>::getValue(const T start, const T end, const AlphaT alpha)
 {
 	setRange(start, end);
 	return getValue(alpha);
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T Ease<T, alphaT, strengthT>::getValue(const alphaT alpha) const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T Ease<T, AlphaT, StrengthT>::getValue(const AlphaT alpha) const
 {
 	return static_cast<T>(m_bezier.solveYForX(static_cast<double>(alpha)));
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void Ease<T, alphaT, strengthT>::priv_updatePoints()
+template <typename T, typename AlphaT, typename StrengthT>
+inline void Ease<T, AlphaT, StrengthT>::priv_updatePoints()
 {
-	m_bezier.setPoint(0, { 0.0, static_cast<double>(m_start) });
-	m_bezier.setPoint(1, { static_cast<double>(m_inStrength), static_cast<double>(m_start) });
-	m_bezier.setPoint(2, { 1.0 - static_cast<double>(m_outStrength), static_cast<double>(m_end) });
-	m_bezier.setPoint(3, { 1.0, static_cast<double>(m_end) });
+	const double start{ static_cast<double>(m_start) };
+	const double end{ static_cast<double>(m_end) };
+	m_bezier.setPoint(0_uz, { 0.0, start });
+	m_bezier.setPoint(1_uz, { static_cast<double>(m_inStrength), start });
+	m_bezier.setPoint(2_uz, { 1.0 - static_cast<double>(m_outStrength), end });
+	m_bezier.setPoint(3_uz, { 1.0, end });
 }
 
 
@@ -283,199 +290,180 @@ inline void Ease<T, alphaT, strengthT>::priv_updatePoints()
 
 
 
-template <typename T, typename alphaT, typename strengthT>
+template <typename T, typename AlphaT, typename StrengthT>
 // Fast Ease class - uses bezier cubic. All types must be castable to double
 // pre-calculates a number of points in steps and creates a kind of look-up table and then interpolates them linearly.
 // steps may be automatically determined (equally spaced) or added manually at any position or both (manually added after automatic spaced steps).
 // uses TweenPiecewise for LUT and the (linear) interpolation of that table
 //     template format is: FastEase < value type, alpha location type, strength type >
 // default type for alpha location and strength (if not specified) is double
-inline FastEase<T, alphaT, strengthT>::FastEase(const strengthT inStrength, const strengthT outStrength, const T start, const T end, const unsigned int numberOfLocations)
-	: m_start(start)
-	, m_end(end)
-	, m_inStrength(inStrength)
-	, m_outStrength(outStrength)
-	, m_bezier()
-	, m_lutLocations()
-	, m_lut()
+// default type for value if not specified is double
+inline FastEase<T, AlphaT, StrengthT>::FastEase(const StrengthT inStrength, const StrengthT outStrength, const T start, const T end, const std::size_t numberOfLocations)
+	: m_start{ start }
+	, m_end{ end }
+	, m_inStrength{ inStrength }
+	, m_outStrength{ outStrength }
+	, m_bezier{}
+	, m_lutLocations{}
+	, m_lut{}
 {
-	if (numberOfLocations > 0u)
+	if (numberOfLocations > 0_uz)
 	{
-		for (unsigned int i{ 0u }; i < numberOfLocations; ++i)
-			addLocation(linear(start, end, inverseLinear(0u, numberOfLocations - 1u, i)));
+		for (std::size_t i{ 0_uz }; i < numberOfLocations; ++i)
+			addLocation(linear(start, end, inverseLinear(0_uz, numberOfLocations - 1_uz, i)));
 	}
 	priv_updatePoints();
 	priv_updateTable();
 }
 
-template <typename T, typename alphaT, typename strengthT>
+template <typename T, typename AlphaT, typename StrengthT>
 // Fast Ease class - uses bezier cubic. All types must be castable to double
 // pre-calculates a number of points in steps and creates a kind of look-up table and then interpolates them linearly.
 // steps may be automatically determined (equally spaced) or added manually at any position or both (manually added after automatic spaced steps).
 // uses TweenPiecewise for LUT and the (linear) interpolation of that table
 //     template format is: FastEase < value type, alpha location type, strength type >
 // default type for alpha location and strength (if not specified) is double
-inline FastEase<T, alphaT, strengthT>::FastEase(const strengthT strength) :
-m_start(0),
-m_end(1),
-m_inStrength(strength),
-m_outStrength(strength),
-m_bezier(),
-m_lutLocations(),
-m_lut()
+// default type for value if not specified is double
+inline FastEase<T, AlphaT, StrengthT>::FastEase(const StrengthT strength)
+	: m_start{ static_cast<T>(0) }
+	, m_end{ static_cast<T>(1) }
+	, m_inStrength{ strength }
+	, m_outStrength{ strength }
+	, m_bezier{}
+	, m_lutLocations{}
+	, m_lut{}
 {
-	const unsigned int numberOfLocations{ 50u };
-	if (numberOfLocations > 0u)
+	constexpr std::size_t numberOfLocations{ 50uz };
+	if (numberOfLocations > 0_uz)
 	{
-		for (unsigned int i{ 0u }; i < numberOfLocations; ++i)
-			addLocation(linear(m_start, m_end, inverseLinear(0u, numberOfLocations - 1u, i)));
+		for (std::size_t i{ 0_uz }; i < numberOfLocations; ++i)
+			addLocation(linear(m_start, m_end, inverseLinear(0_uz, numberOfLocations - 1_uz, i)));
 	}
 	priv_updatePoints();
 	priv_updateTable();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setStart(const T start)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setStart(const T start)
 {
 	m_start = start;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setEnd(const T end)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setEnd(const T end)
 {
 	m_end = end;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setInStrength(const strengthT inStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setInStrength(const StrengthT inStrength)
 {
 	m_inStrength = inStrength;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setOutStrength(const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setOutStrength(const StrengthT outStrength)
 {
 	m_outStrength = outStrength;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setRange(const T start, const T end)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setRange(const T start, const T end)
 {
 	m_start = start;
 	m_end = end;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setStrengths(const strengthT inStrength, const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setStrengths(const StrengthT inStrength, const StrengthT outStrength)
 {
 	m_inStrength = inStrength;
 	m_outStrength = outStrength;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::setRangeAndStrengths(const T start, const T end, const strengthT inStrength, const strengthT outStrength)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::setRangeAndStrengths(const T start, const T end, const StrengthT inStrength, const StrengthT outStrength)
 {
 	m_start = start;
 	m_end = end;
 	m_inStrength = inStrength;
 	m_outStrength = outStrength;
-	//updatePoints();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T FastEase<T, alphaT, strengthT>::getStart() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T FastEase<T, AlphaT, StrengthT>::getStart() const
 {
 	return m_start;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T FastEase<T, alphaT, strengthT>::getEnd() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T FastEase<T, AlphaT, StrengthT>::getEnd() const
 {
 	return m_end;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline strengthT FastEase<T, alphaT, strengthT>::getInStrength() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline StrengthT FastEase<T, AlphaT, StrengthT>::getInStrength() const
 {
 	return m_inStrength;
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline strengthT FastEase<T, alphaT, strengthT>::getOutStrength() const
+template <typename T, typename AlphaT, typename StrengthT>
+inline StrengthT FastEase<T, AlphaT, StrengthT>::getOutStrength() const
 {
 	return m_outStrength;
 }
 
-/*
-template <typename T, typename alphaT, typename strengthT>
-inline T FastEase<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha, const strengthT inStrength, const strengthT outStrength)
-{
-	setRangeAndStrengths(start, end, inStrength, outStrength);
-	return getValue(alpha);
-}
-
-template <typename T, typename alphaT, typename strengthT>
-inline T FastEase<T, alphaT, strengthT>::getValue(const T start, const T end, const alphaT alpha)
-{
-	setRange(start, end);
-	return getValue(alpha);
-}
-*/
-
-template <typename T, typename alphaT, typename strengthT>
-inline T FastEase<T, alphaT, strengthT>::getAccurateValue(const alphaT alpha) const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T FastEase<T, AlphaT, StrengthT>::getAccurateValue(const AlphaT alpha) const
 {
 	return static_cast<T>(m_bezier.solveYForX(static_cast<double>(alpha)));
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline T FastEase<T, alphaT, strengthT>::getValue(const alphaT alpha) const
+template <typename T, typename AlphaT, typename StrengthT>
+inline T FastEase<T, AlphaT, StrengthT>::getValue(const AlphaT alpha) const
 {
 	return m_lut.getValue(alpha);
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::update()
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::update()
 {
 	priv_updatePoints();
 	priv_updateTable();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::addLocation(const alphaT location)
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::addLocation(const AlphaT location)
 {
 	m_lutLocations.push_back(location);
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::clearLocations()
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::clearLocations()
 {
 	m_lutLocations.clear();
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::priv_updatePoints()
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::priv_updatePoints()
 {
-	m_bezier.setPoint(0, { 0.0, static_cast<double>(m_start) });
-	m_bezier.setPoint(1, { static_cast<double>(m_inStrength), static_cast<double>(m_start) });
-	m_bezier.setPoint(2, { 1.0 - static_cast<double>(m_outStrength), static_cast<double>(m_end) });
-	m_bezier.setPoint(3, { 1.0, static_cast<double>(m_end) });
+	const double start{ static_cast<double>(m_start) };
+	const double end{ static_cast<double>(m_end) };
+	m_bezier.setPoint(0_uz, { 0.0, start });
+	m_bezier.setPoint(1_uz, { static_cast<double>(m_inStrength), start });
+	m_bezier.setPoint(2_uz, { 1.0 - static_cast<double>(m_outStrength), end });
+	m_bezier.setPoint(3_uz, { 1.0, end });
 }
 
-template <typename T, typename alphaT, typename strengthT>
-inline void FastEase<T, alphaT, strengthT>::priv_updateTable()
+template <typename T, typename AlphaT, typename StrengthT>
+inline void FastEase<T, AlphaT, StrengthT>::priv_updateTable()
 {
 	m_lut.clearNodes();
 	for (auto& location : m_lutLocations)
 		m_lut.addNode({ location, getAccurateValue(location) });
-	if (m_lut.getNodeCount() == 0)
-		m_lut.addNode({ 0, 0 });
+	if (m_lut.getNodeCount() == 0uz)
+		m_lut.addNode({ static_cast<AlphaT>(0), static_cast<T>(0) });
 }
 
 	} // namespace Tween

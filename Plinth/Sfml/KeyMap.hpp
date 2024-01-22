@@ -37,23 +37,24 @@
 namespace plinth
 {
 
+template <class KeycodeT = sf::Keyboard::Key>
 class KeyMap
 {
 public:
 	KeyMap();
-	void addKey(const std::string& name, const sf::Keyboard::Key& key);
-	void addKey(const sf::Keyboard::Key& key, const std::string& name); // allow to specify in opposite order (can help with code arrangement)
-	void addKey(const sf::Keyboard::Key& key);
-	void removeKey(unsigned int controlNumber);
+	void addKey(const std::string& name, KeycodeT key);
+	void addKey(KeycodeT key, const std::string& name); // allow to specify in opposite order (can help with code arrangement)
+	void addKey(KeycodeT key);
+	void removeKey(std::size_t controlNumber);
 	void removeKey(const std::string& name);
-	sf::Keyboard::Key getKey(unsigned int index) const;
-	sf::Keyboard::Key getKey(const std::string& name) const;
-	void setKey(unsigned int index, const sf::Keyboard::Key& key);
-	std::string getName(unsigned int index) const;
-	unsigned int getSize() const;
+	KeycodeT getKey(std::size_t index) const;
+	KeycodeT getKey(const std::string& name) const;
+	void setKey(std::size_t index, KeycodeT key);
+	std::string getName(std::size_t index) const;
+	std::size_t getSize() const;
 
 private:
-	IndexedMap<std::string, sf::Keyboard::Key> m_keys;
+	IndexedMap<std::string, KeycodeT> m_keys;
 };
 
 } // namespace plinth

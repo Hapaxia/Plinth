@@ -37,7 +37,7 @@
 namespace plinth
 {
 
-inline std::string hexFromDec(int dec)
+inline std::string hexFromDec(const int dec)
 {
 	std::stringstream ss;
 	ss << std::hex << dec;
@@ -46,7 +46,7 @@ inline std::string hexFromDec(int dec)
 
 inline int decFromHex(const std::string& hex)
 {
-	return std::stoi(hex, 0, 16);
+	return std::stoi(hex, nullptr, 16);
 }
 
 } // namespace plinth

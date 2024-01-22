@@ -37,49 +37,49 @@ namespace plinth
 	namespace Tween
 	{
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline Track2<positionT, T, interpolationAlphaT, positionCastT>::Track2()
-	: a()
-	, b()
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::Track2()
+	: a{}
+	, b{}
 {
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline Track2<positionT, T, interpolationAlphaT, positionCastT>::Track2(const Track2<positionT, T, interpolationAlphaT, positionCastT>& track2)
-	: a(track2.a)
-	, b(track2.b)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::Track2(const Track2<PositionT, T, InterpolationAlphaT, PositionCastT>& track2)
+	: a{ track2.a }
+	, b{ track2.b }
 {
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline Vector2<T> Track2<positionT, T, interpolationAlphaT, positionCastT>::getValue(const positionT& position) const
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline Vector2<T> Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::getValue(const PositionT& position) const
 {
 	return{ a.getValue(position), b.getValue(position) };
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Track2<positionT, T, interpolationAlphaT, positionCastT>::clear()
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::clear()
 {
 	a.clear();
 	b.clear();
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Track2<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Node2& node2)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::addNode(const Node2& node2)
 {
 	a.addNode(node2.nodeA);
 	b.addNode(node2.nodeB);
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Track2<positionT, T, interpolationAlphaT, positionCastT>::addNode(const unsigned int trackNumber, const typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node& node)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::addNode(const std::size_t trackNumber, const typename Track<PositionT, T, InterpolationAlphaT, PositionCastT>::Node& node)
 {
 	switch (trackNumber)
 	{
-	case 0u:
+	case 0uz:
 		a.addNode(node);
 		break;
-	case 1u:
+	case 1uz:
 		b.addNode(node);
 		break;
 	default:
@@ -87,10 +87,10 @@ inline void Track2<positionT, T, interpolationAlphaT, positionCastT>::addNode(co
 	}
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline Track2<positionT, T, interpolationAlphaT, positionCastT>& Track2<positionT, T, interpolationAlphaT, positionCastT>::operator+=(const Node2& node2)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline Track2<PositionT, T, InterpolationAlphaT, PositionCastT>& Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::operator+=(const Node2& node2)
 {
-	this->addNode(node2);
+	addNode(node2);
 	return *this;
 }
 

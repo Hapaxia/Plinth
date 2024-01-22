@@ -37,30 +37,30 @@ namespace plinth
 	namespace Tween
 	{
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline Piecewise<positionT, T, interpolationAlphaT, positionCastT>::Piecewise()
-	: m_nodes()
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::Piecewise()
+	: m_nodes{}
 {
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::clearNodes()
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::clearNodes()
 {
 	m_nodes.clear();
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::addNode(const Node& node)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::addNode(const Node& node)
 {
 	m_nodes.push_back(node);
 	std::sort(m_nodes.begin(), m_nodes.end());
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline T Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getValue(positionT position) const
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline T Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::getValue(const PositionT position) const
 {
-	const Node* lowerNode = &m_nodes.front();
-	const Node* higherNode = &m_nodes.back();
+	const Node* lowerNode{ &m_nodes.front() };
+	const Node* higherNode{ &m_nodes.back() };
 	for (auto& node : m_nodes)
 	{
 		if (position < node.position)
@@ -77,11 +77,11 @@ inline T Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getValue(p
 	if (lowerNode == higherNode)
 		return lowerNode->value;
 	else
-		return linear(lowerNode->value, higherNode->value, static_cast<interpolationAlphaT>(static_cast<positionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)));
+		return linear(lowerNode->value, higherNode->value, static_cast<InterpolationAlphaT>(static_cast<PositionCastT>(position - lowerNode->position) / (higherNode->position - lowerNode->position)));
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodePosition(unsigned int index, positionT position)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::changeNodePosition(const std::size_t index, const PositionT position)
 {
 	if (index >= m_nodes.size())
 		return;
@@ -90,8 +90,8 @@ inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeN
 	std::sort(m_nodes.begin(), m_nodes.end());
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeNodeValue(unsigned int index, T value)
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline void Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::changeNodeValue(const std::size_t index, const T value)
 {
 	if (index >= m_nodes.size())
 		return;
@@ -99,10 +99,28 @@ inline void Piecewise<positionT, T, interpolationAlphaT, positionCastT>::changeN
 	m_nodes[index].value = value;
 }
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
-inline unsigned int Piecewise<positionT, T, interpolationAlphaT, positionCastT>::getNodeCount() const
+template<class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline PositionT Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::getNodePosition(const std::size_t index) const
 {
-	return static_cast<unsigned int>(m_nodes.size());
+	if (index >= m_nodes.size())
+		return PositionT{};
+
+	return m_nodes[index].position;
+}
+
+template<class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline T Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::getNodeValue(const std::size_t index) const
+{
+	if (index >= m_nodes.size())
+		return T{};
+
+	return m_nodes[index].value;
+}
+
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
+inline std::size_t Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::getNodeCount() const
+{
+	return m_nodes.size();
 }
 
 	} // namespace Tween

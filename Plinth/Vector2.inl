@@ -41,17 +41,17 @@ namespace plinth
 
 template <class T>
 inline Vector2<T>::Vector2()
-	: x(static_cast<T>(0))
-	, y(static_cast<T>(0))
-	, m_epsilon(static_cast<long double>(defaultEpsilon))
+	: x{ static_cast<T>(0) }
+	, y{ static_cast<T>(0) }
+	, m_epsilon{ static_cast<long double>(defaultEpsilon) }
 {
 }
 
 template <class T>
 inline Vector2<T>::Vector2(const T& newX, const T& newY)
-	: x(newX)
-	, y(newY)
-	, m_epsilon(static_cast<long double>(defaultEpsilon))
+	: x{ newX }
+	, y{ newY }
+	, m_epsilon{ static_cast<long double>(defaultEpsilon) }
 {
 }
 
@@ -66,13 +66,13 @@ inline Vector2<T>::Vector2(std::initializer_list<T> list)
 	: Vector2()
 {
 	const auto size{ list.size() };
-	const auto begin{ list.begin() };
-	if (size > 0)
-	{
-		x = *begin;
-		if (size > 1)
-			y = *(begin + 1);
-	}
+	if (size == 0_uz)
+		return;
+	auto item{ list.begin() };
+	x = *item;
+	if (size == 1_uz)
+		return;
+	y = *(++item);
 }
 
 template <class T>
@@ -145,14 +145,14 @@ template <class T>
 template <class U>
 inline U Vector2<T>::getAngle() const
 {
-	return static_cast<U>(isNotZero() ? degreesFromRadians(std::atan2(y, x)) : 0);
+	return static_cast<U>(priv_isNotZero() ? degreesFromRadians(std::atan2(y, x)) : 0);
 }
 
 template <class T>
 template <class U>
 inline U Vector2<T>::getAngleAsRadians() const
 {
-	return static_cast<U>(std::atan2(y, x));
+	return static_cast<U>(priv_isNotZero() ? std::atan2(y, x) : 0);
 }
 
 template <class T>
@@ -160,22 +160,22 @@ template <class U>
 inline Vector2<U> Vector2<T>::getUnit() const
 {
 	// if vector is "close enough" to zero, consider it a zero vector and return that instead (also avoids division by zero)
-	if (isNotZero())
-		return{ Vector2<U>(*this) / getLength<U>() };
+	if (priv_isNotZero())
+		return{ Vector2<U>(*this) / getLength<U>()};
 	else
-		return Vector2<T>();
+		return Vector2<U>{};
 }
 
 template <class T>
 inline T Vector2<T>::dot(const Vector2& other) const
 {
-	return x * other.x + y * other.y;
+	return (x * other.x) + (y * other.y);
 }
 
 template <class T>
 inline bool Vector2<T>::operator==(const Vector2& other) const
 {
-	return x == other.x && y == other.y;
+	return (x == other.x) && (y == other.y);
 }
 
 template <class T>
@@ -231,7 +231,8 @@ inline Vector2<T> Vector2<T>::operator*(const T& scalar) const
 template <class T>
 inline Vector2<T> Vector2<T>::operator/(const T& scalar) const
 {
-	return{ x / scalar, y / scalar };
+	const long double multiplier{ 1.0L / scalar };
+	return{ static_cast<T>(x * scalar), static_cast<T>(y / scalar) };
 }
 
 template <class T>
@@ -267,7 +268,7 @@ inline Vector2<T>& Vector2<T>::operator/=(const T& scalar)
 // PRIVATE
 
 template <class T>
-inline bool Vector2<T>::isNotZero() const
+inline bool Vector2<T>::priv_isNotZero() const
 {
 	return (x > m_epsilon) || (x < -m_epsilon) || (y > m_epsilon) || (y < -m_epsilon);
 }
@@ -275,20 +276,4 @@ inline bool Vector2<T>::isNotZero() const
 
 
 } // namespace plinth
-
-
-
-// FRIEND
-
-namespace std
-{
-
-template <class T>
-inline void swap(plinth::Vector2<T>& a, plinth::Vector2<T>& b)
-{
-	swap(a.x, b.x);
-	swap(a.y, b.y);
-}
-
-} // namespace std
 #endif // PLINTH_VECTOR2_INL

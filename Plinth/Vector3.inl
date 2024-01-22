@@ -41,19 +41,19 @@ namespace plinth
 
 template <class T>
 inline Vector3<T>::Vector3()
-	: x(static_cast<T>(0))
-	, y(static_cast<T>(0))
-	, z(static_cast<T>(0))
-	, m_epsilon(static_cast<T>(defaultEpsilon))
+	: x{ static_cast<T>(0) }
+	, y{ static_cast<T>(0) }
+	, z{ static_cast<T>(0) }
+	, m_epsilon{ static_cast<T>(defaultEpsilon) }
 {
 }
 
 template <class T>
 inline Vector3<T>::Vector3(const T& newX, const T& newY, const T& newZ)
-	: x(newX)
-	, y(newY)
-	, z(newZ)
-	, m_epsilon(static_cast<T>(defaultEpsilon))
+	: x{ newX }
+	, y{ newY }
+	, z{ newZ }
+	, m_epsilon{ static_cast<T>(defaultEpsilon) }
 {
 }
 
@@ -68,14 +68,16 @@ inline Vector3<T>::Vector3(std::initializer_list<T> list)
 	: Vector3()
 {
 	const auto size{ list.size() };
-	const auto begin{ list.begin() };
-	x = *begin;
-	if (size == 1u)
+	if (size == 0_uz)
 		return;
-	y = *(begin + 1u);
-	if (size == 2u)
+	auto item{ list.begin() };
+	x = *item;
+	if (size == 1_uz)
 		return;
-	z = *(begin + 2u);
+	y = *(++item);
+	if (size == 2_uz)
+		return;
+	z = *(++item);
 }
 
 template <class T>
@@ -123,28 +125,28 @@ template <class U>
 inline Vector3<U> Vector3<T>::getUnit() const
 {
 	// if vector is "close enough" to zero, consider it a zero vector and return that instead (also avoids division by zero)
-	if (isNotZero())
+	if (priv_isNotZero())
 		return{ Vector3<U>(*this) / getLength<U>() };
 	else
-		return Vector3<T>();
+		return Vector3<U>{};
 }
 
 template <class T>
 inline T Vector3<T>::dot(const Vector3& other) const
 {
-	return x * other.x + y * other.y + z * other.z;
+	return (x * other.x) + (y * other.y) + (z * other.z);
 }
 
 template <class T>
 inline Vector3<T> Vector3<T>::cross(const Vector3& other) const
 {
-	return{ y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x };
+	return{ (y * other.z) - (z * other.y), (z * other.x) - (x * other.z), (x * other.y) - (y * other.x) };
 }
 
 template <class T>
 inline bool Vector3<T>::operator==(const Vector3& other) const
 {
-	return x == other.x && y == other.y && z == other.z;
+	return (x == other.x) && (y == other.y) && (z == other.z);
 }
 
 template <class T>
@@ -203,7 +205,8 @@ inline Vector3<T> Vector3<T>::operator*(const T& scalar) const
 template <class T>
 inline Vector3<T> Vector3<T>::operator/(const T& scalar) const
 {
-	return{ x / scalar, y / scalar, z / scalar };
+	const long double multiplier{ 1.0L / scalar };
+	return{ static_cast<T>(x * multiplier), static_cast<T>(y * multiplier), static_cast<T>(z * multiplier) };
 }
 
 template <class T>
@@ -239,7 +242,7 @@ inline Vector3<T>& Vector3<T>::operator/=(const T& scalar)
 // PRIVATE
 
 template <class T>
-inline bool Vector3<T>::isNotZero() const
+inline bool Vector3<T>::priv_isNotZero() const
 {
 	return (x > m_epsilon) || (x < -m_epsilon) || (y > m_epsilon) || (y < -m_epsilon) || (z > m_epsilon) || (z < -m_epsilon);
 }
@@ -247,21 +250,4 @@ inline bool Vector3<T>::isNotZero() const
 
 
 } // namespace plinth
-
-
-
-// FRIEND
-
-namespace std
-{
-
-template <class T>
-inline void swap(plinth::Vector3<T>& a, plinth::Vector3<T>& b)
-{
-	swap(a.x, b.x);
-	swap(a.y, b.y);
-	swap(a.z, b.z);
-}
-
-} // namespace std
 #endif // PLINTH_VECTOR3_INL

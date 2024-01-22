@@ -40,50 +40,51 @@ namespace plinth
 {
 
 template <class T>
-inline Range<T>::Range()
-	: min(static_cast<T>(0))
-	, max(static_cast<T>(0))
+inline constexpr Range<T>::Range()
+	: min{ static_cast<T>(0) }
+	, max{ static_cast<T>(0) }
 {
 }
 
 template <class T>
-inline Range<T>::Range(std::initializer_list<T> list)
+inline constexpr Range<T>::Range(std::initializer_list<T> list)
 	: Range()
 {
 	const auto size{ list.size() };
-	const auto begin{ list.begin() };
-	if (size > 0)
-	{
-		min = *begin;
-		if (size > 1)
-			max = *(begin + 1);
-		else
-			max = static_cast<T>(0);
-	}
-	else
-	{
-		min = static_cast<T>(0);
-		max = static_cast<T>(0);
-	}
+	if (size == 0_uz)
+		return;
+	auto item{ list.begin() };
+	min = *item;
+	if (size == 1_uz)
+		return;
+	max = *(++item);
 }
 
 template <class T>
-inline Range<T>::Range(const T& newMin, const T& newMax)
-	: min(newMin)
-	, max(newMax)
+inline constexpr Range<T>::Range(const T& newMin, const T& newMax)
+	: min{ newMin }
+	, max{ newMax }
+{
+}
+
+template<class T>
+template<class U>
+inline constexpr Range<T>::Range(const T& newMin, const U& newMax)
+	: min{ newMin }
+	, max{ static_cast<T>(newMax) }
 {
 }
 
 template <class T>
 template <class U>
-inline Range<T>::Range(const Range<U>& range)
-	: min(static_cast<T>(range.min))
-	, max(static_cast<T>(range.max))
+inline constexpr Range<T>::Range(const Range<U>& range)
+	: min{ static_cast<T>(range.min) }
+	, max{ static_cast<T>(range.max) }
 {
 }
 
 template <class T>
-inline void Range<T>::order() const
+inline constexpr void Range<T>::order() const
 {
 	orderLowHigh(min, max);
 }
@@ -157,14 +158,14 @@ template <class T>
 inline T Range<T>::clamp(const T& value) const
 {
 	order();
-	return value > max ? max : value < min ? min : value;
+	return (value > max) ? max : (value < min) ? min : value;
 }
 
 template <class T>
 inline T Range<T>::clampLoop(const T& value) const
 {
 	order();
-	return value > max ? min : value < min ? max : value;
+	return (value > max) ? min : (value < min) ? max : value;
 }
 
 template <class T>
@@ -172,7 +173,7 @@ inline T Range<T>::clampCycle(const T& value) const
 {
 	if (isClosed())
 		return min;
-	const T rangeSize = getSize();
+	const T rangeSize{ getSize() };
 	if (value > max)
 		return min + mod(value - min, rangeSize);
 	else if (value < min)
@@ -184,7 +185,7 @@ inline T Range<T>::clampCycle(const T& value) const
 template <class T>
 inline Range<T>& Range<T>::pull(const T& hook, const bool keepSize)
 {
-	const T rangeSize = getSize();
+	const T rangeSize{ getSize() };
 	if (hook < min)
 	{
 		min = hook;
@@ -251,20 +252,4 @@ inline Range<T>& Range<T>::operator-=(const T& offset)
 }
 
 } // namespace plinth
-
-
-
-// FRIEND
-
-namespace std
-{
-
-template <class T>
-inline void swap(plinth::Range<T>& a, plinth::Range<T>& b)
-{
-	swap(a.min, b.max);
-	swap(a.min, b.max);
-}
-
-} // namespace std
 #endif // PLINTH_RANGE_INL

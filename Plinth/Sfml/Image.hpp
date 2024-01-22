@@ -65,9 +65,9 @@ void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> pr
 void convertToGrayscale(sf::Image& image, GrayscaleConversionType conversionType = GrayscaleConversionType::Luminosity);
 void invert(sf::Image& image);
 void createMaskFromAlpha(sf::Image& image);
-void clearWithColorButRetainTransparency(sf::Image& image, sf::Color color = sf::Color(255, 255, 255, 255));
+void clearWithColorButRetainTransparency(sf::Image& image, sf::Color color = sf::Color(255_uc, 255_uc, 255_uc, 255_uc));
 
-void setAlpha(sf::Image& image, unsigned char alpha = 255u);
+void setAlpha(sf::Image& image, unsigned char alpha = 255_uc);
 void invertAlpha(sf::Image& image);
 void makeOpaque(sf::Image& image);
 

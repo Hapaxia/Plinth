@@ -34,27 +34,16 @@
 
 #include <SFML/Graphics/PrimitiveType.hpp>
 
-namespace
-{
-
-const sf::PrimitiveType primitiveType{ sf::PrimitiveType::TrianglesStrip };
-const unsigned int numberOfVertices{ 4u };
-
-int intFromFloor(const float& f)
-{
-	return static_cast<int>(std::floor(f) + (f < 0.f ? -0.5f : 0.5f));
-}
-
-} // namespace
-
 namespace plinth
 {
 
-	inline FrameSequence::FrameSequence()
-	: m_frames()
-	, m_position(0.f)
-	//, m_initialFrame(0)
-	, m_loopType(LoopType::Cycle)
+inline FrameSequence::FrameSequence()
+	: m_primitiveType{ sf::PrimitiveType::TrianglesStrip }
+	, m_numberOfVertices{ 4_uz }
+	, m_frames{}
+	, m_position{ 0.f }
+	, m_reverse{ false }
+	, m_loopType{ LoopType::Cycle }
 {
 }
 
@@ -88,22 +77,22 @@ inline void FrameSequence::add(const Frame& frame)
 	m_frames.push_back(frame);
 }
 
-inline void FrameSequence::removeAllWithExhibit(const unsigned int exhibit)
+inline void FrameSequence::removeAllWithFrameId(const std::size_t frameId)
 {
-	m_frames.erase(std::remove_if(m_frames.begin(), m_frames.end(), [&exhibit](const Frame& frame) { return frame.id == exhibit; }));
+	m_frames.erase(std::remove_if(m_frames.begin(), m_frames.end(), [&frameId](const Frame& frame) { return frame.id == frameId; }));
 }
 
-inline void FrameSequence::set(const unsigned int position, const Frame& frame)
+inline void FrameSequence::set(const std::size_t position, const Frame& frame)
 {
 	m_frames[position] = frame;
 }
 
-inline void FrameSequence::add(const unsigned int position, const Frame& frame)
+inline void FrameSequence::add(const std::size_t position, const Frame& frame)
 {
 	m_frames.insert(m_frames.begin() + position, frame);
 }
 
-inline void FrameSequence::remove(const unsigned int position)
+inline void FrameSequence::remove(const std::size_t position)
 {
 	m_frames.erase(m_frames.begin() + position);
 }
@@ -113,24 +102,24 @@ inline void FrameSequence::clear()
 	m_frames.clear();
 }
 
-inline unsigned int FrameSequence::getNumberOfFrames() const
+inline std::size_t FrameSequence::getNumberOfFrames() const
 {
-	return static_cast<unsigned int>(m_frames.size());
+	return m_frames.size();
 }
 
-inline FrameSequence::Frame FrameSequence::get(const unsigned int position) const
+inline FrameSequence::Frame FrameSequence::get(const std::size_t position) const
 {
-	return m_frames[priv_getResolvedPosition(position)];
+	return m_frames[priv_getResolvedPosition(static_cast<long long int>(position))];
 }
 
 inline FrameSequence::Frame FrameSequence::get(const float position) const
 {
-	return m_frames[priv_getResolvedPosition(intFromFloor(position))];
+	return m_frames[priv_getResolvedPosition(static_cast<long long int>(std::lround(std::floor(position))))];
 }
 
 inline FrameSequence::Frame FrameSequence::get() const
 {
-	return m_frames[priv_getResolvedPosition(intFromFloor(m_position))];
+	return m_frames[priv_getResolvedPosition(static_cast<long long int>(std::lround(std::floor(m_position))))];
 }
 
 inline void FrameSequence::setPosition(const float position)
@@ -167,12 +156,12 @@ inline FrameSequence& FrameSequence::operator--()
 	return *this;
 }
 
-inline void FrameSequence::operator+=(const unsigned int numberOfFrames)
+inline void FrameSequence::operator+=(const std::size_t numberOfFrames)
 {
 	m_position += numberOfFrames;
 }
 
-inline void FrameSequence::operator-=(const unsigned int numberOfFrames)
+inline void FrameSequence::operator-=(const std::size_t numberOfFrames)
 {
 	m_position -= numberOfFrames;
 }
@@ -201,13 +190,13 @@ inline void FrameSequence::operator-=(const sf::Time time)
 
 // PRIVATE
 
-inline unsigned int FrameSequence::priv_getResolvedPosition(int position) const
+inline std::size_t FrameSequence::priv_getResolvedPosition(long long int position) const
 {
-	if (m_frames.size() == 0)
-		return 0u;
+	if (m_frames.empty())
+		return 0_uz;
 
-	const unsigned int size{ static_cast<unsigned int>(m_frames.size()) };
-	const unsigned int maxPosition{ size - 1 };
+	const std::size_t size{ m_frames.size() };
+	const long long int maxPosition{ static_cast<long long int>(size - 1_uz) };
 
 	switch (m_loopType)
 	{
@@ -215,7 +204,7 @@ inline unsigned int FrameSequence::priv_getResolvedPosition(int position) const
 		if (position < 0)
 			position = -position;
 		// maxPosition is used here instead of size so that the end steps are not duplicated (maxPosition is size - 1)
-		if (position % (maxPosition * 2) < maxPosition)
+		if ((position % (maxPosition * 2)) < maxPosition)
 			position %= maxPosition;
 		else
 			position = maxPosition - (position % maxPosition);
@@ -227,34 +216,27 @@ inline unsigned int FrameSequence::priv_getResolvedPosition(int position) const
 	default:
 		if (position < 0)
 			position = 0;
-		else if (position > static_cast<int>(maxPosition))
+		else if (position > maxPosition)
 			position = maxPosition;
 	}
 
-	return m_reverse ? maxPosition - position : position;
+	return static_cast<std::size_t>(m_reverse ? (maxPosition - position) : position);
 }
 
 inline float FrameSequence::priv_getPositionFromTime(sf::Time time) const
 {
+	const sf::Time totalTime{ priv_getTotalTime()};
+	const LoopType loopType{ priv_getLoopTypeToUse() };
+
 	float position{ 0.f };
 	float positionRepeatOffset{ 0.f };
 	float timeRepeats{ 0.f };
-
-	sf::Time totalTime;
-	for (const auto& frame : m_frames)
-		totalTime += frame.delay;
-
-	LoopType loopType{ m_loopType };
-	if (m_frames.size() < 2)
-		loopType = LoopType::None;
-	else if (m_frames.size() < 3 && loopType == LoopType::PingPong)
-		loopType = LoopType::Cycle;
 
 	switch (loopType)
 	{
 	case LoopType::PingPong:
 	{
-		const sf::Time entireTotalTime{ totalTime * 2.f - m_frames.front().delay - m_frames.back().delay };
+		const sf::Time entireTotalTime{ (totalTime * 2.f) - (m_frames.front().delay + m_frames.back().delay) };
 		timeRepeats = std::floor(time / entireTotalTime);
 		time -= timeRepeats * entireTotalTime; // effectively modulo result (time % entireTotalTime)
 		bool complete{ false };
@@ -272,11 +254,8 @@ inline float FrameSequence::priv_getPositionFromTime(sf::Time time) const
 		if (!complete)
 		{
 			// ping pong return pass (skips first and last frame to avoid duplicating end frames)
-			for (std::vector<Frame>::const_reverse_iterator begin = m_frames.rbegin(), end = m_frames.rend(), it = begin; it != end - 1; ++it)
+			for (std::vector<Frame>::const_reverse_iterator begin{ m_frames.rbegin() }, end{ m_frames.rend() }, it{ begin + 1_uz }; it != end - 1_uz; ++it)
 			{
-				if (it == begin)
-					continue;
-
 				if (time <= it->delay)
 				{
 					position += time / it->delay;
@@ -286,9 +265,9 @@ inline float FrameSequence::priv_getPositionFromTime(sf::Time time) const
 				++position;
 			}
 		}
-		positionRepeatOffset = timeRepeats * (m_frames.size() * 2 - 2);
+		positionRepeatOffset = timeRepeats * ((m_frames.size() * 2_uz) - 2_uz);
 	}
-	break;
+		break;
 	case LoopType::Cycle:
 	case LoopType::None:
 		timeRepeats = std::floor(time / totalTime);
@@ -314,32 +293,25 @@ inline float FrameSequence::priv_getPositionFromTime(sf::Time time) const
 
 inline sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 {
+	const sf::Time totalTime{ priv_getTotalTime() };
+	const LoopType loopType{ priv_getLoopTypeToUse() };
+
 	sf::Time time{ sf::Time::Zero };
-	float positionRepeats{ 0.f };
 	sf::Time timeRepeatOffset{ sf::Time::Zero };
-
-	sf::Time totalTime;
-	for (const auto& frame : m_frames)
-		totalTime += frame.delay;
-
-	LoopType loopType{ m_loopType };
-	if (m_frames.size() < 2) // no need to loop with a single frame (or none)
-		loopType = LoopType::None;
-	else if (m_frames.size() < 3 && loopType == LoopType::PingPong) // ping pong with two frames is identical to a cycle
-		loopType = LoopType::Cycle;
+	float positionRepeats{ 0.f };
 
 	switch (loopType)
 	{
 	case LoopType::PingPong:
 	{
-		const unsigned int pingPongFrames{ static_cast<unsigned int>(m_frames.size() * 2 - 2) };
+		const std::size_t pingPongFrames{ (m_frames.size() * 2_uz) - 2_uz };
 		positionRepeats = std::floor(position / pingPongFrames);
-		position -= positionRepeats * pingPongFrames; // effectively modulo result (position % m_frames.size())
+		position -= positionRepeats * pingPongFrames; // effectively modulo result (position % pingPongFrames)
 
 		bool complete{ false };
 		for (const auto& frame : m_frames)
 		{
-			if (position <= 1)
+			if (position <= 1.f)
 			{
 				time += frame.delay * position;
 				complete = true;
@@ -351,12 +323,9 @@ inline sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 		if (!complete)
 		{
 			// ping pong return pass (skips first and last frame to avoid duplicating end frames)
-			for (std::vector<Frame>::const_reverse_iterator begin = m_frames.rbegin(), end = m_frames.rend(), it = begin; it != end - 1; ++it)
+			for (std::vector<Frame>::const_reverse_iterator begin{ m_frames.rbegin() }, end{ m_frames.rend() }, it{ begin + 1_uz }; it != end - 1_uz; ++it)
 			{
-				if (it == begin)
-					continue;
-
-				if (position <= 1)
+				if (position <= 1.f)
 				{
 					time += it->delay * position;
 					break; // for loop
@@ -365,17 +334,17 @@ inline sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 				time += it->delay;
 			}
 		}
-		const sf::Time entireTotalTime{ totalTime * 2.f - m_frames.front().delay - m_frames.back().delay };
+		const sf::Time entireTotalTime{ (totalTime * 2.f) - m_frames.front().delay - m_frames.back().delay };
 		timeRepeatOffset = positionRepeats * entireTotalTime;
 	}
-	break;
+		break;
 	case LoopType::Cycle:
 	case LoopType::None:
 		positionRepeats = std::floor(position / m_frames.size());
 		position -= positionRepeats * m_frames.size(); // effectively modulo result (position % m_frames.size())
 		for (const auto& frame : m_frames)
 		{
-			if (position <= 1)
+			if (position <= 1.f)
 			{
 				time += frame.delay * position;
 				break; // for loop
@@ -392,6 +361,23 @@ inline sf::Time FrameSequence::priv_getTimeFromPosition(float position) const
 	return timeRepeatOffset + time;
 }
 
-} // namespace plinth
+inline sf::Time FrameSequence::priv_getTotalTime() const
+{
+	sf::Time totalTime{ sf::Time::Zero };
+	for (const auto& frame : m_frames)
+		totalTime += frame.delay;
+	return totalTime;
+}
 
+inline FrameSequence::LoopType FrameSequence::priv_getLoopTypeToUse() const
+{
+	LoopType loopType{ m_loopType };
+	if (m_frames.size() < 2_uz) // no need to loop with a single frame (or none)
+		loopType = LoopType::None;
+	else if ((m_frames.size() < 3_uz) && (loopType == LoopType::PingPong)) // ping pong with two frames is identical to a cycle
+		loopType = LoopType::Cycle;
+	return loopType;
+}
+
+} // namespace plinth
 #endif // PLINTH_SFML_FRAMESEQUENCE_INL

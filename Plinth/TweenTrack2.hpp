@@ -39,44 +39,44 @@ namespace plinth
 	namespace Tween
 	{
 
-template <class positionT, class T, class interpolationAlphaT = double, class positionCastT = double>
+template <class PositionT = double, class T = double, class InterpolationAlphaT = double, class PositionCastT = double>
 class Track2
 {
 public:
 	struct Node2
 	{
-		typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node nodeA, nodeB;
+		typename Track<PositionT, T, InterpolationAlphaT, PositionCastT>::Node nodeA, nodeB;
 		Node2()
-			: nodeA()
-			, nodeB()
+			: nodeA{}
+			, nodeB{}
 		{
 		}
-		Node2(const positionT& p, const T& a, const T& b)
-			: nodeA(p, a)
-			, nodeB(p, b)
+		Node2(const PositionT& p, const T& a, const T& b)
+			: nodeA{ p, a }
+			, nodeB{ p, b }
 		{
 		}
-		Node2(const positionT& p, const T& a, const T& b, const double in, const double out)
-			: nodeA(p, a, in, out)
-			, nodeB(p, b, in, out)
+		Node2(const PositionT& p, const T& a, const T& b, const double in, const double out)
+			: nodeA{ p, a, in, out }
+			, nodeB{ p, b, in, out }
 		{
 		}
-		Node2(const typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node& a,
-			const typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node& b)
-			: nodeA(a)
-			, nodeB(b)
+		Node2(const typename Track<PositionT, T, InterpolationAlphaT, PositionCastT>::Node& a,
+			const typename Track<PositionT, T, InterpolationAlphaT, PositionCastT>::Node& b)
+			: nodeA{ a }
+			, nodeB{ b }
 		{
 		}
 		bool operator<(const Node2& rhs) { return this->nodeA.position < rhs.nodeA.position; }
 	};
 
-	Track<positionT, T, interpolationAlphaT, positionCastT> a, b;
+	Track<PositionT, T, InterpolationAlphaT, PositionCastT> a, b;
 	Track2();
-	Track2(const Track2<positionT, T, interpolationAlphaT, positionCastT>& track2);
-	Vector2<T> getValue(const positionT& position) const;
+	Track2(const Track2<PositionT, T, InterpolationAlphaT, PositionCastT>& track2);
+	Vector2<T> getValue(const PositionT& position) const;
 	void clear();
 	void addNode(const Node2& node2);
-	void addNode(const unsigned int trackNumber, const typename Track<positionT, T, interpolationAlphaT, positionCastT>::Node& node);
+	void addNode(const std::size_t trackNumber, const typename Track<PositionT, T, InterpolationAlphaT, PositionCastT>::Node& node);
 	Track2& operator+=(const Node2& node2);
 };
 

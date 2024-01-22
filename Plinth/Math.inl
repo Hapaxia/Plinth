@@ -32,81 +32,150 @@
 
 #include "Math.hpp"
 
+#include <cmath>
+#include <limits>
+
 namespace plinth
 {
 
 template <class T>
 // returns angle given in degrees as radians
-inline T radiansFromDegrees(const T& degrees)
+inline constexpr T radiansFromDegrees(const T& degrees)
 {
-	return static_cast<T>(degrees * piLongDouble / 180.0L);
+	constexpr long double multiplier{ piLongDouble / 180.0L };
+	return static_cast<T>(degrees * multiplier);
 }
 
 template <class T>
 // returns angle given in radians as degrees
-inline T degreesFromRadians(const T& radians)
+inline constexpr T degreesFromRadians(const T& radians)
 {
-	return static_cast<T>(radians * 180.0L / piLongDouble);
+	constexpr long double multiplier{ 180.0L / piLongDouble };
+	return static_cast<T>(radians * multiplier);
 }
 
 template <class T>
 // mod (%) from floating point numbers
-inline T mod(const T& a, const T& b)
+inline constexpr T mod(const T& a, const T& b)
 {
-	return static_cast<T>(a - (trunc(static_cast<long double>(a) / b) * b));
+	return static_cast<T>(a - (std::trunc(static_cast<long double>(a) / b) * b));
+}
+
+template<class T>
+// rounds to the given decimal place
+constexpr T round(const T& value, const std::size_t decimalPlaces)
+{
+	long double multiplier{ std::pow(10.0, static_cast<long double>(decimalPlaces)) };
+	return std::round(value * decimalPlaces) / decimalPlaces;
+}
+
+// power (^) for integers
+// negative exponents cause the real part to be truncated (resulting in a value of zero)
+// overflow returns zero safely
+inline constexpr long long int pow(const long long int base, const short int exponent)
+{
+	if (exponent < 0ll)
+		return 0ll;
+	if (exponent == 0ll)
+		return 1ll;
+	constexpr long long int maxLimit{ std::numeric_limits<long long int>::max() };
+	constexpr long long int minLimit{ std::numeric_limits<long long int>::min() };
+	const long long maxBeforeOverflow{ maxLimit / base };
+	const long long minBeforeOverflow{ minLimit / base };
+	long long int result{ base };
+	for (long long int i{ 1ll }; i < exponent; ++i)
+	{
+		if (((base > 0) && (result > maxBeforeOverflow)) ||
+			((base < 0) && ((abs(result) > minBeforeOverflow) || ((-abs(result)) < maxBeforeOverflow))))
+			return 0ll;
+		else
+			result *= base;
+	}
+	return result;
+}
+
+// power (^) for integers
+// negative exponents cause the real part to be truncated (resulting in a value of zero)
+// overflow returns zero safely; "overflowed" is set to true
+inline constexpr long long int pow(const long long int base, const short int exponent, bool& overflowed)
+{
+	overflowed = false;
+	if (exponent < 0ll)
+		return 0ll;
+	if (exponent == 0ll)
+		return 1ll;
+	constexpr long long int maxLimit{ std::numeric_limits<long long int>::max() };
+	constexpr long long int minLimit{ std::numeric_limits<long long int>::min() };
+	const long long maxBeforeOverflow{ maxLimit / base };
+	const long long minBeforeOverflow{ minLimit / base };
+	long long int result{ base };
+	for (long long int i{ 1ll }; i < exponent; ++i)
+	{
+		if (((base > 0) && (result > maxBeforeOverflow)) ||
+			((base < 0) && ((abs(result) > minBeforeOverflow) || ((-abs(result)) < maxBeforeOverflow))))
+		{
+			overflowed = true;
+			return 0ll;
+		}
+		else
+			result *= base;
+	}
+	return result;
 }
 
 template <class T>
 // returns either the parameter - if not negtive - or its positive counterpart
-inline T abs(const T& value)
+inline constexpr T abs(const T& value)
 {
-	return value < 0 ? -value : value;
+	return (value < 0) ? -value : value;
 }
 
 template <class T>
 // returns the dot product of two vectors with the same number of elements
-T dot(const std::vector<T>& a, const std::vector<T>& b)
+inline constexpr T dot(const std::vector<T>& a, const std::vector<T>& b)
 {
-	T result = static_cast<T>(0);
-	if ((a.size() != b.size()) || (a.size() == 0))
+	T result{ static_cast<T>(0) };
+	const std::size_t aSize{ a.size() };
+
+	if ((aSize == 0_uz) || (aSize != b.size()))
 		return result;
 
-	for (unsigned int i{ 0 }; i < a.size(); ++i)
+	for (std::size_t i{ 0_uz }; i < aSize; ++i)
 		result += a[i] * b[i];
 
 	return result;
 }
 
-template <class resultT, class T>
+template <class ResultT, class T>
 // return the mean (mean average) of two values
-inline resultT mean(const T& a, const T& b)
+inline constexpr ResultT mean(const T& a, const T& b)
 {
-	return static_cast<resultT>(static_cast<long double>(a + b) / 2.0);
+	return static_cast<ResultT>(static_cast<long double>(a + b) * 0.5);
 }
 
 template <class T>
 // return the mean (mean average) of two values
-inline T mean(const T& a, const T& b)
+inline constexpr T mean(const T& a, const T& b)
 {
-	return static_cast<T>(static_cast<long double>(a + b) / 2.0);
+	return static_cast<T>(static_cast<long double>(a + b) * 0.5);
 }
 
-template <class resultT, class T>
+template <class ResultT, class T>
 // return the mean (mean average) of all values in a vector
-inline resultT mean(const std::vector<T>& values)
+inline constexpr ResultT mean(const std::vector<T>& values)
 {
 	long double sum{ 0.0 };
-	for (auto& value : values)
+	for (const auto& value : values)
 		sum += static_cast<long double>(value);
-	return static_cast<resultT>(sum / values.size());
+	return static_cast<ResultT>(sum / values.size());
 }
 
 template <class T>
 // return the mean (mean average) of all values in a vector
-inline T mean(const std::vector<T>& values)
+inline constexpr T mean(const std::vector<T>& values)
 {
 	long double sum{ 0.0 };
-	for (auto& value : values)
+	for (const auto& value : values)
 		sum += static_cast<long double>(value);
 	return static_cast<T>(sum / values.size());
 }

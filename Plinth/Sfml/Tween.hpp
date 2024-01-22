@@ -41,9 +41,9 @@ namespace plinth
 	{
 
 // Linear Tween (interpolation) of two SFML colours (sf::Color) using a given "alpha" value of the "blend amount"
-// Type alphaT should be a POD type in range 0 to 1.
-template <class alphaT>
-sf::Color linear(const sf::Color& start, const sf::Color& end, const alphaT& alpha);
+// Type AlphaT should be a POD type in range 0 to 1.
+template <class AlphaT>
+inline sf::Color linear(const sf::Color& start, const sf::Color& end, const AlphaT& alpha);
 
 	} // namespace Tween
 } // namespace Tween

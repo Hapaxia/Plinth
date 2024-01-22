@@ -39,7 +39,7 @@ namespace plinth
 	namespace Tween
 	{
 
-template <typename T, typename alphaT, typename strengthT>
+template <typename T, typename AlphaT, typename StrengthT>
 class Ease;
 
 enum class InterpolationType
@@ -49,32 +49,34 @@ enum class InterpolationType
 	Ease
 };
 		
-template <class positionT, class T, class interpolationAlphaT = double, class positionCastT = double>
+template <class PositionT = double, class T = double, class InterpolationAlphaT = double, class PositionCastT = double>
 class Track
 {
 public:
 	struct Node
 	{
-		positionT position;
+		PositionT position;
 		T value;
 		InterpolationType inType;
 		InterpolationType outType;
 		double inAmount;
 		double outAmount;
 		Node()
-			: inType(InterpolationType::Linear)
-			, outType(InterpolationType::Linear)
-			, inAmount(0.0)
-			, outAmount(0.0)
+			: position{ static_cast<PositionT>(0) }
+			, value{ static_cast<T>(0) }
+			, inType { InterpolationType::Linear }
+			, outType{ InterpolationType::Linear }
+			, inAmount{ 0.0 }
+			, outAmount{ 0.0 }
 		{
 		}
-		Node(const positionT& p, const T& v)
+		Node(const PositionT& p, const T& v)
 			: Node()
 		{
 			position = p;
 			value = v;
 		}
-		Node(const positionT& p, const T& v, const double in, const double out)
+		Node(const PositionT& p, const T& v, const double in, const double out)
 			: Node(p, v)
 		{
 			inAmount = in;
@@ -88,23 +90,23 @@ public:
 	Track();
 	void clear();
 	void addNode(const Node& node);
-	T getValue(const positionT& position) const;
-	void changeNodePosition(unsigned int index, const positionT& position);
-	void changeNodeValue(unsigned int index, const T& value);
-	void changeNodeEaseOut(unsigned int index, double easeOutAmount);
-	void changeNodeEaseIn(unsigned int index, double easeInAmount);
-	void changeNodeEases(unsigned int index, double easeOutAmount, double easeInAmount);
-	void changeNodeInterpolationTypeOut(unsigned int index, InterpolationType interpolationOutType);
-	void changeNodeInterpolationTypeIn(unsigned int index, InterpolationType interpolationInType);
-	void changeNodeInterpolationTypes(unsigned int index, InterpolationType interpolationOutType, InterpolationType interpolationInType);
-	unsigned int getNodeCount() const;
+	T getValue(const PositionT& position) const;
+	void changeNodePosition(std::size_t index, const PositionT& position);
+	void changeNodeValue(std::size_t index, const T& value);
+	void changeNodeEaseOut(std::size_t index, double easeOutAmount);
+	void changeNodeEaseIn(std::size_t index, double easeInAmount);
+	void changeNodeEases(std::size_t index, double easeOutAmount, double easeInAmount);
+	void changeNodeInterpolationTypeOut(std::size_t index, InterpolationType interpolationOutType);
+	void changeNodeInterpolationTypeIn(std::size_t index, InterpolationType interpolationInType);
+	void changeNodeInterpolationTypes(std::size_t index, InterpolationType interpolationOutType, InterpolationType interpolationInType);
+	std::size_t getNodeCount() const;
 	Track& operator+=(const Node& node);
 
 private:
 	std::vector<Node> m_nodes;
 	mutable Ease<double, double, double> m_ease;
 
-	bool priv_isValidNodeIndex(const unsigned int nodeIndex) const;
+	bool priv_isValidNodeIndex(const std::size_t nodeIndex) const;
 };
 
 	} // namespace Tween

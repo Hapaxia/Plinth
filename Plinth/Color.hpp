@@ -56,7 +56,9 @@ struct Rgb
 		RandomStandard,
 		RandomTrivial
 	};
-	double r, g, b;
+	double r;
+	double g;
+	double b;
 	explicit Rgb(const Init& init = Zero);
 	explicit Rgb(double r, double g, double b);
 	explicit Rgb(const Hsl& other);
@@ -84,14 +86,16 @@ struct Rgb
 	Rgb& operator/=(const T& scalar);
 
 private:
-	void priv_setRgbFromCmh(double c, double m, double h);
+	void priv_setRgbFromCmh(const double c, const double m, const double h);
 };
 
 // HSL = Hue, Saturation, Lightness
 struct Hsl
 {
-	double h, s, l;
-	Hsl() : h(0.0), s(0.0), l(0.0) {}
+	double h;
+	double s;
+	double l;
+	Hsl() : h{ 0.0 }, s{ 0.0 }, l{ 0.0 } {}
 	explicit Hsl(double newH, double newS, double newL);
 	explicit Hsl(const Rgb& other);
 };
@@ -99,8 +103,10 @@ struct Hsl
 // HSV = Hue, Saturation, Value
 struct Hsv
 {
-	double h, s, v;
-	Hsv() : h(0.0), s(0.0), v(0.0) {}
+	double h;
+	double s;
+	double v;
+	Hsv() : h{ 0.0 }, s{ 0.0 }, v{ 0.0 } {}
 	explicit Hsv(double newH, double newS, double newV);
 	explicit Hsv(const Rgb& other);
 };
@@ -108,8 +114,10 @@ struct Hsv
 // CYM = Cyan, Magenta, Yellow
 struct Cmy
 {
-	double c, m, y;
-	Cmy() : c(0.0), m(0.0), y(0.0) {}
+	double c;
+	double m;
+	double y;
+	Cmy() : c{ 0.0 }, m{ 0.0 }, y{ 0.0 } {}
 	explicit Cmy(double newC, double newM, double newY);
 	explicit Cmy(const Rgb& other);
 };
@@ -117,72 +125,14 @@ struct Cmy
 // CMYK = Cyan, Magenta, Yellow, Key(blacK)
 struct Cmyk
 {
-	double c, m, y, k;
-	Cmyk() : c(0.0), m(0.0), y(0.0), k(0.0) {}
+	double c;
+	double m;
+	double y;
+	double k;
+	Cmyk() : c{ 0.0 }, m{ 0.0 }, y{ 0.0 }, k{ 0.0 } {}
 	explicit Cmyk(double newC, double newM, double newY, double newK);
 	explicit Cmyk(const Rgb& other);
 };
-
-inline Rgb Rgb::operator+(const Rgb& other) const
-{
-	return Rgb(r + other.r, g + other.g, b + other.b);
-}
-
-inline Rgb Rgb::operator-(const Rgb& other) const
-{
-	return Rgb(r - other.r, g - other.g, b - other.b);
-}
-
-inline Rgb Rgb::operator*(const Rgb& other) const
-{
-	return Rgb(r * other.r, g * other.g, b * other.b);
-}
-
-template <class T>
-inline Rgb Rgb::operator*(const T& scalar) const
-{
-	const double x{ static_cast<double>(scalar) };
-	return Rgb(r * x, g * x, b * x);
-}
-
-template <class T>
-inline Rgb Rgb::operator/(const T& scalar) const
-{
-	const double x{ static_cast<double>(scalar) };
-	return Rgb(r / x, g / x, b / x);
-}
-
-inline Rgb& Rgb::operator+=(const Rgb& other)
-{
-	*this = *this + other;
-	return *this;
-}
-
-inline Rgb& Rgb::operator-=(const Rgb& other)
-{
-	*this = *this - other;
-	return *this;
-}
-
-inline Rgb& Rgb::operator*=(const Rgb& other)
-{
-	*this = *this * other;
-	return *this;
-}
-
-template <class T>
-inline Rgb& Rgb::operator*=(const T& scalar)
-{
-	*this = *this * scalar;
-	return *this;
-}
-
-template <class T>
-inline Rgb& Rgb::operator/=(const T& scalar)
-{
-	*this = *this / scalar;
-	return *this;
-}
 
 	} // namespace Color
 } // namespace plinth

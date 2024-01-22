@@ -35,84 +35,85 @@
 namespace plinth
 {
 
-template <class keyT, class T>
-inline IndexedMap<keyT, T>::IndexedMap()
-	: m_exceptionPrefix("Indexed Map: ")
+template <class KeyT, class T>
+inline IndexedMap<KeyT, T>::IndexedMap()
+	: m_exceptionPrefix{ "Indexed Map: " }
+	, m_elements{}
 {
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::add(const keyT& key, const T& value)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::add(const KeyT& key, const T& value)
 {
 	m_elements.push_back(Element{ key, value });
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::add(const T& value)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::add(const T& value)
 {
 	add("", value);
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::remove(const keyT& key)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::remove(const KeyT& key)
 {
 	m_elements.erase(std::remove_if(m_elements.begin(), m_elements.end(),
 		[&key](const Element& element)
-	{
-		return element.key == key;
-	}),
+		{
+			return element.key == key;
+		}),
 		m_elements.end());
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::remove(const unsigned int index)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::remove(const std::size_t index)
 {
 	if (priv_indexIsValid(index))
 		m_elements.erase(m_elements.begin() + index);
 }
 
-template <class keyT, class T>
-inline T IndexedMap<keyT, T>::get(const keyT& key) const
+template <class KeyT, class T>
+inline T IndexedMap<KeyT, T>::get(const KeyT& key) const
 {
 	for (auto& element : m_elements)
 	{
 		if (element.key == key)
 			return element.value;
 	}
-	throw Exception(m_exceptionPrefix + "key not found");
+	throw Exception(m_exceptionPrefix + "Key not found.");
 }
 
-template <class keyT, class T>
-inline T IndexedMap<keyT, T>::get(const unsigned int index) const
+template <class KeyT, class T>
+inline T IndexedMap<KeyT, T>::get(const std::size_t index) const
 {
 	if (priv_indexIsValid(index))
 		return m_elements[index].value;
 	else
-		throw Exception(m_exceptionPrefix + "index out of range");
+		throw Exception(m_exceptionPrefix + "Index out of range.");
 }
 
-template <class keyT, class T>
-inline T& IndexedMap<keyT, T>::access(const keyT& key)
+template <class KeyT, class T>
+inline T& IndexedMap<KeyT, T>::access(const KeyT& key)
 {
 	for (auto& element : m_elements)
 	{
 		if (element.key == key)
 			return element.value;
 	}
-	throw Exception(m_exceptionPrefix + "key not found");
+	throw Exception(m_exceptionPrefix + "Key not found.");
 }
 
-template <class keyT, class T>
-inline T& IndexedMap<keyT, T>::access(const unsigned int index)
+template <class KeyT, class T>
+inline T& IndexedMap<KeyT, T>::access(const std::size_t index)
 {
 	if (priv_indexIsValid(index))
 		return m_elements[index].value;
 	else
-		throw Exception(m_exceptionPrefix + "index out of range");
+		throw Exception(m_exceptionPrefix + "Index out of range.");
 }
 
-template <class keyT, class T>
-inline bool IndexedMap<keyT, T>::valid(const keyT& key) const
+template <class KeyT, class T>
+inline bool IndexedMap<KeyT, T>::valid(const KeyT& key) const
 {
 	for (auto& element : m_elements)
 	{
@@ -122,14 +123,14 @@ inline bool IndexedMap<keyT, T>::valid(const keyT& key) const
 	return false;
 }
 
-template <class keyT, class T>
-inline bool IndexedMap<keyT, T>::valid(const unsigned int index) const
+template <class KeyT, class T>
+inline bool IndexedMap<KeyT, T>::valid(const std::size_t index) const
 {
 	return priv_indexIsValid(index);
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::set(const keyT& key, const T& value)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::set(const KeyT& key, const T& value)
 {
 	for (auto& element : m_elements)
 	{
@@ -138,44 +139,44 @@ inline void IndexedMap<keyT, T>::set(const keyT& key, const T& value)
 	}
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::set(const unsigned int index, const T& value)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::set(const std::size_t index, const T& value)
 {
 	if (priv_indexIsValid(index))
 		m_elements[index].value = value;
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::setKey(const unsigned int index, const keyT& key)
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::setKey(const std::size_t index, const KeyT& key)
 {
 	if (priv_indexIsValid(index))
 		m_elements[index].key = key;
 }
 
-template <class keyT, class T>
-inline keyT IndexedMap<keyT, T>::getKey(const unsigned int index) const
+template <class KeyT, class T>
+inline KeyT IndexedMap<KeyT, T>::getKey(const std::size_t index) const
 {
 	if (priv_indexIsValid(index))
 		return m_elements[index].key;
 	else
-		throw Exception(m_exceptionPrefix + "index out of range");
+		throw Exception(m_exceptionPrefix + "Index out of range.");
 }
 
-template <class keyT, class T>
-inline unsigned int IndexedMap<keyT, T>::getSize() const
+template <class KeyT, class T>
+inline std::size_t IndexedMap<KeyT, T>::getSize() const
 {
-	return static_cast<unsigned int>(m_elements.size());
+	return m_elements.size();
 }
 
-template <class keyT, class T>
-inline void IndexedMap<keyT, T>::clear()
+template <class KeyT, class T>
+inline void IndexedMap<KeyT, T>::clear()
 {
 	m_elements.clear();
 }
 
 // PRIVATE
-template <class keyT, class T>
-inline bool IndexedMap<keyT, T>::priv_indexIsValid(const unsigned int index) const
+template <class KeyT, class T>
+inline bool IndexedMap<KeyT, T>::priv_indexIsValid(const std::size_t index) const
 {
 	return index < m_elements.size();
 }

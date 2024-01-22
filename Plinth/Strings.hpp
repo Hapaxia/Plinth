@@ -123,6 +123,41 @@ std::string removeChars(std::string string, char characterToRemove);
 // e.g. remove "Hpx": Hapax -> aa
 std::string removeChars(std::string string, const std::string& charactersToRemove);
 
+// for indentifying bracket type
+enum class BracketType
+{
+	Parenthesis,
+	Square,
+	Angled,
+	Brace,
+};
+
+// [does not alter any parameters]
+// adds 'open' bracket to the beginning of the string
+// e.g. "Hapax" -> (Hapax / [Hapax / <Hapax" / {Hapax
+std::string addBracketOpen(const std::string& string, BracketType bracketType = BracketType::Parenthesis);
+
+// [does not alter any parameters]
+// adds 'close' brackets to the end of the string
+// e.g. "Hapax" -> Hapax) / Hapax] / Hapax> / Hapax}
+std::string addBracketClose(const std::string& string, BracketType bracketType = BracketType::Parenthesis);
+
+// [does not alter any parameters]
+// adds brackets to both ends of the string
+// e.g. "Hapax" -> (Hapax) / [Hapax] / <Hapax> / {Hapax}
+std::string addBrackets(const std::string& string, BracketType bracketType = BracketType::Parenthesis);
+
+// [does not alter any parameters]
+// adds brackets to both ends of the string
+// allows different brackets for each end
+// e.g. "Hapax" -> [Hapax)
+std::string addBrackets(const std::string& string, BracketType openBracketType, BracketType closeBracketType);
+
+// [does not alter any parameters]
+// adds character to both ends of the string
+// e.g. "Hapax" -> 'Hapax' / /Hapax/ / "Hapax" / ..
+std::string addBookends(const std::string& string, char bookendCharacter, std::size_t bookendLength = 1_uz);
+
 // [does not alter any parameters]
 // returns a formatted string based on the format parameter and the following arguments (passed in a vector)
 // argument type is templated. all arguments are sent through stringFrom()

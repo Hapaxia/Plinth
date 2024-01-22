@@ -42,78 +42,78 @@ class Lax
 {
 public:
 	Lax();
-	Lax(T value);
-	Lax(std::initializer_list<T> list);
+	explicit Lax(const T& value);
+	explicit Lax(const std::initializer_list<T>& list);
 	template <class U>
-	Lax(U value);
+	explicit Lax(const U& value);
 
 	template <class U>
-	void setEpsilon(U epsilon);
+	void setEpsilon(const U& epsilon);
 	template <class U = long double>
 	U getEpsilon() const;
 
-	bool operator==(Lax other) const;
+	bool operator==(const Lax& other) const;
 	template <class U>
-	bool operator==(U value) const;
-	bool operator!=(Lax other) const;
+	bool operator==(const U& value) const;
+	bool operator!=(const Lax& other) const;
 	template <class U>
-	bool operator!=(U value) const;
-	Lax& operator=(Lax other);
+	bool operator!=(const U& value) const;
+	Lax& operator=(const Lax& other);
 	template <class U>
-	Lax& operator=(U value);
+	Lax& operator=(const U& value);
 
 	Lax& operator++();
 	Lax& operator--();
 	Lax operator++(int);
 	Lax operator--(int);
 
-	bool operator<(Lax other) const;
-	bool operator>(Lax other) const;
-	bool operator<=(Lax other) const;
-	bool operator>=(Lax other) const;
+	bool operator<(const Lax& other) const;
+	bool operator>(const Lax& other) const;
+	bool operator<=(const Lax& other) const;
+	bool operator>=(const Lax& other) const;
 	template <class U>
-	bool operator<(U value) const;
+	bool operator<(const U& value) const;
 	template <class U>
-	bool operator>(U value) const;
+	bool operator>(const U& value) const;
 	template <class U>
-	bool operator<=(U value) const;
+	bool operator<=(const U& value) const;
 	template <class U>
-	bool operator>=(U value) const;
+	bool operator>=(const U& value) const;
 
 	Lax operator+() const;
 	Lax operator-() const;
 
-	Lax operator+(Lax other) const;
-	Lax operator-(Lax other) const;
-	Lax operator*(Lax other) const;
-	Lax operator/(Lax other) const;
-	Lax operator%(Lax other) const;
+	Lax operator+(const Lax& other) const;
+	Lax operator-(const Lax& other) const;
+	Lax operator*(const Lax& other) const;
+	Lax operator/(const Lax& other) const;
+	Lax operator%(const Lax& other) const;
 	template <class U>
-	Lax operator+(U value) const;
+	Lax operator+(const U& value) const;
 	template <class U>
-	Lax operator-(U value) const;
+	Lax operator-(const U& value) const;
 	template <class U>
-	Lax operator*(U value) const;
+	Lax operator*(const U& value) const;
 	template <class U>
-	Lax operator/(U value) const;
+	Lax operator/(const U& value) const;
 	template <class U>
-	Lax operator%(U value) const;
+	Lax operator%(const U& value) const;
 
-	Lax& operator+=(Lax other);
-	Lax& operator-=(Lax other);
-	Lax& operator*=(Lax other);
-	Lax& operator/=(Lax other);
-	Lax& operator%=(Lax other);
+	Lax& operator+=(const Lax& other);
+	Lax& operator-=(const Lax& other);
+	Lax& operator*=(const Lax& other);
+	Lax& operator/=(const Lax& other);
+	Lax& operator%=(const Lax& other);
 	template <class U>
-	Lax& operator+=(U value);
+	Lax& operator+=(const U& value);
 	template <class U>
-	Lax& operator-=(U value);
+	Lax& operator-=(const U& value);
 	template <class U>
-	Lax& operator*=(U value);
+	Lax& operator*=(const U& value);
 	template <class U>
-	Lax& operator/=(U value);
+	Lax& operator/=(const U& value);
 	template <class U>
-	Lax& operator%=(U value);
+	Lax& operator%=(const U& value);
 
 	template <class U>
 	operator U() const;
@@ -124,34 +124,34 @@ private:
 };
 
 template <class T, class U>
-U operator+(U left, Lax<T> right);
+U operator+(const U& left, const Lax<T>& right);
 
 template <class T, class U>
-U operator-(U left, Lax<T> right);
+U operator-(const U& left, const Lax<T>& right);
 
 template <class T, class U>
-U operator*(U left, Lax<T> right);
+U operator*(const U& left, const Lax<T>& right);
 
 template <class T, class U>
-U operator/(U left, Lax<T> right);
+U operator/(const U& left, const Lax<T>& right);
 
 template <class T, class U>
-U operator%(U left, Lax<T> right);
+U operator%(const U& left, const Lax<T>& right);
 
 template <class T, class U>
-U& operator+=(U& left, Lax<T> right);
+U& operator+=(U& left, const Lax<T>& right);
 
 template <class T, class U>
-U& operator-=(U& left, Lax<T> right);
+U& operator-=(U& left, const Lax<T>& right);
 
 template <class T, class U>
-U& operator*=(U& left, Lax<T> right);
+U& operator*=(U& left, const Lax<T>& right);
 
 template <class T, class U>
-U& operator/=(U& left, Lax<T> right);
+U& operator/=(U& left, const Lax<T>& right);
 
 template <class T, class U>
-U& operator*=(U& left, Lax<T> right);
+U& operator*=(U& left, const Lax<T>& right);
 
 } // namespace plinth
 #include "Lax.inl"

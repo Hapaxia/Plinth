@@ -39,26 +39,26 @@ namespace plinth
 	namespace Tween
 	{
 
-template <class positionT, class T, class interpolationAlphaT, class positionCastT>
+template <class PositionT, class T, class InterpolationAlphaT, class PositionCastT>
 class Piecewise
 {
 public:
 	struct Node
 	{
-		positionT position;
+		PositionT position;
 		T value;
-		bool operator<(const Node& rhs) { return this->position < rhs.position; }
+		bool operator<(const Node& other) { return position < other.position; }
 	};
-
-	//void DEV_outputNodes();
 
 	Piecewise();
 	void clearNodes();
 	void addNode(const Node& node);
-	T getValue(positionT position) const;
-	void changeNodePosition(unsigned int index, positionT position);
-	void changeNodeValue(unsigned int index, T value);
-	unsigned int getNodeCount() const;
+	T getValue(PositionT position) const;
+	void changeNodePosition(std::size_t index, PositionT position);
+	void changeNodeValue(std::size_t index, T value);
+	PositionT getNodePosition(std::size_t index) const;
+	T getNodeValue(std::size_t index) const;
+	std::size_t getNodeCount() const;
 
 private:
 	std::vector<Node> m_nodes;

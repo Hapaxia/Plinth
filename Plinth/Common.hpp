@@ -43,7 +43,7 @@
 namespace plinth
 {
 
-const long double defaultEpsilon{ 0.00001 };
+constexpr long double defaultEpsilon{ 0.00001 };
 
 } // namespace plinth
 
@@ -53,5 +53,9 @@ namespace pl = plinth; // create shortcut namespace
 
 #include <vector>
 #include <string>
+#include <cstddef>
+
+constexpr std::size_t operator ""_uz(unsigned long long unsignedInteger) noexcept { return static_cast<std::size_t>(unsignedInteger); }
+constexpr unsigned char operator ""_uc(unsigned long long unsignedInteger) noexcept { return static_cast<unsigned char>(unsignedInteger); }
 
 #endif // PLINTH_COMMON_HPP

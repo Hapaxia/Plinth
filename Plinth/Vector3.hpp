@@ -85,14 +85,13 @@ public:
 	Vector3& operator*=(const T& scalar);
 	Vector3& operator/=(const T& scalar);
 
-	friend void std::swap(Vector3& a, Vector3& b);
-
 private:
 	const long double m_epsilon;
 
-	bool isNotZero() const;
+	bool priv_isNotZero() const;
 };
 
+using Vector3s = Vector3<std::size_t>;
 using Vector3u = Vector3<unsigned int>;
 using Vector3i = Vector3<int>;
 using Vector3d = Vector3<double>;

@@ -37,19 +37,17 @@
 namespace plinth
 {
 
-using FileSize = size_t;
+std::size_t getFileSize(const std::string& filename);
 
-FileSize getFileSize(const std::string& filename);
+bool loadTextFile(std::vector<std::string>& lines, const std::string& filename, bool stripTrailingNewlines = true);
+std::size_t loadBinaryFile(char* data, const std::string& filename); // returns size of data memory block
+std::size_t loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filename); // returns size of data memory block
 
-void loadTextFile(std::vector<std::string>& lines, const std::string& filename, bool stripTrailingNewlines = true);
-FileSize loadBinaryFile(char* data, const std::string& filename); // returns size of data memory block
-FileSize loadBinaryFile(std::unique_ptr<char[]>& data, const std::string& filename); // returns size of data memory block
-
-void saveTextFile(const std::vector<std::string>& lines, const std::string& filename, bool addNewlines = true);
-template <class sizeT>
-void saveBinaryFile(const char* data, const std::string& filename, sizeT size);
-template <class sizeT>
-void saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, sizeT size);
+bool saveTextFile(const std::vector<std::string>& lines, const std::string& filename, bool addNewlines = true);
+template <class SizeT>
+bool saveBinaryFile(const char* data, const std::string& filename, SizeT size);
+template <class SizeT>
+bool saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& filename, SizeT size);
 
 } // namespace plinth
 #include "File.inl"

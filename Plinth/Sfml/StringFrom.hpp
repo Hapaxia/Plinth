@@ -51,29 +51,32 @@ enum class SfmlColorList
 	Extended
 };
 
+enum class SfmlTimeFormat
+{
+	Seconds,
+	Milliseconds,
+	Microseconds,
+};
+
 template<class T>
-std::string stringFrom(sf::Vector2<T>);
-template<class T>
-std::string stringFrom(sf::Vector2<T>, unsigned int decimalPrecision);
+std::string stringFrom(sf::Vector2<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 std::string stringFrom(sf::Vector2<std::string>);
 
 template<class T>
-std::string stringFrom(sf::Vector3<T>);
-template<class T>
-std::string stringFrom(sf::Vector3<T>, unsigned int decimalPrecision);
+std::string stringFrom(sf::Vector3<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 std::string stringFrom(sf::Vector3<std::string>);
 
 std::string stringFrom(sf::Color, SfmlColorList colorList = SfmlColorList::Extended, bool separateAlpha = true);
 
 std::string stringFrom(sf::VideoMode, bool sizeOnly = false);
 
+std::string stringFrom(sf::View, DecimalPrecision decimalPrecision, bool withoutViewport = false);
 std::string stringFrom(sf::View, bool withoutViewport = false);
-std::string stringFrom(sf::View, unsigned int decimalPrecision, bool withoutViewport = false);
 
 std::string stringFrom(sf::Keyboard::Key);
 
-std::string stringFrom(sf::Time);
-std::string stringFrom(sf::Time, unsigned int decimalPrecision);
+std::string stringFrom(sf::Time, DecimalPrecision decimalPrecision, SfmlTimeFormat format = SfmlTimeFormat::Seconds, bool shortUnit = false);
+std::string stringFrom(sf::Time, SfmlTimeFormat format = SfmlTimeFormat::Seconds, bool shortUnit = false);
 
 } // namespace plinth
 #include "StringFrom.inl"

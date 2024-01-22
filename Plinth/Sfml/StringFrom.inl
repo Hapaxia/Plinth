@@ -38,25 +38,13 @@ namespace plinth
 {
 
 template<class T>
-inline std::string stringFrom(const sf::Vector2<T> from)
-{
-	return "(" + stringFrom(from.x) + ", " + stringFrom(from.y) + ")";
-}
-
-template<class T>
-inline std::string stringFrom(const sf::Vector2<T> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const sf::Vector2<T> from, const DecimalPrecision decimalPrecision)
 {
 	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ")";
 }
 
 template<class T>
-inline std::string stringFrom(const sf::Vector3<T> from)
-{
-	return "(" + stringFrom(from.x) + ", " + stringFrom(from.y) + ", " + stringFrom(from.z) + ")";
-}
-
-template<class T>
-inline std::string stringFrom(const sf::Vector3<T> from, const unsigned int decimalPrecision)
+inline std::string stringFrom(const sf::Vector3<T> from, const DecimalPrecision decimalPrecision)
 {
 	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ", " + stringFrom(from.z, decimalPrecision) + ")";
 }
@@ -76,7 +64,7 @@ inline std::string stringFrom(const sf::Color from, const SfmlColorList colorLis
 	std::string s;
 	sf::Color color{ from };
 	if (separateAlpha)
-		color.a = 255;
+		color.a = 255_uc;
 	if (colorList == SfmlColorList::Standard)
 	{
 		if (color == sf::Color::Black)
@@ -249,52 +237,61 @@ inline std::string stringFrom(const sf::Color from, const SfmlColorList colorLis
 		else
 			s = "(" + stringFrom(color.r) + ", " + stringFrom(color.g) + ", " + stringFrom(color.b) + ", " + stringFrom(color.a) + ")";
 	}
-	if (separateAlpha && (from.a < 255))
+	if (separateAlpha && (from.a < 255_uc))
 		s += " (alpha: " + stringFrom(from.a) + ")";
 	return s;
 }
 
-inline std::string stringFrom(const sf::VideoMode from, bool sizeOnly)
+inline std::string stringFrom(const sf::VideoMode from, const bool sizeOnly)
 {
 	return stringFrom(pl::Size2u{ from.width, from.height }) + (sizeOnly ? "" : " (" + stringFrom(from.bitsPerPixel) + ")");
 }
 
-inline std::string stringFrom(const sf::View view, bool withoutViewport)
+std::string stringFrom(const sf::View view, const DecimalPrecision decimalPrecision, const bool withoutViewport)
 {
 	std::string s;
 
-	s += "[ " + stringFrom(view.getCenter()) + ", " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2());
-	if (view.getRotation() != 0.f)
-		s += " " + pl::stringFrom(view.getRotation());
+	s += "[ " + stringFrom(view.getCenter(), decimalPrecision) + " " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2(), decimalPrecision);
+	const float rotation{ view.getRotation() };
+	if (rotation != 0.f)
+		s += " (" + pl::stringFrom(rotation, decimalPrecision) + ")";
 	s += " ]";
 
 	if (!withoutViewport)
 	{
+		const sf::FloatRect viewport{ view.getViewport() };
 		s += "{ ";
-		s += stringFrom(pl::Vector2f{ view.getViewport().left, view.getViewport().top });
-		s += ", ";
-		s += stringFrom(pl::Size2<float>{ view.getViewport().width, view.getViewport().height });
+		s += stringFrom(pl::Vector2f{ viewport.left, viewport.top }, decimalPrecision);
+		s += " ";
+		s += stringFrom(pl::Size2<float>{ viewport.width, viewport.height }, decimalPrecision);
 		s += " }";
 	}
 
 	return s;
 }
 
-inline std::string stringFrom(const sf::View view, unsigned int decimalPrecision, bool withoutViewport)
+inline std::string stringFrom(const sf::View view, const bool withoutViewport)
+{
+	return stringFrom(view, DecimalPrecision::None, withoutViewport);
+}
+
+inline std::string stringFrom(const sf::View view, const std::size_t decimalPrecision, const bool withoutViewport)
 {
 	std::string s;
 
 	s += "[ " + stringFrom(view.getCenter(), decimalPrecision) + " " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2(), decimalPrecision);
-	if (view.getRotation() != 0.f)
-		s += " (" + pl::stringFrom(view.getRotation(), decimalPrecision) + ")";
+	const float rotation{ view.getRotation() };
+	if (rotation != 0.f)
+		s += " (" + pl::stringFrom(rotation, decimalPrecision) + ")";
 	s += " ]";
 
 	if (!withoutViewport)
 	{
+		const sf::FloatRect viewport{ view.getViewport() };
 		s += "{ ";
-		s += stringFrom(pl::Vector2f{ view.getViewport().left, view.getViewport().top }, decimalPrecision);
+		s += stringFrom(pl::Vector2f{ viewport.left, viewport.top }, decimalPrecision);
 		s += " ";
-		s += stringFrom(pl::Size2<float>{ view.getViewport().width, view.getViewport().height }, decimalPrecision);
+		s += stringFrom(pl::Size2<float>{ viewport.width, viewport.height }, decimalPrecision);
 		s += " }";
 	}
 
@@ -401,29 +398,29 @@ inline std::string stringFrom(const sf::Keyboard::Key from)
 		return "[";
 	case sf::Keyboard::Key::RBracket:
 		return "]";
-	case sf::Keyboard::Key::SemiColon:
+	case sf::Keyboard::Key::Semicolon:
 		return ";";
 	case sf::Keyboard::Key::Comma:
 		return ",";
 	case sf::Keyboard::Key::Period:
 		return ".";
-	case sf::Keyboard::Key::Quote:
+	case sf::Keyboard::Key::Apostrophe:
 		return "'";
 	case sf::Keyboard::Key::Slash:
 		return "/";
-	case sf::Keyboard::Key::BackSlash:
+	case sf::Keyboard::Key::Backslash:
 		return "\\";
-	case sf::Keyboard::Key::Tilde:
+	case sf::Keyboard::Key::Grave:
 		return "~";
 	case sf::Keyboard::Key::Equal:
 		return "=";
-	case sf::Keyboard::Key::Dash:
+	case sf::Keyboard::Key::Hyphen:
 		return "-";
 	case sf::Keyboard::Key::Space:
 		return "Space";
-	case sf::Keyboard::Key::Return:
-		return "Return";
-	case sf::Keyboard::Key::BackSpace:
+	case sf::Keyboard::Key::Enter:
+		return "Enter";
+	case sf::Keyboard::Key::Backspace:
 		return "Backspace";
 	case sf::Keyboard::Key::Tab:
 		return "Tab";
@@ -513,14 +510,325 @@ inline std::string stringFrom(const sf::Keyboard::Key from)
 	}
 }
 
-inline std::string stringFrom(const sf::Time time)
+inline std::string stringFrom(const sf::Keyboard::Scancode from)
 {
-	return stringFrom(time.asSeconds()) + " seconds";
+	switch (from)
+	{
+	case sf::Keyboard::Scancode::A:
+		return "A";
+	case sf::Keyboard::Scancode::B:
+		return "B";
+	case sf::Keyboard::Scancode::C:
+		return "C";
+	case sf::Keyboard::Scancode::D:
+		return "D";
+	case sf::Keyboard::Scancode::E:
+		return "E";
+	case sf::Keyboard::Scancode::F:
+		return "F";
+	case sf::Keyboard::Scancode::G:
+		return "G";
+	case sf::Keyboard::Scancode::H:
+		return "H";
+	case sf::Keyboard::Scancode::I:
+		return "I";
+	case sf::Keyboard::Scancode::J:
+		return "J";
+	case sf::Keyboard::Scancode::K:
+		return "K";
+	case sf::Keyboard::Scancode::L:
+		return "L";
+	case sf::Keyboard::Scancode::M:
+		return "M";
+	case sf::Keyboard::Scancode::N:
+		return "N";
+	case sf::Keyboard::Scancode::O:
+		return "O";
+	case sf::Keyboard::Scancode::P:
+		return "P";
+	case sf::Keyboard::Scancode::Q:
+		return "Q";
+	case sf::Keyboard::Scancode::R:
+		return "R";
+	case sf::Keyboard::Scancode::S:
+		return "S";
+	case sf::Keyboard::Scancode::T:
+		return "T";
+	case sf::Keyboard::Scancode::U:
+		return "U";
+	case sf::Keyboard::Scancode::V:
+		return "V";
+	case sf::Keyboard::Scancode::W:
+		return "W";
+	case sf::Keyboard::Scancode::X:
+		return "X";
+	case sf::Keyboard::Scancode::Y:
+		return "Y";
+	case sf::Keyboard::Scancode::Z:
+		return "Z";
+	case sf::Keyboard::Scancode::Num1:
+		return "1";
+	case sf::Keyboard::Scancode::Num2:
+		return "2";
+	case sf::Keyboard::Scancode::Num3:
+		return "3";
+	case sf::Keyboard::Scancode::Num4:
+		return "4";
+	case sf::Keyboard::Scancode::Num5:
+		return "5";
+	case sf::Keyboard::Scancode::Num6:
+		return "6";
+	case sf::Keyboard::Scancode::Num7:
+		return "7";
+	case sf::Keyboard::Scancode::Num8:
+		return "8";
+	case sf::Keyboard::Scancode::Num9:
+		return "9";
+	case sf::Keyboard::Scancode::Num0:
+		return "0";
+	case sf::Keyboard::Scancode::Enter:
+		return "Enter";
+	case sf::Keyboard::Scancode::Escape:
+		return "Escape";
+	case sf::Keyboard::Scancode::Backspace:
+		return "Backspace";
+	case sf::Keyboard::Scancode::Tab:
+		return "Tab";
+	case sf::Keyboard::Scancode::Space:
+		return "Space";
+	case sf::Keyboard::Scancode::Hyphen:
+		return "-";
+	case sf::Keyboard::Scancode::Equal:
+		return "=";
+	case sf::Keyboard::Scancode::LBracket:
+		return "[";
+	case sf::Keyboard::Scancode::RBracket:
+		return "]";
+	case sf::Keyboard::Scancode::Backslash:
+		return "\\";
+	case sf::Keyboard::Scancode::Semicolon:
+		return ";";
+	case sf::Keyboard::Scancode::Apostrophe:
+		return "'";
+	case sf::Keyboard::Scancode::Grave:
+		return "~";
+	case sf::Keyboard::Scancode::Comma:
+		return ",";
+	case sf::Keyboard::Scancode::Period:
+		return ".";
+	case sf::Keyboard::Scancode::Slash:
+		return "/";
+	case sf::Keyboard::Scancode::F1:
+		return "F1";
+	case sf::Keyboard::Scancode::F2:
+		return "F2";
+	case sf::Keyboard::Scancode::F3:
+		return "F3";
+	case sf::Keyboard::Scancode::F4:
+		return "F4";
+	case sf::Keyboard::Scancode::F5:
+		return "F5";
+	case sf::Keyboard::Scancode::F6:
+		return "F6";
+	case sf::Keyboard::Scancode::F7:
+		return "F7";
+	case sf::Keyboard::Scancode::F8:
+		return "F8";
+	case sf::Keyboard::Scancode::F9:
+		return "F9";
+	case sf::Keyboard::Scancode::F10:
+		return "F10";
+	case sf::Keyboard::Scancode::F11:
+		return "F11";
+	case sf::Keyboard::Scancode::F12:
+		return "F12";
+	case sf::Keyboard::Scancode::F13:
+		return "F13";
+	case sf::Keyboard::Scancode::F14:
+		return "F14";
+	case sf::Keyboard::Scancode::F15:
+		return "F15";
+	case sf::Keyboard::Scancode::F16:
+		return "F16";
+	case sf::Keyboard::Scancode::F17:
+		return "F17";
+	case sf::Keyboard::Scancode::F18:
+		return "F18";
+	case sf::Keyboard::Scancode::F19:
+		return "F19";
+	case sf::Keyboard::Scancode::F20:
+		return "F20";
+	case sf::Keyboard::Scancode::F21:
+		return "F21";
+	case sf::Keyboard::Scancode::F22:
+		return "F22";
+	case sf::Keyboard::Scancode::F23:
+		return "F23";
+	case sf::Keyboard::Scancode::F24:
+		return "F24";
+	case sf::Keyboard::Scancode::CapsLock:
+		return "Caps Lock";
+	case sf::Keyboard::Scancode::PrintScreen:
+		return "Print Screen";
+	case sf::Keyboard::Scancode::ScrollLock:
+		return "Scroll Lock";
+	case sf::Keyboard::Scancode::Pause:
+		return "Pause";
+	case sf::Keyboard::Scancode::Insert:
+		return "Insert";
+	case sf::Keyboard::Scancode::Home:
+		return "Home";
+	case sf::Keyboard::Scancode::PageUp:
+		return "Page Up";
+	case sf::Keyboard::Scancode::Delete:
+		return "Delete";
+	case sf::Keyboard::Scancode::End:
+		return "End";
+	case sf::Keyboard::Scancode::PageDown:
+		return "Page Down";
+	case sf::Keyboard::Scancode::Right:
+		return "Right";
+	case sf::Keyboard::Scancode::Left:
+		return "Left";
+	case sf::Keyboard::Scancode::Down:
+		return "Down";
+	case sf::Keyboard::Scancode::Up:
+		return "Up";
+	case sf::Keyboard::Scancode::NumLock:
+		return "Up";
+	case sf::Keyboard::Scancode::NumpadDivide:
+		return "/ (numpad)";
+	case sf::Keyboard::Scancode::NumpadMultiply:
+		return "* (numpad)";
+	case sf::Keyboard::Scancode::NumpadMinus:
+		return "- (numpad)";
+	case sf::Keyboard::Scancode::NumpadPlus:
+		return "+ (numpad)";
+	case sf::Keyboard::Scancode::NumpadEqual:
+		return "= (numpad)";
+	case sf::Keyboard::Scancode::NumpadEnter:
+		return "Enter (numpad)";
+	case sf::Keyboard::Scancode::NumpadDecimal:
+		return ". (numpad)";
+	case sf::Keyboard::Scancode::Numpad1:
+		return "1 (numpad)";
+	case sf::Keyboard::Scancode::Numpad2:
+		return "2 (numpad)";
+	case sf::Keyboard::Scancode::Numpad3:
+		return "3 (numpad)";
+	case sf::Keyboard::Scancode::Numpad4:
+		return "4 (numpad)";
+	case sf::Keyboard::Scancode::Numpad5:
+		return "5 (numpad)";
+	case sf::Keyboard::Scancode::Numpad6:
+		return "6 (numpad)";
+	case sf::Keyboard::Scancode::Numpad7:
+		return "7 (numpad)";
+	case sf::Keyboard::Scancode::Numpad8:
+		return "8 (numpad)";
+	case sf::Keyboard::Scancode::Numpad9:
+		return "9 (numpad)";
+	case sf::Keyboard::Scancode::Numpad0:
+		return "0 (numpad)";
+	case sf::Keyboard::Scancode::NonUsBackslash:
+		return "Non-US Backslash";
+	case sf::Keyboard::Scancode::Application:
+		return "Application";
+	case sf::Keyboard::Scancode::Execute:
+		return "Execute";
+	case sf::Keyboard::Scancode::ModeChange:
+		return "Mode Change";
+	case sf::Keyboard::Scancode::Help:
+		return "Help";
+	case sf::Keyboard::Scancode::Menu:
+		return "Menu";
+	case sf::Keyboard::Scancode::Select:
+		return "Select";
+	case sf::Keyboard::Scancode::Redo:
+		return "Redo";
+	case sf::Keyboard::Scancode::Undo:
+		return "Undo";
+	case sf::Keyboard::Scancode::Cut:
+		return "Cut";
+	case sf::Keyboard::Scancode::Copy:
+		return "Copy";
+	case sf::Keyboard::Scancode::Paste:
+		return "Paste";
+	case sf::Keyboard::Scancode::VolumeMute:
+		return "Volume Mute";
+	case sf::Keyboard::Scancode::VolumeUp:
+		return "Volume Up";
+	case sf::Keyboard::Scancode::VolumeDown:
+		return "Volume Down";
+	case sf::Keyboard::Scancode::MediaPlayPause:
+		return "Media Play/Pause";
+	case sf::Keyboard::Scancode::MediaStop:
+		return "Media Stop";
+	case sf::Keyboard::Scancode::MediaNextTrack:
+		return "Media Next Track";
+	case sf::Keyboard::Scancode::MediaPreviousTrack:
+		return "Media Previous Track";
+	case sf::Keyboard::Scancode::LControl:
+		return "Left Control";
+	case sf::Keyboard::Scancode::LShift:
+		return "Left Shift";
+	case sf::Keyboard::Scancode::LAlt:
+		return "Left Alt";
+	case sf::Keyboard::Scancode::LSystem:
+		return "Left System";
+	case sf::Keyboard::Scancode::RControl:
+		return "Right Control";
+	case sf::Keyboard::Scancode::RShift:
+		return "Right Shift";
+	case sf::Keyboard::Scancode::RAlt:
+		return "Right Alt";
+	case sf::Keyboard::Scancode::RSystem:
+		return "Right System";
+	case sf::Keyboard::Scancode::Back:
+		return "Back";
+	case sf::Keyboard::Scancode::Forward:
+		return "Forward";
+	case sf::Keyboard::Scancode::Refresh:
+		return "Refresh";
+	case sf::Keyboard::Scancode::Stop:
+		return "Stop";
+	case sf::Keyboard::Scancode::Search:
+		return "Search";
+	case sf::Keyboard::Scancode::Favorites:
+		return "Favorites";
+	case sf::Keyboard::Scancode::HomePage:
+		return "Home Page";
+	case sf::Keyboard::Scancode::LaunchApplication1:
+		return "Launch Application 1";
+	case sf::Keyboard::Scancode::LaunchApplication2:
+		return "Launch Application 2";
+	case sf::Keyboard::Scancode::LaunchMail:
+		return "Launch Mail";
+	case sf::Keyboard::Scancode::LaunchMediaSelect:
+		return "Launch Media Select";
+	case sf::Keyboard::Scancode::Unknown:
+	default:
+		return "Unknown";
+	}
 }
 
-inline std::string stringFrom(const sf::Time time, unsigned int decimalPrecision)
+inline std::string stringFrom(const sf::Time time, DecimalPrecision decimalPrecision, SfmlTimeFormat format, bool shortUnit)
 {
-	return stringFrom(time.asSeconds(), decimalPrecision) + " seconds";
+	switch (format)
+	{
+	case SfmlTimeFormat::Microseconds:
+		return stringFrom(time.asMicroseconds(), decimalPrecision) + (shortUnit ? "us" : " microseconds");
+	case SfmlTimeFormat::Milliseconds:
+		return stringFrom(time.asMilliseconds(), decimalPrecision) + (shortUnit ? "ms" : " milliseconds");
+	case SfmlTimeFormat::Seconds:
+	default:
+		return stringFrom(time.asSeconds(), decimalPrecision) + (shortUnit ? "s" : " seconds");
+	}
+}
+
+inline std::string stringFrom(const sf::Time time, const SfmlTimeFormat format, const bool shortUnit)
+{
+	return stringFrom(time, DecimalPrecision::None, format, shortUnit);
 }
 
 } // namespace plinth

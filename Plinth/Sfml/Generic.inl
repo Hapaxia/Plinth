@@ -32,20 +32,16 @@
 
 #include "Generic.hpp"
 #include "../Range.hpp"
-#include <math.h>
+#include <cmath>
 #include "../Tween.hpp"
-
-namespace
-{
-
-const pl::Range<unsigned int> colorComponentRange{ 0u, 255u };
-
-} // namespace
 
 namespace plinth
 {
 	namespace Sfml
 	{
+
+constexpr pl::Range<unsigned char> colorComponentRange{ 0_uc, 255_uc };
+
 
 
 // SFML from Plinth
@@ -100,7 +96,7 @@ inline Vector2u vector2(const sf::Vector2u& vector)
 
 inline Vector3d vector3(const sf::Vector3f& vector)
 {
-	return{ vector.x, vector.y, vector.z };
+	return{ static_cast<double>(vector.x), static_cast<double>(vector.y), static_cast<double>(vector.z) };
 }
 
 inline Vector3i vector3(const sf::Vector3i& vector)
@@ -128,15 +124,15 @@ inline sf::Color colorFromValue(long int value)
 
 inline sf::Color colorFromRgb(const Color::Rgb& rgb)
 {
-	return sf::Color(Tween::linear(0, 255, rgb.r), Tween::linear(0, 255, rgb.g), Tween::linear(0, 255, rgb.b));
+	return sf::Color(Tween::linear(0_uc, 255_uc, rgb.r), Tween::linear(0_uc, 255_uc, rgb.g), Tween::linear(0_uc, 255_uc, rgb.b));
 }
 
 inline Color::Rgb rgbFromColor(const sf::Color& color)
 {
 	return Color::Rgb{
-		Tween::inverseLinear(0u, 255u, static_cast<unsigned int>(color.r)),
-		Tween::inverseLinear(0u, 255u, static_cast<unsigned int>(color.g)),
-		Tween::inverseLinear(0u, 255u, static_cast<unsigned int>(color.b))};
+		Tween::inverseLinear(0_uc, 255_uc, color.r),
+		Tween::inverseLinear(0_uc, 255_uc, color.g),
+		Tween::inverseLinear(0_uc, 255_uc, color.b) };
 }
 
 inline float lengthSquared(const sf::Vector2f& vector)
@@ -146,7 +142,7 @@ inline float lengthSquared(const sf::Vector2f& vector)
 
 inline float length(const sf::Vector2f& vector)
 {
-	return sqrt(lengthSquared(vector));
+	return std::sqrt(lengthSquared(vector));
 }
 
 inline float lengthSquared(const sf::Vector3f& vector)
@@ -156,7 +152,7 @@ inline float lengthSquared(const sf::Vector3f& vector)
 
 inline float length(const sf::Vector3f& vector)
 {
-	return sqrt(lengthSquared(vector));
+	return std::sqrt(lengthSquared(vector));
 }
 
 inline float dotProduct(const sf::Vector3f& a, const sf::Vector3f& b)
@@ -193,15 +189,15 @@ inline bool CCW(const sf::Vector2f& point1, const sf::Vector2f& point2, const sf
 // i.e. { { line1.x, line.y }, { line2.x, line2.y } }
 inline bool doLinesIntersect(const std::vector<std::vector<sf::Vector2f>>& lines)
 {
-	if (lines.size() != 2)
+	if (lines.size() != 2_uz)
 		return false;
-	if ((lines[0].size() != 2) || (lines[1].size() != 2))
+	if ((lines[0_uz].size() != 2_uz) || (lines[1_uz].size() != 2_uz))
 		return false;
 
-	return	(	CCW(lines[0][0], lines[1][0], lines[1][1]) !=
-				CCW(lines[0][1], lines[1][0], lines[1][1])) &&
-			(	CCW(lines[0][0], lines[0][1], lines[1][0]) !=
-				CCW(lines[0][0], lines[0][1], lines[1][1]));
+	return	(	CCW(lines[0_uz][0_uz], lines[1_uz][0_uz], lines[1_uz][1_uz]) !=
+				CCW(lines[0_uz][1_uz], lines[1_uz][0_uz], lines[1_uz][1_uz])) &&
+			(	CCW(lines[0_uz][0_uz], lines[0_uz][1_uz], lines[1_uz][0_uz]) !=
+				CCW(lines[0_uz][0_uz], lines[0_uz][1_uz], lines[1_uz][1_uz]));
 }
 
 inline bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygonVertices)
@@ -215,8 +211,8 @@ inline bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf
 		return false;
 
 	bool isInside{ false };
-	sf::Vector2f pointOutsideBoundingBox{ boundingBox.left - 1, boundingBox.top - 1 };
-	for (unsigned int v{ 0 }, w{ static_cast<unsigned int>(polygonVertices.size() - 1) }; v < polygonVertices.size(); w = v++)
+	sf::Vector2f pointOutsideBoundingBox{ boundingBox.left - 1.f, boundingBox.top - 1.f };
+	for (std::size_t v{ 0_uz }, w{ polygonVertices.size() - 1_uz }; v < polygonVertices.size(); w = v++)
 	{
 		if (doLinesIntersect({ { polygonVertices[v], polygonVertices[w] }, { pointOutsideBoundingBox, point } }))
 			isInside = !isInside;
@@ -226,9 +222,9 @@ inline bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf
 
 inline bool doClosedPolylinesIntersect(const std::vector<sf::Vector2f>& a, const std::vector<sf::Vector2f>& b)
 {
-	for (unsigned int l{ 0 }, m{ static_cast<unsigned int>(a.size() - 1) }; l < a.size(); m = l++)
+	for (std::size_t l{ 0_uz }, m{ a.size() - 1_uz }; l < a.size(); m = l++)
 	{
-		for (unsigned int v{ 0 }, w{ static_cast<unsigned int>(b.size() - 1) }; v < b.size(); w = v++)
+		for (std::size_t v{ 0_uz }, w{ b.size() - 1_uz }; v < b.size(); w = v++)
 		{
 			if (doLinesIntersect({ { a[l], a[m] }, { b[v], b[w] } }))
 				return true;
@@ -262,15 +258,15 @@ inline bool doTransformedRectsIntersect(const sf::FloatRect& rect1, const sf::Tr
 
 inline sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices)
 {
-	sf::FloatRect box;
-	if (vertices.size() == 0)
+	sf::FloatRect box{};
+	if (vertices.size() == 0_uz)
 		return box;
 	
-	box.left = vertices[0].x;
-	box.top = vertices[0].y;
+	box.left = vertices[0_uz].x;
+	box.top = vertices[0_uz].y;
 	
 	// store bottom right corner otherwise moving the top or left of the box would require also adjusting the width and height to compensate
-	sf::Vector2f bottomRight{ vertices[0] };
+	sf::Vector2f bottomRight{ vertices[0_uz] };
 	
 	for (auto& vertex : vertices)
 	{
@@ -289,65 +285,65 @@ inline sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices)
 	return box;
 }
 
-inline void changeAlpha(sf::Color& color, unsigned int alpha)
+inline void changeAlpha(sf::Color& color, const unsigned char alpha)
 {
 	color.a = colorComponentRange.clamp(alpha);
 }
 
-inline void changeAlpha(sf::Color& color, float alpha)
+inline void changeAlpha(sf::Color& color, const float alpha)
 {
-	changeAlpha(color, Tween::linear(0u, 255u, alpha));
+	changeAlpha(color, Tween::linear(0_uc, 255_uc, alpha));
 }
 
-inline void changeAlpha(sf::Color& color, double alpha)
+inline void changeAlpha(sf::Color& color, const double alpha)
 {
-	changeAlpha(color, Tween::linear(0u, 255u, alpha));
+	changeAlpha(color, Tween::linear(0_uc, 255_uc, alpha));
 }
 
-inline sf::Color colorFromColorAndAlpha(sf::Color color, unsigned int alpha)
+inline sf::Color colorFromColorAndAlpha(sf::Color color, const unsigned char alpha)
 {
 	color.a = colorComponentRange.clamp(alpha);
 	return color;
 }
 
-inline sf::Color colorFromColorAndAlpha(sf::Color color, float alpha)
+inline sf::Color colorFromColorAndAlpha(sf::Color color, const float alpha)
 {
-	return colorFromColorAndAlpha(color, Tween::linear(0u, 255u, alpha));
+	return colorFromColorAndAlpha(color, Tween::linear(0_uc, 255_uc, alpha));
 }
 
-inline sf::Color colorFromColorAndAlpha(sf::Color color, double alpha)
+inline sf::Color colorFromColorAndAlpha(sf::Color color, const double alpha)
 {
-	return colorFromColorAndAlpha(color, Tween::linear(0u, 255u, alpha));
+	return colorFromColorAndAlpha(color, Tween::linear(0_uc, 255_uc, alpha));
 }
 
 inline sf::Vector2f roundVector(const sf::Vector2f& vector)
 {
-	return{ round(vector.x), round(vector.y) };
+	return{ std::round(vector.x), std::round(vector.y) };
 }
 
 inline sf::Vector3f roundVector(const sf::Vector3f& vector)
 {
-	return{ round(vector.x), round(vector.y), round(vector.z) };
+	return{ std::round(vector.x), std::round(vector.y), std::round(vector.z) };
 }
 
 inline sf::Vector2f floorVector(const sf::Vector2f& vector)
 {
-	return{ floor(vector.x), floor(vector.y) };
+	return{ std::floor(vector.x), std::floor(vector.y) };
 }
 
 inline sf::Vector3f floorVector(const sf::Vector3f& vector)
 {
-	return{ floor(vector.x), floor(vector.y), floor(vector.z) };
+	return{ std::floor(vector.x), std::floor(vector.y), std::floor(vector.z) };
 }
 
 inline sf::Vector2f ceilVector(const sf::Vector2f& vector)
 {
-	return{ ceil(vector.x), ceil(vector.y) };
+	return{ std::ceil(vector.x), std::ceil(vector.y) };
 }
 
 inline sf::Vector3f ceilVector(const sf::Vector3f& vector)
 {
-	return{ ceil(vector.x), ceil(vector.y), ceil(vector.z) };
+	return{ std::ceil(vector.x), std::ceil(vector.y), std::ceil(vector.z) };
 }
 
 inline sf::Vector2f absVector(const sf::Vector2f& vector)

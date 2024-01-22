@@ -34,7 +34,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Color.hpp>
-#include "../Random.hpp"
 
 namespace plinth
 {
@@ -67,8 +66,8 @@ public:
 	void setPixel(sf::Vector2u location, unsigned char value);
 	unsigned char getPixel(sf::Vector2u location) const;
 	void copyFromImage(const sf::Image& image, ColorChannel colorChannel = ColorChannel::Rgb, bool resize = true);
-	void copyToImage(sf::Image& image, ColorChannel colorChannel = ColorChannel::Rgb) const;
-	void clear(unsigned char value = 0u);
+	void copyToImage(sf::Image& image, ColorChannel colorChannel = ColorChannel::Rgb, bool replaceAlpha = false) const;
+	void clear(unsigned char value = 0_uc);
 	void invert();
 	void generateNoise(NoiseType type = NoiseType::Random);
 

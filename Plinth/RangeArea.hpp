@@ -42,63 +42,73 @@ enum class RangeAreaBoundaries
 {
 	None,
 	Left,
-	Bottom,
-	Right,
 	Top,
-	LeftBottom, // lower values
-	BottomRight,
-	RightTop, // higher values
-	LeftTop,
+	Right,
+	Bottom,
+	LeftTop, // lower values
+	RightTop,
+	LeftBottom,
+	RightBottom, // higher values
 	LeftRight,
-	BottomTop,
-	LeftBottomRight,
-	LeftBottomTop,
-	LeftRightTop,
-	BottomRightTop,
-	All
+	TopBottom,
+	LeftTopRight,
+	LeftTopBottom,
+	LeftRightBottom,
+	TopRightBottom,
+	All,
 };
 
 template <class T>
-struct RangeArea
+struct RangeArea // note that bottom and top have been swapped since 2024 (via C++20 update); top is now lowest value and bottom is higher value (to match visual co-ordinates of rectangles)
 {
 	mutable T left;
-	mutable T bottom;
-	mutable T right;
 	mutable T top;
+	mutable T right;
+	mutable T bottom;
 	RangeArea();
 	template <class U>
-	RangeArea(const RangeArea<U>& rangeArea);
-	RangeArea(const T& newLeft, const T& newBottom, const T& newRight, const T& newTop);
-	RangeArea(const Range<T>& horizontalRange, const Range<T>& verticalRange);
-	RangeArea(const Vector2<T>& leftBottom, const Vector2<T>& rightTop);
-	RangeArea(const Size2<T>& size);
+	explicit RangeArea(const RangeArea<U>& rangeArea);
+	explicit RangeArea(const T& newLeft, const T& newTop, const T& newRight, const T& newBottom);
+	explicit RangeArea(const Range<T>& horizRange, const Range<T>& vertRange);
+	explicit RangeArea(const Vector2<T>& leftTop, const Vector2<T>& rightBottom);
+	explicit RangeArea(const Size2<T>& size);
 	Size2<T> getSize2() const;
 	T getSize() const;
 	T getWidth() const;
 	T getHeight() const;
-	void set(Vector2<T> leftBottom, Vector2<T> rightTop);
-	void setLeftBottom(Vector2<T> leftBottom);
-	void setRightTop(Vector2<T> rightTop);
-	Vector2<T> getLeftBottom() const;
-	Vector2<T> getRightTop() const;
+	void set(Vector2<T> leftTop, Vector2<T> rightBottom);
+	void setLeftTop(Vector2<T> leftTop);
+	void setRightBottom(Vector2<T> rightBottom);
+	Vector2<T> getLeftTop() const;
+	Vector2<T> getRightBottom() const;
 	void order() const;
 	void orderHoriz() const;
 	void orderVert() const;
 	bool isPoint() const;
 	bool isFlatHorizontally() const;
 	bool isFlatVertically() const;
-	bool contains(const Vector2<T>& vector, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftBottom) const;
-	bool contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftBottom) const;
+	bool contains(const Vector2<T>& vector, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftTop) const;
+	bool contains(const RangeArea& rangeArea, RangeAreaBoundaries includeRangeAreaBoundaries = RangeAreaBoundaries::LeftTop) const;
 	bool overlaps(const RangeArea& rangeArea) const;
-	Range<T> getHorizontalRange() const;
-	Range<T> getVerticalRange() const;
+	void setHorizRange(const Range<T>& horizRange);
+	void setVertRange(const Range<T>& vertRange);
+	Range<T> getHorizRange() const;
+	Range<T> getVertRange() const;
 	Vector2<T> clamp(const Vector2<T>& vector) const;
 	Vector2<T> clampLoop(const Vector2<T>& vector) const;
 	Vector2<T> clampCycle(const Vector2<T>& vector) const;
-	Range<T> pullHorizontal(const T& hook, bool keepSize = false);
-	Range<T> pullVertical(const T& hook, bool keepSize = false);
+	Range<T> pullHoriz(const T& hook, bool keepSize = false);
+	Range<T> pullVert(const T& hook, bool keepSize = false);
 	RangeArea& pull(const Vector2<T>& hook, bool keepSize = false);
 };
+
+using RangeAreaS = RangeArea<std::size_t>;
+using RangeAreaU = RangeArea<unsigned int>;
+using RangeAreaI = RangeArea<int>;
+using RangeAreaD = RangeArea<double>;
+using RangeAreaF = RangeArea<float>;
+using RangeAreaDl = RangeArea<Lax<double>>;
+using RangeAreaFl = RangeArea<Lax<float>>;
 
 } // namespace plinth
 #include "RangeArea.inl"

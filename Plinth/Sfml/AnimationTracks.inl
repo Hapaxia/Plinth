@@ -41,6 +41,7 @@
 namespace
 {
 
+/*
 template <class T, class interpolationAlphaT>
 inline void forceStepInterpolationIfSpecified(typename pl::Tween::Track<sf::Time, T, interpolationAlphaT, sf::Time>::Node& node, const pl::Animation::InterpolationType& inType, const pl::Animation::InterpolationType& outType)
 {
@@ -49,6 +50,7 @@ inline void forceStepInterpolationIfSpecified(typename pl::Tween::Track<sf::Time
 	if (outType == pl::Animation::InterpolationType::Step)
 		node.outType = pl::Tween::InterpolationType::Step;
 }
+*/
 
 } // namespace
 
@@ -59,7 +61,7 @@ namespace plinth
 
 template <class T>
 inline Track<T>::Track()
-	: m_track()
+	: m_track{}
 {
 }
 
@@ -100,8 +102,8 @@ inline T Track<T>::get(const float timeInSeconds) const
 
 template <class T>
 inline TrackVector2<T>::TrackVector2()
-	: x()
-	, y()
+	: x{}
+	, y{}
 {
 }
 
@@ -163,9 +165,9 @@ inline sf::Vector2<T> TrackVector2<T>::get(const float timeInSeconds) const
 
 template <class T>
 inline TrackVector3<T>::TrackVector3()
-	: x()
-	, y()
-	, z()
+	: x{}
+	, y{}
+	, z{}
 {
 }
 
@@ -243,10 +245,10 @@ inline sf::Vector3<T> TrackVector3<T>::get(const float timeInSeconds) const
 
 template <class T>
 inline TrackRect<T>::TrackRect()
-	: left()
-	, top()
-	, width()
-	, height()
+	: left{}
+	, top{}
+	, width{}
+	, height{}
 {
 }
 
@@ -335,7 +337,7 @@ inline sf::Rect<T> TrackRect<T>::get(const float timeInSeconds) const
 }
 
 inline TrackBool::TrackBool()
-	: m_track()
+	: m_track{}
 {
 }
 
@@ -346,7 +348,7 @@ inline void TrackBool::clear()
 
 inline void TrackBool::addKey(const sf::Time time, const bool value)
 {
-	m_track.addKey(time, value ? 1u : 0u, 0.f, 0.f, InterpolationType::Step, InterpolationType::Step);
+	m_track.addKey(time, (value ? 1u : 0u), 0.f, 0.f, InterpolationType::Step, InterpolationType::Step);
 }
 
 inline void TrackBool::addKey(const float timeInSeconds, const bool value)
@@ -356,7 +358,7 @@ inline void TrackBool::addKey(const float timeInSeconds, const bool value)
 
 inline bool TrackBool::get(const sf::Time time) const
 {
-	return m_track.get(time) != 0;
+	return m_track.get(time) != 0u;
 }
 
 inline bool TrackBool::get(const float timeInSeconds) const
@@ -365,10 +367,10 @@ inline bool TrackBool::get(const float timeInSeconds) const
 }
 
 inline TrackColor::TrackColor()
-	: r()
-	, g()
-	, b()
-	, a()
+	: r{}
+	, g{}
+	, b{}
+	, a{}
 {
 }
 

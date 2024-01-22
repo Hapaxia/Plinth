@@ -90,10 +90,10 @@ bool doTransformedRectsIntersect(const sf::FloatRect& rect1, const sf::Transform
 // returns a sf::FloatRect that is the bounding box of all of the provided vertices (vector of sf::Vector2f)
 sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices);
 
-void changeAlpha(sf::Color& color, unsigned int alpha);
+void changeAlpha(sf::Color& color, unsigned char alpha);
 void changeAlpha(sf::Color& color, float alpha);
 void changeAlpha(sf::Color& color, double alpha);
-sf::Color colorFromColorAndAlpha(sf::Color color, unsigned int alpha);
+sf::Color colorFromColorAndAlpha(sf::Color color, unsigned char alpha);
 sf::Color colorFromColorAndAlpha(sf::Color color, float alpha);
 sf::Color colorFromColorAndAlpha(sf::Color color, double alpha);
 

@@ -47,54 +47,61 @@ namespace plinth
 template <class T>
 inline std::string formattedString(std::string format, const std::vector<T>& arguments)
 {
-	unsigned int argumentIndex{ 0u };
-	const unsigned int numberOfArguments{ min(static_cast<unsigned int>(arguments.size()), 10u) }; // cannot format more than 10 arguments as the format syntax only uses 0-9 to specify which argument
+	const std::size_t numberOfArguments{ min(arguments.size(), 10_uz) }; // cannot format more than 10 arguments as the format syntax only uses 0-9 to specify which argument
 
-	std::string argumentString;
-	size_t position{ 0 };
-	for (unsigned int argumentIndex{ 0u }; argumentIndex < numberOfArguments; ++argumentIndex)
+	std::size_t position{ 0_uz };
+	for (std::size_t argumentIndex{ 0_uz }; argumentIndex < numberOfArguments; ++argumentIndex)
 	{
-		argumentString = stringFrom(arguments[argumentIndex]);
-		position = 0;
+		std::string argumentString{ stringFrom(arguments[argumentIndex]) };
+		position = 0_uz;
 		bool instanceLoop{ true };
-		do
+		while (instanceLoop)
 		{
 			position = format.find("%" + stringFrom(argumentIndex), position);
 
 			if (position != std::string::npos)
 			{
-				if (position == 0)
+				if (position == 0_uz)
 				{
-					if (format.size() > 1 && format.substr(0, 2) == "%%")
+					if (format.size() > 1_uz && format.substr(0_uz, 2_uz) == "%%")
 						continue;
 					else
 					{
-						format.replace(position, 2, argumentString);
+						format.replace(position, 2uz, argumentString);
 						instanceLoop = false;
 					}
 				}
-				else if (format.substr(position - 1, 2) != "%%")
+				else if (format.substr(position - 1_uz, 2_uz) != "%%")
 				{
-					format.replace(position, 2, argumentString);
+					format.replace(position, 2_uz, argumentString);
 					instanceLoop = false;
 				}
 				++position;
 			}
 			else
 				instanceLoop = false;
-		} while (instanceLoop);
-	};
+		}
+	}
 
-	position = 0;
+	position = 0uz;
+	
+	while ((position = format.find("%%", position)) != std::string::npos)
+	{
+		format.replace(position, 2_uz, "%");
+		++position;
+	}
+	
+	/*
 	do
 	{
 		position = format.find("%%", position);
 		if (position != std::string::npos)
 		{
-			format.replace(position, 2, "%");
+			format.replace(position, 2u, "%");
 			++position;
 		}
 	} while (position != std::string::npos);
+	*/
 
 	return format;
 }
@@ -154,8 +161,8 @@ inline void makeUpperCase(std::string& string)
 
 inline void makeCapitalized(std::string& string)
 {
-	if (string.size() > 0)
-		makeUpperCaseChar(string[0]);
+	if (!string.empty())
+		makeUpperCaseChar(string[0u]);
 }
 
 // [does not alter any parameters]
@@ -173,7 +180,7 @@ inline bool isAlphaNumeric(const std::string& string)
 // [does not alter any parameters]
 inline std::string concatenate(const std::vector<std::string>& strings)
 {
-	std::string concatenation;
+	std::string concatenation{};
 	for (auto& string : strings)
 		concatenation += string;
 	return concatenation;
@@ -182,7 +189,7 @@ inline std::string concatenate(const std::vector<std::string>& strings)
 // [does not alter any parameters]
 inline bool doesContainOnly(const std::string& testString, const std::string& validCharacters)
 {
-	for (auto& character : testString)
+	for (auto character : testString)
 	{
 		if (validCharacters.find(character) == std::string::npos)
 			return false;
@@ -193,7 +200,7 @@ inline bool doesContainOnly(const std::string& testString, const std::string& va
 // [does not alter any parameters]
 inline std::string padStringLeft(const std::string& string, const std::size_t width, const char character)
 {
-	std::string prefix{ "" };
+	std::string prefix{};
 	for (std::size_t i{ string.size() }; i < width; ++i)
 		prefix += character;
 
@@ -213,7 +220,7 @@ inline std::string padStringRight(std::string string, const std::size_t width, c
 // trims string from the left of all characters in characterToTrim
 inline std::string trimStringLeft(std::string string, const std::string& charactersToTrim)
 {
-	string.erase(0, string.find_first_not_of(charactersToTrim));
+	string.erase(0_uz, string.find_first_not_of(charactersToTrim));
 	return string;
 }
 
@@ -221,7 +228,7 @@ inline std::string trimStringLeft(std::string string, const std::string& charact
 // trims string from the right of all characters in characterToTrim
 inline std::string trimStringRight(std::string string, const std::string& charactersToTrim)
 {
-	string.erase(string.find_last_not_of(charactersToTrim) + 1);
+	string.erase(string.find_last_not_of(charactersToTrim) + 1_uz);
 	return string;
 }
 
@@ -277,8 +284,8 @@ inline std::string replaceChars(std::string string, const std::string& character
 // e.g. replace "Pit" with "123": Plinth -> 123l123n123h
 inline std::string replaceChars(const std::string& string, const std::string& charactersToReplace, const std::string& stringToReplaceWith)
 {
-	std::string result;
-	for (auto& character : string)
+	std::string result{};
+	for (auto character : string)
 	{
 		if (charactersToReplace.find(character) != std::string::npos)
 			result += stringToReplaceWith;
@@ -304,6 +311,100 @@ inline std::string removeChars(std::string string, const std::string& characters
 {
 	string.erase(std::remove_if(string.begin(), string.end(), [&charactersToRemove](const char& c) { return (charactersToRemove.find(c) != std::string::npos); }), string.end());
 	return string;
+}
+
+std::string addBracketOpen(const std::string& string, const BracketType bracketType)
+{
+	switch (bracketType)
+	{
+	case BracketType::Brace:
+		return "{" + string;
+	case BracketType::Angled:
+		return "<" + string;
+	case BracketType::Square:
+		return "[" + string;
+	case BracketType::Parenthesis:
+	default:
+		return "(" + string;
+	}
+}
+
+std::string addBracketClose(const std::string& string, const BracketType bracketType)
+{
+	switch (bracketType)
+	{
+	case BracketType::Brace:
+		return string + "}";
+	case BracketType::Angled:
+		return string + ">";
+	case BracketType::Square:
+		return string + "]";
+	case BracketType::Parenthesis:
+	default:
+		return string + ")";
+	}
+}
+
+std::string addBrackets(const std::string& string, const BracketType bracketType)
+{
+	switch (bracketType)
+	{
+	case BracketType::Brace:
+		return "{" + string + "}";
+	case BracketType::Angled:
+		return "<" + string + ">";
+	case BracketType::Square:
+		return "[" + string + "]";
+	case BracketType::Parenthesis:
+	default:
+		return "(" + string + ")";
+	}
+}
+
+std::string addBrackets(const std::string& string, const BracketType openBracketType, const BracketType closeBracketType)
+{
+	std::string openBracket{};
+	std::string closeBracket{};
+
+	switch (openBracketType)
+	{
+	case BracketType::Brace:
+		openBracket = "{";
+		break;
+	case BracketType::Angled:
+		openBracket = "<";
+		break;
+	case BracketType::Square:
+		openBracket = "[";
+		break;
+	case BracketType::Parenthesis:
+	default:
+		openBracket = "(";
+	}
+
+	switch (closeBracketType)
+	{
+	case BracketType::Brace:
+		closeBracket = "}";
+		break;
+	case BracketType::Angled:
+		closeBracket = ">";
+		break;
+	case BracketType::Square:
+		closeBracket = "]";
+		break;
+	case BracketType::Parenthesis:
+	default:
+		closeBracket = ")";
+	}
+	
+	return openBracket + string + closeBracket;
+}
+
+std::string addBookends(const std::string& string, const char bookendCharacter, const std::size_t bookendLength)
+{
+	const std::string bookend(bookendLength, bookendCharacter);
+	return bookend + string + bookend;
 }
 
 } // namespace plinth

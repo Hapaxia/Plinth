@@ -51,12 +51,12 @@ inline void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb
 {
 	// preserves pixel alpha
 	const sf::Vector2u imageSize{ image.getSize() };
-	for (unsigned int y{ 0 }; y < imageSize.y; ++y)
+	for (unsigned int y{ 0u }; y < imageSize.y; ++y)
 	{
-		for (unsigned int x{ 0 }; x < imageSize.x; ++x)
+		for (unsigned int x{ 0u }; x < imageSize.x; ++x)
 		{
 			sf::Color color{ image.getPixel(x, y) };
-			Color::Rgb pixel = rgbFromColor(image.getPixel(x, y));
+			Color::Rgb pixel{ rgbFromColor(color) };
 			process(pixel);
 			color = colorFromColorAndAlpha(colorFromRgb(pixel), Tween::inverseLinear(0u, 255u, static_cast<unsigned int>(color.a)));
 			image.setPixel(x, y, color);
@@ -67,9 +67,9 @@ inline void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb
 inline void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> process)
 {
 	const sf::Vector2u imageSize{ image.getSize() };
-	for (unsigned int y{ 0 }; y < imageSize.y; ++y)
+	for (unsigned int y{ 0u }; y < imageSize.y; ++y)
 	{
-		for (unsigned int x{ 0 }; x < imageSize.x; ++x)
+		for (unsigned int x{ 0u }; x < imageSize.x; ++x)
 		{
 			sf::Color pixel{ image.getPixel(x, y) };
 			process(pixel);
@@ -103,23 +103,21 @@ inline void convertToGrayscale(sf::Image& image, const GrayscaleConversionType c
 	case GrayscaleConversionType::Luminosity:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
-			const double value{ pixel.getRelativeLuminance() };
-			pixel.r = pixel.g = pixel.b = value;
+			pixel.r = pixel.g = pixel.b = pixel.getRelativeLuminance();
 		});
 		break;
 	case GrayscaleConversionType::Lightness:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			// mean of the highest and lowest component value. the median value is ignored
-			const double value{ (max(pixel.r, max(pixel.g, pixel.b)) + min(pixel.r, min(pixel.g, pixel.b))) / 2.0 };
-			pixel.r = pixel.g = pixel.b = value;
+			pixel.r = pixel.g = pixel.b = (max(pixel.r, max(pixel.g, pixel.b)) + min(pixel.r, min(pixel.g, pixel.b))) / 2.0;
 		});
 		break;
 	case GrayscaleConversionType::Median:
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			// only the median component value is used. the highest and lowest values are ignored.
-			double value;
+			double value{};
 			if (pixel.r > pixel.g && pixel.r > pixel.b)
 				value = max(pixel.g, pixel.b);
 			else if (pixel.r < pixel.g && pixel.r < pixel.b)
@@ -133,8 +131,7 @@ inline void convertToGrayscale(sf::Image& image, const GrayscaleConversionType c
 		processAllPixelsRgb(image, [](Color::Rgb& pixel)
 		{
 			// mean of all three components
-			const double value{ (pixel.r + pixel.g + pixel.b) / 3.0 };
-			pixel.r = pixel.g = pixel.b = value;
+			pixel.r = pixel.g = pixel.b = (pixel.r + pixel.g + pixel.b) / 3.0;
 		});
 		break;
 	default:
@@ -149,7 +146,7 @@ inline void createMaskFromAlpha(sf::Image& image)
 		pixel.r = pixel.a;
 		pixel.g = pixel.a;
 		pixel.b = pixel.a;
-		pixel.a = 255;
+		pixel.a = 255_uc;
 	});
 }
 
@@ -175,7 +172,7 @@ inline void invertAlpha(sf::Image& image)
 {
 	processAllPixelsColor(image, [](sf::Color& pixel)
 	{
-		pixel.a = 255 - pixel.a;
+		pixel.a = 255_uc - pixel.a;
 	});
 }
 
@@ -183,7 +180,7 @@ inline void makeOpaque(sf::Image& image)
 {
 	processAllPixelsColor(image, [](sf::Color& pixel)
 	{
-		pixel.a = 255;
+		pixel.a = 255_uc;
 	});
 }
 

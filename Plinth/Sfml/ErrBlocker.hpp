@@ -42,16 +42,8 @@ namespace plinth
 class ErrBlocker
 {
 public:
-	ErrBlocker()
-		: m_sfErrIoState(sf::err().rdstate())
-	{
-		sf::err().clear(std::ios::failbit);
-	}
-	~ErrBlocker()
-	{
-		sf::err().clear(m_sfErrIoState);
-	}
-
+	ErrBlocker() : m_sfErrIoState{ sf::err().rdstate() } { sf::err().clear(std::ios::failbit); }
+	~ErrBlocker() { sf::err().clear(m_sfErrIoState); }
 private:
 	std::ios_base::iostate m_sfErrIoState;
 };

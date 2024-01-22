@@ -38,10 +38,13 @@ namespace plinth
 template <class T>
 struct Size3
 {
-	T width, height, depth;
+	T width{ static_cast<T>(0) };
+	T height{ static_cast<T>(0) };
+	T depth{ static_cast<T>(0) };
 	T getVolume() const { return width * height * depth; }
 };
 
+using Size3uz = Size3<std::size_t>;
 using Size3u = Size3<unsigned int>;
 using Size3d = Size3<double>;
 

@@ -45,11 +45,11 @@ public:
 	Bezier();
 	Bezier(const std::vector<Vector2<T>>& points);
 	void setAllPoints(Vector2<T> point = { static_cast<T>(0), static_cast<T>(0) });
-	void setPoints(const std::vector<Vector2<T>>& points, unsigned int startIndex = 0u);
-	void setPoint(unsigned int index, Vector2<T> point);
-	Vector2<T> getPoint(unsigned int index) const;
-	void setNumberOfIterationsForSolve(unsigned int numberOfIterations = 100u);
-	unsigned int getNumberOfIterationsForSolver() const;
+	void setPoints(const std::vector<Vector2<T>>& points, std::size_t startIndex = 0uz);
+	void setPoint(std::size_t index, Vector2<T> point);
+	Vector2<T> getPoint(std::size_t index) const;
+	void setNumberOfIterationsForSolve(std::size_t numberOfIterations = 100uz);
+	std::size_t getNumberOfIterationsForSolve() const;
 
 	T getX(T t) const;
 	T getY(T t) const;
@@ -61,7 +61,7 @@ public:
 	T solveXForY(T y) const;
 
 private:
-	unsigned int m_numberOfIterationsForSolve; // accuracy level (20 seems to be quite accurate. 2000 doesn't seem to be slow)
+	std::size_t m_numberOfIterationsForSolve; // accuracy level (20 seems to be quite accurate. 2000 doesn't seem to be slow)
 	std::vector<Vector2<T>> m_points;
 
 	T priv_calculate(const std::vector<T>& a, T t) const;

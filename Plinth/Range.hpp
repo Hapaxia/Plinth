@@ -31,6 +31,7 @@
 #define PLINTH_RANGE_HPP
 
 #include "Common.hpp"
+#include "Lax.hpp"
 
 #include <initializer_list> // for std::initializer_list
 
@@ -52,12 +53,14 @@ public:
 	mutable T min;
 	mutable T max;
 
-	Range();
-	Range(std::initializer_list<T> list);
-	Range(const T& newMin, const T& newMax);
+	constexpr Range();
+	constexpr Range(std::initializer_list<T> list);
+	constexpr Range(const T& newMin, const T& newMax);
 	template <class U>
-	Range(const Range<U>& range);
-	void order() const;
+	constexpr Range(const T& newMin, const U& newMax);
+	template <class U>
+	constexpr Range(const Range<U>& range);
+	constexpr void order() const;
 	void set(const T& newMin, const T& newMax);
 	T getSize() const;
 	bool isClosed() const;
@@ -79,9 +82,15 @@ public:
 	Range operator-(const T& offset) const;
 	Range& operator+=(const T& offset);
 	Range& operator-=(const T& offset);
-
-	friend void std::swap(Range& a, Range& b);
 };
+
+using RangeS = Range<std::size_t>;
+using RangeU = Range<unsigned int>;
+using RangeI = Range<int>;
+using RangeD = Range<double>;
+using RangeF = Range<float>;
+using RangeDl = Range<Lax<double>>;
+using RangeFl = Range<Lax<float>>;
 
 } // namespace plinth
 #include "Range.inl"

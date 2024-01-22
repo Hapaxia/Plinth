@@ -34,86 +34,139 @@
 #include "Math.hpp"
 #include "NumberBase.hpp"
 #include "Range.hpp"
-#include "Random.hpp"
+#include "RandomDistribution.hpp"
 #include "Strings.hpp"
 #include "Tween.hpp"
 #include <math.h>
 
+#include "Color.hpp"
 namespace plinth
 {
-
-	namespace
-{
-
-pl::Range<double> alphaRange{ 0.0, 1.0 };
-
-	} // namespace
 
 	namespace Color
 	{
 
+const Range<double> alphaRange{ 0.0, 1.0 };
+
+
+
+inline Rgb Rgb::operator+(const Rgb& other) const
+{
+	return Rgb(r + other.r, g + other.g, b + other.b);
+}
+inline Rgb Rgb::operator-(const Rgb& other) const
+{
+	return Rgb(r - other.r, g - other.g, b - other.b);
+}
+inline Rgb Rgb::operator*(const Rgb& other) const
+{
+	return Rgb(r * other.r, g * other.g, b * other.b);
+}
+template <class T>
+inline Rgb Rgb::operator*(const T& scalar) const
+{
+	const double x{ static_cast<double>(scalar) };
+	return Rgb(r * x, g * x, b * x);
+}
+template <class T>
+inline Rgb Rgb::operator/(const T& scalar) const
+{
+	return *this * (1.0 / static_cast<double>(scalar));
+}
+inline Rgb& Rgb::operator+=(const Rgb& other)
+{
+	*this = *this + other;
+	return *this;
+}
+inline Rgb& Rgb::operator-=(const Rgb& other)
+{
+	*this = *this - other;
+	return *this;
+}
+inline Rgb& Rgb::operator*=(const Rgb& other)
+{
+	*this = *this * other;
+	return *this;
+}
+template <class T>
+inline Rgb& Rgb::operator*=(const T& scalar)
+{
+	*this = *this * scalar;
+	return *this;
+}
+template <class T>
+inline Rgb& Rgb::operator/=(const T& scalar)
+{
+	*this = *this / scalar;
+	return *this;
+}
+
+
+
 inline Rgb::Rgb(const Init& init)
-	: r(0.0)
-	, g(0.0)
-	, b(0.0)
+	: r{ 0.0 }
+	, g{ 0.0 }
+	, b{ 0.0 }
 {
 	if (init == RandomStandard)
 	{
-		Random random;
-		*this = Rgb{ random.value(0.0, 1.0), random.value(0.0, 1.0), random.value(0.0, 1.0) };
+		RandomDistribution<double> random{ 0.0, 1.0 };
+		*this = Rgb{ random.value(), random.value(), random.value() };
 	}
 	else if (init == RandomTrivial)
 	{
-		const unsigned int resolution{ 10000 };
+		constexpr int resolution{ 10000 };
 		*this = Rgb{ static_cast<double>(rand() % (resolution + 1)) / resolution, static_cast<double>(rand() % (resolution + 1)) / resolution, static_cast<double>(rand() % (resolution + 1)) / resolution };
 	}
 }
 
 inline Rgb::Rgb(const double newR, const double newG, const double newB)
-	: r(newR)
-	, g(newG)
-	, b(newB)
+	: r{ newR }
+	, g{ newG }
+	, b{ newB }
 {
 }
 
 inline Rgb::Rgb(std::string hex)
 	: Rgb()
 {
-	if (hex.size() > 6)
+	if (hex.size() > 6_uz)
 		return;
 	if (!doesContainOnly(upperCase(hex), "0123456789ABCDEF"))
 		return;
 
-	const unsigned int baseMax{ 255 };
-	hex = padStringLeft(hex, 6, '0');
+	constexpr std::size_t baseMax{ 255_uz };
+	hex = padStringLeft(hex, 6_uz, '0');
 	*this = Rgb{
-		r = Tween::linear(0.0, 1.0, static_cast<double>(decFromHex(hex.substr(0, 2))) / baseMax),
-		g = Tween::linear(0.0, 1.0, static_cast<double>(decFromHex(hex.substr(2, 2))) / baseMax),
-		b = Tween::linear(0.0, 1.0, static_cast<double>(decFromHex(hex.substr(4, 2))) / baseMax) };
+		r = Tween::linear(0.0, 1.0, static_cast<double>(decFromHex(hex.substr(0_uz, 2_uz))) / baseMax),
+		g = Tween::linear(0.0, 1.0, static_cast<double>(decFromHex(hex.substr(2_uz, 2_uz))) / baseMax),
+		b = Tween::linear(0.0, 1.0, static_cast<double>(decFromHex(hex.substr(4_uz, 2_uz))) / baseMax) };
 }
 
 inline Rgb::Rgb(long int value)
 	: Rgb()
 {
-	if (!pl::Range<long int>{0L, 16777215L}.contains(value))
+	if (!pl::Range<long int>{ 0L, 16777215L }.contains(value))
 		return;
 
-	const int base{ 256 };
+	constexpr int base{ 256 };
+	constexpr int baseSquared{ base * base };
+	constexpr double baseMinusOneRecip{ 1.0 / (base - 1) };
 
-	int red{ value / (base * base) };
-	value -= red * base * base;
-	int green{ value / base };
+	const int red{ value / baseSquared };
+	value -= red * baseSquared;
+	const int green{ value / base };
 	value -= green * base;
-	int blue{ value };
+	const int blue{ value };
 
-	r = Tween::linear(0.0, 1.0, static_cast<double>(red) / (base - 1));
-	g = Tween::linear(0.0, 1.0, static_cast<double>(green) / (base - 1));
-	b = Tween::linear(0.0, 1.0, static_cast<double>(blue) / (base - 1));
+	r = Tween::linear(0.0, 1.0, static_cast<double>(red) * baseMinusOneRecip);
+	g = Tween::linear(0.0, 1.0, static_cast<double>(green) * baseMinusOneRecip);
+	b = Tween::linear(0.0, 1.0, static_cast<double>(blue) * baseMinusOneRecip);
 }
 
 inline std::string Rgb::getHex()
 {
-	const unsigned int baseMax{ 255 }; // base - 1
+	const int baseMax{ 255 }; // base - 1
 	std::vector<std::string> components
 	{
 		hexFromDec(static_cast<int>(round(alphaRange.clamp(r) * baseMax))),
@@ -122,43 +175,44 @@ inline std::string Rgb::getHex()
 	};
 	for (auto& component : components)
 	{
-		while (component.size() < 2)
-			component.insert(0, "0");
+		while (component.size() < 2_uz)
+			component.insert(0_uz, "0");
 	}
 	return concatenate(components);
-	//return upperCase(concatenate(components));
 }
 
 inline Rgb::Rgb(const Cmy& other)
-	: r(alphaRange.clamp(1.0 - other.c))
-	, g(alphaRange.clamp(1.0 - other.m))
-	, b(alphaRange.clamp(1.0 - other.y))
+	: r{ alphaRange.clamp(1.0 - other.c) }
+	, g{ alphaRange.clamp(1.0 - other.m) }
+	, b{ alphaRange.clamp(1.0 - other.y) }
 {
 }
 
 inline Rgb::Rgb(const Cmyk& other)
-	: r((1.0 - alphaRange.clamp(other.c)) * (1.0 - alphaRange.clamp(other.k)))
-	, g((1.0 - alphaRange.clamp(other.m)) * (1.0 - alphaRange.clamp(other.k)))
-	, b((1.0 - alphaRange.clamp(other.y)) * (1.0 - alphaRange.clamp(other.k)))
+	: r{ (1.0 - alphaRange.clamp(other.c)) * (1.0 - alphaRange.clamp(other.k)) }
+	, g{ (1.0 - alphaRange.clamp(other.m)) * (1.0 - alphaRange.clamp(other.k)) }
+	, b{ (1.0 - alphaRange.clamp(other.y)) * (1.0 - alphaRange.clamp(other.k)) }
 {
 }
 
+
+
 inline double Rgb::getRelativeLuminance()
 {
-	return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+	return (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
 }
 
 inline Rgb::Rgb(const Hsl& other)
 	: Rgb()
 {
-	const double c{ (1.0 - abs(2 * other.l - 1)) * other.s };
-	priv_setRgbFromCmh(c, other.l - c / 2.0, other.h);
+	const double c{ (1.0 - abs(2.0 * other.l - 1.0)) * other.s };
+	priv_setRgbFromCmh(c, other.l - (c / 2.0), other.h);
 }
 
 inline Rgb::Rgb(const Hsv& other)
 	: Rgb()
 {
-	double c{ other.v * other.s };
+	const double c{ other.v * other.s };
 	priv_setRgbFromCmh(c, other.v - c, other.h);
 }
 
@@ -169,19 +223,20 @@ inline void Rgb::clampStandardRange()
 	b = alphaRange.clamp(b);
 }
 
-inline void Rgb::priv_setRgbFromCmh(double c, double m, double h)
+inline void Rgb::priv_setRgbFromCmh(const double c, const double m, const double h)
 {
-	double x{ c * (1.0 - abs(mod(h * 6.0, 2.0) - 1.0)) };
+	const double x{ c * (1.0 - abs(mod(h * 6.0, 2.0) - 1.0)) };
 
-	if (h < (1.0 / 6.0))
+	constexpr double sixth{ 1.0 / 6.0 };
+	if (h < (1.0 * sixth))
 		*this = Rgb{ c, x, 0.0 };
-	else if (h < (2.0 / 6.0))
+	else if (h < (2.0 * sixth))
 		*this = Rgb{ x, c, 0.0 };
-	else if (h < (3.0 / 6.0))
+	else if (h < (3.0 * sixth))
 		*this = Rgb{ 0.0, c, x };
-	else if (h < (4.0 / 6.0))
+	else if (h < (4.0 * sixth))
 		*this = Rgb{ 0.0, x, c };
-	else if (h < (5.0 / 6.0))
+	else if (h < (5.0 * sixth))
 		*this = Rgb{ x, 0.0, c };
 	else
 		*this = Rgb{ c, 0.0, x };
@@ -191,59 +246,68 @@ inline void Rgb::priv_setRgbFromCmh(double c, double m, double h)
 	b += m;
 }
 
-inline Hsl::Hsl(double newH, double newS, double newL)
-	: h(newH)
-	, s(newS)
-	, l(newL)
+
+
+inline Hsl::Hsl(const double newH, const double newS, const double newL)
+	: h{ newH }
+	, s{ newS }
+	, l{ newL }
 {
 }
 
-inline Hsv::Hsv(double newH, double newS, double newV)
-	: h(newH)
-	, s(newS)
-	, v(newV)
+inline Hsv::Hsv(const double newH, const double newS, const double newV)
+	: h{ newH }
+	, s{ newS }
+	, v{ newV }
 {
 }
 
-inline Cmy::Cmy(double newC, double newM, double newY)
-	: c(newC)
-	, m(newM)
-	, y(newY)
+inline Cmy::Cmy(const double newC, const double newM, const double newY)
+	: c{ newC }
+	, m{ newM }
+	, y{ newY }
 {
 }
 
-inline Cmyk::Cmyk(double newC, double newM, double newY, double newK)
-	: c(newC)
-	, m(newM)
-	, y(newY)
-	, k(newK)
+inline Cmyk::Cmyk(const double newC, const double newM, const double newY, const double newK)
+	: c{ newC }
+	, m{ newM }
+	, y{ newY }
+	, k{ newK }
 {
 }
 
 inline Cmy::Cmy(const Rgb& other)
-	: c(alphaRange.clamp(1.0 - other.r))
-	, y(alphaRange.clamp(1.0 - other.g))
-	, m(alphaRange.clamp(1.0 - other.b))
+	: c{ alphaRange.clamp(1.0 - other.r) }
+	, y{ alphaRange.clamp(1.0 - other.g) }
+	, m{ alphaRange.clamp(1.0 - other.b) }
 {
 }
 
 inline Cmyk::Cmyk(const Rgb& other)
 {
-	double k{ 1.0 - alphaRange.clamp(max(max(other.r, other.g), other.b)) };
+	const double z{ alphaRange.clamp(max(max(other.r, other.g), other.b)) };
+	*this = Cmyk{
+		(z - alphaRange.clamp(other.r)) / z,
+		(z - alphaRange.clamp(other.g)) / z,
+		(z - alphaRange.clamp(other.b)) / z,
+		k };
+	/*
+	const double k{ 1.0 - alphaRange.clamp(max(max(other.r, other.g), other.b)) };
 	*this = Cmyk{
 		(1.0 - alphaRange.clamp(other.r) - k) / (1.0 - k),
 		(1.0 - alphaRange.clamp(other.g) - k) / (1.0 - k),
 		(1.0 - alphaRange.clamp(other.b) - k) / (1.0 - k),
 		k };
+	*/
 }
 
 inline Hsl::Hsl(const Rgb& other)
 {
-	double maximum{ alphaRange.clamp(max(max(other.r, other.g), other.b)) };
-	double minimum{ alphaRange.clamp(min(min(other.r, other.g), other.b)) };
-	double range{ maximum - minimum };
+	const double maximum{ alphaRange.clamp(max(max(other.r, other.g), other.b)) };
+	const double minimum{ alphaRange.clamp(min(min(other.r, other.g), other.b)) };
 
-	l = (maximum + minimum) / 2.0;
+	l = (maximum + minimum) * 0.5;
 
 	if (minimum == maximum) // i.e. range is zero
 	{
@@ -252,21 +316,23 @@ inline Hsl::Hsl(const Rgb& other)
 	}
 	else
 	{
+		const double range{ maximum - minimum };
+		const double rangeRecip{ 1.0 / range };
+		constexpr double sixth{ 1.0 / 6.0 };
 		if (other.r > other.g && other.r > other.b)
-			h = mod((other.g - other.b) / range, 6.0) / 6.0;
+			h = mod((other.g - other.b) * rangeRecip, 6.0) * sixth;
 		else if (other.g > other.r && other.g > other.b)
-			h = (((other.b - other.r) / range) + 2.0) / 6.0;
+			h = (((other.b - other.r) * rangeRecip) + 2.0) * sixth;
 		else
-			h = (((other.r - other.g) / range) + 4.0) / 6.0;
-		s = range / (1.0 - abs(2.0 * l - 1.0));
+			h = (((other.r - other.g) * rangeRecip) + 4.0) * sixth;
+		s = range / (1.0 - abs((2.0 * l) - 1.0));
 	}
 }
 
 inline Hsv::Hsv(const Rgb& other)
 {
-	double maximum{ alphaRange.clamp(max(max(other.r, other.g), other.b)) };
-	double minimum{ alphaRange.clamp(min(min(other.r, other.g), other.b)) };
-	double range{ maximum - minimum };
+	const double maximum{ alphaRange.clamp(max(max(other.r, other.g), other.b)) };
+	const double minimum{ alphaRange.clamp(min(min(other.r, other.g), other.b)) };
 
 	if (minimum == maximum) // i.e. range is zero
 	{
@@ -275,12 +341,15 @@ inline Hsv::Hsv(const Rgb& other)
 	}
 	else
 	{
+		const double range{ maximum - minimum };
+		const double rangeRecip{ 1.0 / range };
+		constexpr double sixth{ 1.0 / 6.0 };
 		if (other.r > other.g && other.r > other.b)
-			h = mod((other.g - other.b) / range, 6.0) / 6.0;
+			h = mod((other.g - other.b) * rangeRecip, 6.0) * sixth;
 		else if (other.g > other.r && other.g > other.b)
-			h = (((other.b - other.r) / range) + 2.0) / 6.0;
+			h = (((other.b - other.r) * rangeRecip) + 2.0) * sixth;
 		else
-			h = (((other.r - other.g) / range) + 4.0) / 6.0;
+			h = (((other.r - other.g) * rangeRecip) + 4.0) * sixth;
 		s = range / maximum;
 	}
 

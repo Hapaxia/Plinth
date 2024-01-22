@@ -52,61 +52,63 @@ public:
 
 	ResourceManagerBasic();
 
-	unsigned int addFont(const std::string& id, const std::string& filename); // returns index
-	unsigned int addFont(const std::string& id); // returns index
+	std::size_t addFont(const std::string& id, const std::string& filename); // returns index
+	std::size_t addFont(const std::string& id); // returns index
 	std::string addFont(); // returns generated ID (string of its index)
 	void loadFont(const std::string& id, const std::string& filename); // throws exception if file loading fails
-	void loadFont(unsigned int index, const std::string& filename); // throws exception if file loading fails
+	void loadFont(std::size_t index, const std::string& filename); // throws exception if file loading fails
 	std::string loadNewFont(const std::string& filename); // returns generated ID (string of its index)
 
-	unsigned int addImage(const std::string& id, const std::string& filename);
-	unsigned int addImage(const std::string& id); // returns index
+	std::size_t addImage(const std::string& id, const std::string& filename);
+	std::size_t addImage(const std::string& id); // returns index
 	std::string addImage(); // returns generated ID (string of its index)
 	void loadImage(const std::string& id, const std::string& filename); // throws exception if file loading fails
-	void loadImage(unsigned int index, const std::string& filename); // throws exception if file loading fails
+	void loadImage(std::size_t index, const std::string& filename); // throws exception if file loading fails
 	std::string loadNewImage(const std::string& filename); // returns generated ID (string of its index)
 
-	unsigned int addTexture(const std::string& id, const std::string& filename);
-	unsigned int addTexture(const std::string& id); // returns index
+	std::size_t addTexture(const std::string& id, const std::string& filename);
+	std::size_t addTexture(const std::string& id); // returns index
 	std::string addTexture(); // returns generated ID (string of its index)
 	void loadTexture(const std::string& id, const std::string& filename); // throws exception if file loading fails
-	void loadTexture(unsigned int index, const std::string& filename); // throws exception if file loading fails
+	void loadTexture(std::size_t index, const std::string& filename); // throws exception if file loading fails
 	void loadTextureFromImage(const std::string& textureId, const std::string& imageId); // loads from image resources. throws exception if it fails
-	void loadTextureFromImage(const std::string& textureId, unsigned int imageIndex); // loads from image resources. throws exception if it fails
-	void loadTextureFromImage(unsigned int textureIndex, const std::string& imageId); // loads from image resources. throws exception if it fails
-	void loadTextureFromImage(unsigned int textureIndex, unsigned int imageIndex); // loads from image resources. throws exception if it fails
+	void loadTextureFromImage(const std::string& textureId, std::size_t imageIndex); // loads from image resources. throws exception if it fails
+	void loadTextureFromImage(std::size_t textureIndex, const std::string& imageId); // loads from image resources. throws exception if it fails
+	void loadTextureFromImage(std::size_t textureIndex, std::size_t imageIndex); // loads from image resources. throws exception if it fails
 	std::string loadNewTexture(const std::string& filename); // returns generated ID (string of its index)
 
-	unsigned int addSoundBuffer(const std::string& id, const std::string& filename);
-	unsigned int addSoundBuffer(const std::string& id); // returns index
+	std::size_t addSoundBuffer(const std::string& id, const std::string& filename);
+	std::size_t addSoundBuffer(const std::string& id); // returns index
 	std::string addSoundBuffer(); // returns generated ID (string of its index)
 	void loadSoundBuffer(const std::string& id, const std::string& filename); // throws exception if file loading fails
-	void loadSoundBuffer(unsigned int index, const std::string& filename); // throws exception if file loading fails
+	void loadSoundBuffer(std::size_t index, const std::string& filename); // throws exception if file loading fails
 	std::string loadNewSoundBuffer(const std::string& filename); // returns generated ID (string of its index)
 
 	sf::Font& getFont(const std::string& fontId);
-	sf::Font& getFont(unsigned int fontIndex);
+	sf::Font& getFont(std::size_t fontIndex);
 	sf::Image& getImage(const std::string& imageId);
-	sf::Image& getImage(unsigned int imageIndex);
+	sf::Image& getImage(std::size_t imageIndex);
 	sf::Texture& getTexture(const std::string& textureId);
-	sf::Texture& getTexture(unsigned int textureIndex);
+	sf::Texture& getTexture(std::size_t textureIndex);
 	sf::SoundBuffer& getSoundBuffer(const std::string& soundBufferId);
-	sf::SoundBuffer& getSoundBuffer(unsigned int soundBufferIndex);
+	sf::SoundBuffer& getSoundBuffer(std::size_t soundBufferIndex);
 
 	void removeFont(const std::string& fontId);
-	void removeFont(unsigned int fontIndex);
+	void removeFont(std::size_t fontIndex);
 	void removeImage(const std::string& imageId);
-	void removeImage(unsigned int imageIndex);
+	void removeImage(std::size_t imageIndex);
 	void removeTexture(const std::string& textureId);
-	void removeTexture(unsigned int textureIndex);
+	void removeTexture(std::size_t textureIndex);
 	void removeSoundBuffer(const std::string& soundBufferId);
-	void removeSoundBuffer(unsigned int soundBufferIndex);
+	void removeSoundBuffer(std::size_t soundBufferIndex);
 	void removeAllFonts();
 	void removeAllImages();
 	void removeAllTextures();
 	void removeAllSoundBuffers();
 
 private:
+	const std::string m_resourceManagerExceptionPrefix;
+
 	IndexedMap<std::string, sf::Font> m_fonts;
 	IndexedMap<std::string, sf::Image> m_images;
 	IndexedMap<std::string, sf::Texture> m_textures;

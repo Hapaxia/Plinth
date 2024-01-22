@@ -27,17 +27,46 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_NUMBERBASE_HPP
-#define PLINTH_NUMBERBASE_HPP
+#ifndef PLINTH_RANDOMDISTRIBUTION_HPP
+#define PLINTH_RANDOMDISTRIBUTION_HPP
 
 #include "Common.hpp"
+#include "Random.hpp"
+#include "Generic.hpp"
+#include "Range.hpp"
 
 namespace plinth
 {
 
-inline std::string hexFromDec(int dec);
-inline int decFromHex(const std::string& hex);
+template <class T = int>
+class RandomDistribution
+{
+public:
+	RandomDistribution(T max);
+	RandomDistribution(T min, T max);
+	RandomDistribution(const Range<T>& range);
+
+	T value() const;
+
+	void setRange(T min, T max);
+	void setRange(const Range<T>& range);
+	Range<T> getRange() const;
+
+
+
+
+
+
+
+private:
+	Range<T> m_range;
+	std::uniform_int_distribution<T>* m_intDistribution;
+	std::uniform_real_distribution<T>* m_realDistribution;
+
+	void priv_updateDistribution();
+	T priv_value() const;
+};
 
 } // namespace plinth
-#include "NumberBase.inl"
-#endif // PLINTH_NUMBERBASE_HPP
+#include "RandomDistribution.inl"
+#endif // PLINTH_RANDOMDISTRIBUTION_HPP

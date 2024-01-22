@@ -37,26 +37,29 @@
 #include "Common.hpp"
 #include "Math.hpp"
 
-#include <utility>
+template <class T>
+class Range;
+template <class T>
+class Vector3;
 
 namespace plinth
 {
 
 template <class T>
 // returns the highest value in a pair
-inline T max(const T& a, const T& b);
+inline constexpr T max(const T& a, const T& b);
 
 template <class T>
 // returns the lowest value in a pair
-inline T min(const T& a, const T& b);
+inline constexpr T min(const T& a, const T& b);
 
 template <class T>
 // returns the highest value of a vector
-inline T max(const std::vector<T>& vector);
+inline constexpr T max(const std::vector<T>& vector);
 
 template <class T>
 // returns the lowest value of a vector
-inline T min(const std::vector<T>& vector);
+inline constexpr T min(const std::vector<T>& vector);
 
 template <class T>
 // swaps two values
@@ -64,18 +67,18 @@ inline void swap(T& a, T& b);
 
 template <class T>
 // order two values (low - high)
-inline void orderLowHigh(T& low, T& high);
+inline constexpr void orderLowHigh(T& low, T& high);
 
 template<class T>
 // switches/toggles parameter (b = !b) and also returns the result
 // e.g. a = !b, a becomes opposite of b. a = toggle(b), b becomes its opposite and a also becomes that opposite.
 inline T toggle(T& b);
 
-template <class TInteger>
-inline TInteger intFromBytes(const unsigned int numberOfBytes, const unsigned char* bytes, bool isLittleEndian = true);
+template <class IntegerT, class CharT>
+inline IntegerT intFromBytes(std::size_t numberOfBytes, const CharT* bytes, bool isLittleEndian = true);
 
-template <class TInteger>
-inline TInteger intFromBytes(const std::vector<unsigned char>& bytes, bool isLittleEndian = true);
+template <class IntegerT, class CharT>
+inline IntegerT intFromBytes(const std::vector<CharT>& bytes, bool isLittleEndian = true);
 
 } // namespace plinth
 #include "Generic.inl"

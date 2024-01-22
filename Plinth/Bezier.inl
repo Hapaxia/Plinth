@@ -37,19 +37,19 @@ namespace plinth
 
 template <class T>
 inline Bezier<T>::Bezier()
-	: m_numberOfIterationsForSolve(100u)
-	, m_points(4, { 0.0, 0.0 })
+	: m_numberOfIterationsForSolve{ 100uz }
+	, m_points(4uz, { static_cast<T>(0), static_cast<T>(0) })
 {
 }
 
 template <class T>
 inline Bezier<T>::Bezier(const std::vector<Vector2<T>>& points)
-	: m_numberOfIterationsForSolve(100u)
+	: m_numberOfIterationsForSolve{ 100uz }
 {
 	for (auto& point : points)
 		m_points.push_back(point);
-	if (m_points.size() != 4)
-		m_points.resize(4, { 0.0, 0.0 });
+	if (m_points.size() != 4_uz)
+		m_points.resize(4_uz, { static_cast<T>(0), static_cast<T>(0) });
 }
 
 template <class T>
@@ -60,41 +60,38 @@ inline void Bezier<T>::setAllPoints(const Vector2<T> point)
 }
 
 template <class T>
-inline void Bezier<T>::setPoints(const std::vector<Vector2<T>>& points, const unsigned int startIndex)
+inline void Bezier<T>::setPoints(const std::vector<Vector2<T>>& points, const std::size_t startIndex)
 {
-	for (unsigned int p = 0; p < points.size(); ++p)
-	{
-		if ((startIndex + p) < m_points.size())
-			m_points[startIndex + p] = points[p];
-	}
+	for (std::size_t p{ 0_uz }; (startIndex + p) < points.size(); ++p)
+		m_points[startIndex + p] = points[p];
 }
 
 template <class T>
-inline void Bezier<T>::setPoint(const unsigned int index, const Vector2<T> point)
+inline void Bezier<T>::setPoint(const std::size_t index, const Vector2<T> point)
 {
-	if (index > m_points.size())
+	if (index >= m_points.size())
 		return;
 
 	m_points[index] = point;
 }
 
 template <class T>
-inline Vector2<T> Bezier<T>::getPoint(const unsigned int index) const
+inline Vector2<T> Bezier<T>::getPoint(const std::size_t index) const
 {
-	if (index > m_points.size())
-		return{ 0.0, 0.0 };
+	if (index >= m_points.size())
+		return{ static_cast<T>(0), static_cast<T>(0) };
 	
 	return m_points[index];
 }
 
 template <class T>
-inline void Bezier<T>::setNumberOfIterationsForSolve(const unsigned int numberOfIterations)
+inline void Bezier<T>::setNumberOfIterationsForSolve(const std::size_t numberOfIterations)
 {
 	m_numberOfIterationsForSolve = numberOfIterations;
 }
 
 template <class T>
-inline unsigned int Bezier<T>::getNumberOfIterationsForSolver() const
+inline std::size_t Bezier<T>::getNumberOfIterationsForSolve() const
 {
 	return m_numberOfIterationsForSolve;
 }
@@ -102,13 +99,13 @@ inline unsigned int Bezier<T>::getNumberOfIterationsForSolver() const
 template <class T>
 inline T Bezier<T>::getX(const T t) const
 {
-	return priv_calculate({ m_points[0].x, m_points[1].x, m_points[2].x, m_points[3].x }, t);
+	return priv_calculate({ m_points[0uz].x, m_points[1uz].x, m_points[2uz].x, m_points[3uz].x }, t);
 }
 
 template <class T>
 inline T Bezier<T>::getY(const T t) const
 {
-	return priv_calculate({ m_points[0].y, m_points[1].y, m_points[2].y, m_points[3].y }, t);
+	return priv_calculate({ m_points[0uz].y, m_points[1uz].y, m_points[2uz].y, m_points[3uz].y }, t);
 }
 
 template <class T>
@@ -118,7 +115,7 @@ inline T Bezier<T>::solveYForX(const T x) const
 	T minimum{ static_cast<T>(0.0) };
 	T maximum{ static_cast<T>(1.0) };
 	T middle{ static_cast<T>(0.5) }; // start tests from the centre
-	for (unsigned int i{ 0 }; i < m_numberOfIterationsForSolve; ++i)
+	for (std::size_t i{ 0_uz }; i < m_numberOfIterationsForSolve; ++i)
 	{
 		T result{ getX(middle) }; // get x for "middle" (current position along spline)
 		if (result < x)
@@ -138,7 +135,7 @@ inline T Bezier<T>::solveXForY(const T y) const
 	T minimum{ static_cast<T>(0.0) };
 	T maximum{ static_cast<T>(1.0) };
 	T middle{ static_cast<T>(0.5) }; // start tests from the centre
-	for (unsigned int i{ 0 }; i < m_numberOfIterationsForSolve; ++i)
+	for (std::size_t i{ 0_uz }; i < m_numberOfIterationsForSolve; ++i)
 	{
 		T result{ getY(middle) }; // get y for "middle" (current position along spline)
 		if (result < y)
@@ -153,11 +150,11 @@ inline T Bezier<T>::solveXForY(const T y) const
 template <class T>
 inline T Bezier<T>::priv_calculate(const std::vector<T>& a, const T t) const
 {
-	T t2{ 1 - t };
-	return a[0] * t2 * t2 * t2 +
-	       a[1] * 3 * t2 * t2 * t +
-	       a[2] * 3 * t2 * t * t +
-	       a[3] * t * t * t;
+	T t2{ static_cast<T>(1) - t };
+	return a[0_uz] * t2 * t2 * t2 +
+	       a[1_uz] * 3.0 * t2 * t2 * t +
+	       a[2_uz] * 3.0 * t2 * t * t +
+	       a[3_uz] * t * t * t;
 }
 
 } // namespace plinth

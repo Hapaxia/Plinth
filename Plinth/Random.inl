@@ -35,53 +35,38 @@
 namespace plinth
 {
 
-	inline Random::Random()
-	: m_min(0u)
-	, m_max(100u)
+template<class T>
+inline T Random::value(const T min, const T max)
 {
-	randomSeed();
+	return priv_value(min, max);
 }
 
-	inline Random::Random(const unsigned int min, const unsigned int max)
-	: m_min(min)
-	, m_max(max)
+template<class T, class U>
+inline T Random::value(const T min, const U max)
 {
-	randomSeed();
+	return priv_value(min, static_cast<T>(max));
 }
 
-	inline unsigned int Random::rand(const unsigned int rangeSize)
+template<class T>
+inline T Random::value(const Range<T>& range)
 {
-	if (rangeSize == 0u)
-		return 0u;
-	return std::uniform_int_distribution<unsigned int>{0u, rangeSize - 1}(m_generator);
+	return priv_value(range.min, range.max);
 }
 
-	inline bool Random::chance(const unsigned int samplePoints, const unsigned int sampleSpace)
+template<class SeedT>
+inline void Random::seed(const SeedT seed)
 {
-	return value(1u, sampleSpace) <= samplePoints;
+	m_generator.seed(seed);
 }
 
-inline unsigned int Random::value()
+inline std::size_t Random::rand(const std::size_t rangeSize)
 {
-	return value(m_min, m_max);
+	return (rangeSize == 0_uz) ? 0_uz : std::uniform_int_distribution<std::size_t>{ 0_uz, rangeSize - 1_uz }(m_generator);
 }
 
-inline void Random::setMinimum(const unsigned int min)
+inline bool Random::chance(const std::size_t samplePoints, const std::size_t sampleSpace)
 {
-	m_min = min;
-	orderLowHigh(m_min, m_max);
-}
-
-inline void Random::setMaximum(const unsigned int max)
-{
-	m_max = max;
-	orderLowHigh(m_min, m_max);
-}
-
-inline void Random::setRange(const unsigned int min, const unsigned int max)
-{
-	setMinimum(min);
-	setMaximum(max);
+	return value(1_uz, sampleSpace) <= samplePoints;
 }
 
 inline void Random::randomSeed()
@@ -90,22 +75,43 @@ inline void Random::randomSeed()
 	m_generator.seed(rd());
 }
 
+inline std::mt19937& Random::getGenerator()
+{
+	return m_generator;
+}
+
+
+
+
+
+
+
+// PRIVATE
+std::mt19937 Random::m_generator{};
+
+template <class IntegerT>
+inline IntegerT Random::priv_value(IntegerT min, IntegerT max)
+{
+	orderLowHigh(min, max);
+	return static_cast<IntegerT>(std::uniform_int_distribution<long long int>{ static_cast<long long int>(min), static_cast<long long int>(max) }(m_generator));
+}
+
 inline float Random::priv_value(float min, float max)
 {
 	orderLowHigh(min, max);
-	return std::uniform_real_distribution<float>{min, max}(m_generator);
+	return std::uniform_real_distribution<float>{ min, max }(m_generator);
 }
 
 inline double Random::priv_value(double min, double max)
 {
 	orderLowHigh(min, max);
-	return std::uniform_real_distribution<double>{min, max}(m_generator);
+	return std::uniform_real_distribution<double>{ min, max }(m_generator);
 }
 
 inline long double Random::priv_value(long double min, long double max)
 {
 	orderLowHigh(min, max);
-	return std::uniform_real_distribution<long double>{min, max}(m_generator);
+	return std::uniform_real_distribution<long double>{ min, max }(m_generator);
 }
 
 } // namespace plinth
