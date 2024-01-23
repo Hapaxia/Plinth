@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_IMAGECHANNEL_HPP
-#define PLINTH_SFML_IMAGECHANNEL_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/System/Vector2.hpp>
@@ -80,4 +79,3 @@ private:
 	} // namespace Image
 } // namespace plinth
 #include "ImageChannel.inl"
-#endif // PLINTH_SFML_IMAGECHANNEL_HPP

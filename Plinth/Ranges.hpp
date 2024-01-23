@@ -27,10 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANGES_HPP
-#define PLINTH_RANGES_HPP
+#pragma once
 
 #include "Range.hpp"
 #include "RangeArea.hpp"
-
-#endif // PLINTH_RANGES_HPP

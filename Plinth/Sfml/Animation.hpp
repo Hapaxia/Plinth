@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_ANIMATION_HPP
-#define PLINTH_SFML_ANIMATION_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "AnimationTracks.hpp"
@@ -105,4 +104,3 @@ struct View
 	} // namespace Animation
 } // namespace plinth
 //#include "Animation.inl"
-#endif // PLINTH_SFML_ANIMATION_HPP

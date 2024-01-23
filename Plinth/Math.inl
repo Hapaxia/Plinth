@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_MATH_INL
-#define PLINTH_MATH_INL
+#pragma once
 
 #include "Math.hpp"
 
@@ -181,4 +180,3 @@ inline constexpr T mean(const std::vector<T>& values)
 }
 
 } // namespace plinth
-#endif // PLINTH_MATH_INL

@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_ERRBLOCKER_HPP
-#define PLINTH_SFML_ERRBLOCKER_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/System/Err.hpp>
@@ -50,4 +49,3 @@ private:
 
 	} // namespace Sfml
 } // namespace plinth
-#endif // PLINTH_SFML_ERRBLOCKER_HPP

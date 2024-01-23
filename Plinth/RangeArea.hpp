@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANGEAREA_HPP
-#define PLINTH_RANGEAREA_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Range.hpp"
@@ -112,4 +111,3 @@ using RangeAreaFl = RangeArea<Lax<float>>;
 
 } // namespace plinth
 #include "RangeArea.inl"
-#endif // PLINTH_RANGEAREA_HPP

@@ -27,8 +27,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANGE_INL
-#define PLINTH_RANGE_INL
+#pragma once
 
 #include "Range.hpp"
 
@@ -252,4 +251,3 @@ inline Range<T>& Range<T>::operator-=(const T& offset)
 }
 
 } // namespace plinth
-#endif // PLINTH_RANGE_INL

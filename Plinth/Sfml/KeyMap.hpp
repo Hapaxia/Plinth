@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_KEYMAP_HPP
-#define PLINTH_SFML_KEYMAP_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/Window/Keyboard.hpp>
@@ -59,4 +58,3 @@ private:
 
 } // namespace plinth
 #include "KeyMap.inl"
-#endif // PLINTH_SFML_KEYMAP_HPP

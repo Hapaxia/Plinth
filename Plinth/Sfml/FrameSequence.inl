@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_FRAMESEQUENCE_INL
-#define PLINTH_SFML_FRAMESEQUENCE_INL
+#pragma once
 
 #include "FrameSequence.hpp"
 
@@ -380,4 +379,3 @@ inline FrameSequence::LoopType FrameSequence::priv_getLoopTypeToUse() const
 }
 
 } // namespace plinth
-#endif // PLINTH_SFML_FRAMESEQUENCE_INL

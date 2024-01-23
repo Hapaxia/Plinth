@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENTRACK_HPP
-#define PLINTH_TWEENTRACK_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Tween.hpp" // for interpolating the values between two nodes
@@ -112,4 +111,3 @@ private:
 	} // namespace Tween
 } // namespace plinth
 #include "TweenTrack.inl"
-#endif // PLINTH_TWEENTRACK_HPP

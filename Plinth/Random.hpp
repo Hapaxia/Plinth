@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANDOM_HPP
-#define PLINTH_RANDOM_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <random>
@@ -75,4 +74,3 @@ private:
 
 } // namespace plinth
 #include "Random.inl"
-#endif // PLINTH_RANDOM_HPP

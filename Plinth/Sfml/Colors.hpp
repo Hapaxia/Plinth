@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_COLORS_HPP
-#define PLINTH_SFML_COLORS_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/Graphics/Color.hpp>
@@ -129,4 +128,3 @@ const sf::Color VeryDarkGray{ 32u, 32u, 32u };
 
 	} // namespace Colors
 } // namespace plinth
-#endif // PLINTH_SFML_COLORS_HPP

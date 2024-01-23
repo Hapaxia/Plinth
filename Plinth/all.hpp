@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_BASE_ALL_HPP
-#define PLINTH_BASE_ALL_HPP
+#pragma once
 
 #include "Ascii.hpp"
 #include "Bezier.hpp"
@@ -49,5 +48,3 @@
 #include "TweenPiecewise.hpp"
 #include "TweenTracks.hpp"
 #include "Vectors.hpp"
-
-#endif // PLINTH_BASE_ALL_HPP

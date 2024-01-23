@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_BEZIER_INL
-#define PLINTH_BEZIER_INL
+#pragma once
 
 #include "Bezier.hpp"
 
@@ -158,4 +157,3 @@ inline T Bezier<T>::priv_calculate(const std::vector<T>& a, const T t) const
 }
 
 } // namespace plinth
-#endif // PLINTH_BEZIER_INL

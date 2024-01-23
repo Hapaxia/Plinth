@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_EXCEPTION_HPP
-#define PLINTH_EXCEPTION_HPP
+#pragma once
 
 #include <exception>
 #include <string>
@@ -47,4 +46,3 @@ private:
 
 } // namespace plinth
 #include "Common.hpp"
-#endif // PLINTH_EXCEPTION_HPP

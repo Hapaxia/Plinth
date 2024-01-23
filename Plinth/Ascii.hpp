@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_ASCII_HPP
-#define PLINTH_ASCII_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -151,4 +150,3 @@ namespace Characters
 
 	} // namespace Ascii
 } // namespace plinth
-#endif // PLINTH_ASCII_HPP

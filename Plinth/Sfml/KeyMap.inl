@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_KEYMAP_INL
-#define PLINTH_SFML_KEYMAP_INL
+#pragma once
 
 #include "KeyMap.hpp"
 
@@ -113,5 +112,3 @@ inline std::size_t KeyMap<KeycodeT>::getSize() const
 }
 
 } // namespace plinth
-
-#endif // PLINTH_SFML_KEYMAP_INL

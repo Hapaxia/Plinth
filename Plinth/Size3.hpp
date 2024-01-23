@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SIZE3_HPP
-#define PLINTH_SIZE3_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -49,4 +48,3 @@ using Size3u = Size3<unsigned int>;
 using Size3d = Size3<double>;
 
 } // namespace plinth
-#endif // PLINTH_SIZE3_HPP

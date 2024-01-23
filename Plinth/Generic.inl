@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_GENERIC_INL
-#define PLINTH_GENERIC_INL
+#pragma once
 
 #include "Generic.hpp"
 
@@ -143,4 +142,3 @@ inline IntegerT intFromBytes(const std::vector<CharT>& bytes, const bool isLittl
 }
 
 } // namespace plinth
-#endif // PLINTH_GENERIC_INL

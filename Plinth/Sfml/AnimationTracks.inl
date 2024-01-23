@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_ANIMATIONTRACKS_INL
-#define PLINTH_SFML_ANIMATIONTRACKS_INL
+#pragma once
 
 #include "AnimationTracks.hpp"
 
@@ -447,4 +446,3 @@ inline sf::Color TrackColor::get(const float timeInSeconds) const
 
 	} // namespace Animation
 } // namespace plinth
-#endif // PLINTH_SFML_ANIMATIONTRACKS_INL

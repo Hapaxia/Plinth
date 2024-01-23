@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_ALL_HPP
-#define PLINTH_SFML_ALL_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Anchor.hpp"
@@ -43,5 +42,3 @@
 #include "ResourceManagerBasic.hpp"
 #include "StringFrom.hpp"
 #include "Tween.hpp"
-
-#endif // PLINTH_SFML_ALL_HPP

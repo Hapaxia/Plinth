@@ -27,11 +27,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENTRACKS_HPP
-#define PLINTH_TWEENTRACKS_HPP
+#pragma once
 
 #include "TweenTrack.hpp"
 #include "TweenTrack2.hpp"
 #include "TweenTrack3.hpp"
-
-#endif // PLINTH_TWEENTRACKS_HPP

@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_STRINGFROM_INL
-#define PLINTH_SFML_STRINGFROM_INL
+#pragma once
 
 #include "StringFrom.hpp"
 
@@ -832,4 +831,3 @@ inline std::string stringFrom(const sf::Time time, const SfmlTimeFormat format, 
 }
 
 } // namespace plinth
-#endif // PLINTH_SFML_STRINGFROM_INL

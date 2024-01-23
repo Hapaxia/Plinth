@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGFROM_HPP
-#define PLINTH_STRINGFROM_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Lax.hpp"
@@ -100,4 +99,3 @@ std::string stringFrom(pl::RangeArea<T>, DecimalPrecision decimalPrecision = Dec
 
 } // namespace plinth
 #include "StringFrom.inl"
-#endif // PLINTH_STRINGFROM_HPP

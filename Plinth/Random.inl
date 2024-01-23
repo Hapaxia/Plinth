@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANDOM_INL
-#define PLINTH_RANDOM_INL
+#pragma once
 
 #include "Random.hpp"
 
@@ -115,5 +114,3 @@ inline long double Random::priv_value(long double min, long double max)
 }
 
 } // namespace plinth
-
-#endif // PLINTH_RANDOM_INL

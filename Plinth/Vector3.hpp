@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_VECTOR3_HPP
-#define PLINTH_VECTOR3_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Size3.hpp"
@@ -101,4 +100,3 @@ using Vector3fl = Vector3<Lax<float>>;
 
 } // namespace plinth
 #include "Vector3.inl"
-#endif // PLINTH_VECTOR3_HPP

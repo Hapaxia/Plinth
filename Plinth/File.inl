@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_FILE_INL
-#define PLINTH_FILE_INL
+#pragma once
 
 #include "File.hpp"
 
@@ -118,4 +117,3 @@ inline bool saveTextFile(const std::vector<std::string>& lines, const std::strin
 }
 
 } // namespace plinth
-#endif // PLINTH_FILE_INL

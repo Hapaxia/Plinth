@@ -29,8 +29,7 @@
 
 // REQUIRES C++11
 
-#ifndef PLINTH_SFML_IMAGE_HPP
-#define PLINTH_SFML_IMAGE_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/Graphics/Image.hpp>
@@ -81,4 +80,3 @@ void setAlphaFromMask(sf::Image& image, const Channel& mask);
 	} // namspace Image
 } // namespace plinth
 #include "Image.inl"
-#endif // PLINTH_SFML_IMAGE_HPP

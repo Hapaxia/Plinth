@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_RESOURCEMANAGERBASIC_HPP
-#define PLINTH_SFML_RESOURCEMANAGERBASIC_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -117,4 +116,3 @@ private:
 
 } // namespace plinth
 #include "ResourceManagerBasic.inl"
-#endif // PLINTH_SFML_RESOURCEMANAGERBASIC_HPP

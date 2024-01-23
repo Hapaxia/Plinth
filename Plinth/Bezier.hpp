@@ -29,8 +29,7 @@
 
 // Cubic Bezier calculator/solver
 
-#ifndef PLINTH_BEZIER_HPP
-#define PLINTH_BEZIER_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Vector2.hpp"
@@ -69,4 +68,3 @@ private:
 
 } // namespace plinth
 #include "Bezier.inl"
-#endif // PLINTH_BEZIER_HPP

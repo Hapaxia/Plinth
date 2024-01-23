@@ -29,8 +29,7 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-#ifndef PLINTH_SFML_ANCHOR_INL
-#define PLINTH_SFML_ANCHOR_INL
+#pragma once
 
 #include "Anchor.hpp"
 
@@ -158,4 +157,3 @@ inline sf::Vector2f getBottomRight(const T& object)
 		} // namespace Global
 	} // namespace Anchor
 } // namespace plinth
-#endif // PLINTH_SFML_ANCHOR_INL

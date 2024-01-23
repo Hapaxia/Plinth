@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENPIECEWISE_INL
-#define PLINTH_TWEENPIECEWISE_INL
+#pragma once
 
 #include "TweenPiecewise.hpp"
 
@@ -125,4 +124,3 @@ inline std::size_t Piecewise<PositionT, T, InterpolationAlphaT, PositionCastT>::
 
 	} // namespace Tween
 } // namespace plinth
-#endif // PLINTH_TWEENPIECEWISE_INL

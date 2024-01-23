@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_NUMBERBASE_INL
-#define PLINTH_NUMBERBASE_INL
+#pragma once
 
 #include "NumberBase.hpp"
 
@@ -50,4 +49,3 @@ inline int decFromHex(const std::string& hex)
 }
 
 } // namespace plinth
-#endif // PLINTH_NUMBERBASE_INL
