@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include "StringFrom.hpp"
+#include "Strings.hpp"
 
 #include "Generic.hpp"
 
@@ -246,7 +246,7 @@ inline std::string stringFrom(const sf::VideoMode from, const bool sizeOnly)
 	return stringFrom(pl::Size2u{ from.width, from.height }) + (sizeOnly ? "" : " (" + stringFrom(from.bitsPerPixel) + ")");
 }
 
-std::string stringFrom(const sf::View view, const DecimalPrecision decimalPrecision, const bool withoutViewport)
+inline std::string stringFrom(const sf::View view, const DecimalPrecision decimalPrecision, const bool withoutViewport)
 {
 	std::string s;
 

@@ -30,7 +30,7 @@
 #pragma once
 
 #include "Common.hpp"
-#include "../StringFrom.hpp"
+#include "../Strings.hpp"
 #include "Colors.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Vector3.hpp>
@@ -78,4 +78,4 @@ std::string stringFrom(sf::Time, DecimalPrecision decimalPrecision, SfmlTimeForm
 std::string stringFrom(sf::Time, SfmlTimeFormat format = SfmlTimeFormat::Seconds, bool shortUnit = false);
 
 } // namespace plinth
-#include "StringFrom.inl"
+#include "Strings.inl"

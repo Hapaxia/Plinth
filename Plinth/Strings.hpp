@@ -29,14 +29,28 @@
 
 // Strings
 
-// string manipulation functions
+// stringFrom and string manipulation functions
 
 #pragma once
 
 #include "Common.hpp"
+#include "Lax.hpp"
+#include "Range.hpp"
+#include "RangeArea.hpp"
+#include "Vectors.hpp"
+#include "Sizes.hpp"
 
 namespace plinth
 {
+
+	namespace Color
+	{
+		struct Rgb;
+		struct Hsl;
+		struct Hsv;
+		struct Cmy;
+		struct Cmyk;
+	} // namespace Color
 
 // [does not alter any parameters]
 std::string lowerCase(std::string string);
@@ -163,6 +177,63 @@ std::string addBookends(const std::string& string, char bookendCharacter, std::s
 // arguments need not be in order in the format
 template <class T>
 std::string formattedString(std::string format, const std::vector<T>& arguments);
+
+struct DecimalPrecision
+{
+	std::size_t digits;
+	enum Type
+	{
+		None,
+		DecimalPlaces,
+		SignificantFigures,
+	} type;
+	//DecimalPrecision() : digits{ 6u }, type{ Type::None } { }
+	DecimalPrecision(const std::size_t newDigits, const Type newType = Type::DecimalPlaces) : digits{ newDigits }, type{ newType } { }
+	DecimalPrecision(const Type newType) : digits{ 6u }, type{ newType } { }
+	//void operator=(Type newType) { type = newType; }
+};
+
+std::string stringFrom(const std::string & = "");
+std::string stringFrom(const char*);
+std::string stringFrom(bool);
+std::string stringFrom(Color::Rgb rgb, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template <class T>
+std::string stringFrom(T*);
+template <class T>
+std::string stringFrom(T*, std::size_t minimumSize);
+
+template <class T>
+std::string stringFrom(const T&, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template <class T>
+std::string stringFrom(Lax<T> lax, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template <class T>
+std::string stringFrom(const std::vector<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+template <class T>
+std::string stringFrom(const std::vector<T>, const std::string& separator, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template<class T>
+std::string stringFrom(pl::Vector2<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template<class T>
+std::string stringFrom(pl::Vector3<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template<class T>
+std::string stringFrom(pl::Size2<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+template<class T>
+std::string stringFrom(pl::Size3<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template<class T>
+std::string stringFrom(pl::Range<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+template<class T>
+std::string stringFrom(pl::Range<pl::Vector2<T>>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+template<class T>
+std::string stringFrom(pl::Range<pl::Vector3<T>>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
+
+template<class T>
+std::string stringFrom(pl::RangeArea<T>, DecimalPrecision decimalPrecision = DecimalPrecision::None);
 
 } // namespace plinth
 #include "Strings.inl"

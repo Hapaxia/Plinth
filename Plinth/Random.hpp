@@ -37,40 +37,42 @@
 namespace plinth
 {
 
-class Random
-{
-public:
-	template <class T>
-	static T value(T min, T max);
-	template <class T, class U>
-	static T value(T min, U max);
-	template <class T>
-	static T value(const Range<T>& range);
+	namespace Random
+	{
 
-	static std::size_t rand(std::size_t rangeSize);
-	static bool chance(std::size_t samplePoints, std::size_t sampleSpace);
+template <class T>
+inline T value(T min, T max);
+template <class T, class U>
+inline T value(T min, U max);
+template <class T>
+inline T value(const Range<T>& range);
 
-	template <class SeedT>
-	static void seed(SeedT seed);
-	static void randomSeed();
+inline std::size_t rand(std::size_t rangeSize);
+inline bool chance(std::size_t samplePoints, std::size_t sampleSpace);
 
-	static std::mt19937& getGenerator();
+template <class SeedT>
+inline void seed(SeedT seed);
+inline void randomSeed();
 
-
+inline std::mt19937& getGenerator();
 
 
 
 
 
-private:
-	static std::mt19937 m_generator;
+		namespace impl
+		{
 
-	static float priv_value(float min, float max);
-	static double priv_value(double min, double max);
-	static long double priv_value(long double min, long double max);
-	template <class IntegerT>
-	static IntegerT priv_value(IntegerT min, IntegerT max);
-};
+static std::mt19937 randomGeneratorEngine;
+
+inline float randomValue(float min, float max);
+inline double randomValue(double min, double max);
+inline long double randomValue(long double min, long double max);
+template <class IntegerT>
+inline IntegerT randomValue(IntegerT min, IntegerT max);
+
+	} // namespace Random
+		} // namespace impl
 
 } // namespace plinth
 #include "Random.inl"

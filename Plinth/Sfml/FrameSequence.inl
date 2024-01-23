@@ -31,8 +31,6 @@
 
 #include "FrameSequence.hpp"
 
-#include <SFML/Graphics/PrimitiveType.hpp>
-
 namespace plinth
 {
 

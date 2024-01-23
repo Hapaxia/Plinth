@@ -42,7 +42,6 @@
 #include "RandomDistribution.hpp"
 #include "Ranges.hpp"
 #include "Sizes.hpp"
-#include "StringFrom.hpp"
 #include "Strings.hpp"
 #include "Tween.hpp"
 #include "TweenPiecewise.hpp"

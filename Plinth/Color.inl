@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include "Color.hpp"
+
 #include "Generic.hpp"
 #include "Math.hpp"
 #include "NumberBase.hpp"
@@ -38,7 +40,6 @@
 #include "Tween.hpp"
 #include <math.h>
 
-#include "Color.hpp"
 namespace plinth
 {
 

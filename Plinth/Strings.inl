@@ -32,8 +32,12 @@
 #include "Strings.hpp"
 
 #include "Generic.hpp" // for min()
-#include "StringFrom.hpp"
 #include <algorithm> // for std::remove and std::remove_if
+#include <sstream>
+#include <iomanip>
+#include "NumberBase.hpp"
+
+#include "Color.hpp"
 
 namespace plinth
 {
@@ -66,7 +70,7 @@ inline std::string formattedString(std::string format, const std::vector<T>& arg
 						continue;
 					else
 					{
-						format.replace(position, 2uz, argumentString);
+						format.replace(position, 2_uz, argumentString);
 						instanceLoop = false;
 					}
 				}
@@ -82,7 +86,7 @@ inline std::string formattedString(std::string format, const std::vector<T>& arg
 		}
 	}
 
-	position = 0uz;
+	position = 0_uz;
 	
 	while ((position = format.find("%%", position)) != std::string::npos)
 	{
@@ -308,7 +312,7 @@ inline std::string removeChars(std::string string, const std::string& characters
 	return string;
 }
 
-std::string addBracketOpen(const std::string& string, const BracketType bracketType)
+inline std::string addBracketOpen(const std::string& string, const BracketType bracketType)
 {
 	switch (bracketType)
 	{
@@ -324,7 +328,7 @@ std::string addBracketOpen(const std::string& string, const BracketType bracketT
 	}
 }
 
-std::string addBracketClose(const std::string& string, const BracketType bracketType)
+inline std::string addBracketClose(const std::string& string, const BracketType bracketType)
 {
 	switch (bracketType)
 	{
@@ -340,7 +344,7 @@ std::string addBracketClose(const std::string& string, const BracketType bracket
 	}
 }
 
-std::string addBrackets(const std::string& string, const BracketType bracketType)
+inline std::string addBrackets(const std::string& string, const BracketType bracketType)
 {
 	switch (bracketType)
 	{
@@ -356,7 +360,7 @@ std::string addBrackets(const std::string& string, const BracketType bracketType
 	}
 }
 
-std::string addBrackets(const std::string& string, const BracketType openBracketType, const BracketType closeBracketType)
+inline std::string addBrackets(const std::string& string, const BracketType openBracketType, const BracketType closeBracketType)
 {
 	std::string openBracket{};
 	std::string closeBracket{};
@@ -396,10 +400,132 @@ std::string addBrackets(const std::string& string, const BracketType openBracket
 	return openBracket + string + closeBracket;
 }
 
-std::string addBookends(const std::string& string, const char bookendCharacter, const std::size_t bookendLength)
+inline std::string addBookends(const std::string& string, const char bookendCharacter, const std::size_t bookendLength)
 {
 	const std::string bookend(bookendLength, bookendCharacter);
 	return bookend + string + bookend;
+}
+
+inline std::string stringFrom(const std::string& from)
+{
+	return from;
+}
+
+inline std::string stringFrom(const char* from)
+{
+	return std::string(from);
+}
+
+inline std::string stringFrom(const bool from)
+{
+	return (from ? "true" : "false");
+}
+
+inline std::string stringFrom(const Color::Rgb rgb, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(Vector3d(rgb.r, rgb.g, rgb.b), decimalPrecision);
+}
+
+template <class T>
+inline std::string stringFrom(T* p)
+{
+	const std::string unpadded{ upperCase(hexFromDec(reinterpret_cast<std::size_t>(p))) };
+	return padStringLeft(unpadded, (unpadded.size() > 32_uz) ? 64_uz : (unpadded.size() > 16_uz) ? 32_uz : (unpadded.size() > 8_uz) ? 16_uz : 8_uz, '0');
+}
+
+template <class T>
+inline std::string stringFrom(T* p, const std::size_t minimumSize)
+{
+	const std::string padded{ stringFrom(p) };
+	return padStringLeft(padded, (padded.size() < minimumSize) ? minimumSize : padded.size(), '0');
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Vector2<T> from, const DecimalPrecision decimalPrecision)
+{
+	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ")";
+}
+
+template <class T>
+inline std::string stringFrom(const Lax<T> lax, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(static_cast<T>(lax), decimalPrecision);
+}
+
+template <class T>
+inline std::string stringFrom(const std::vector<T> froms, const DecimalPrecision decimalPrecision)
+{
+	std::string to{};
+	for (auto& from : froms)
+		to += stringFrom(from, decimalPrecision);
+	return to;
+}
+
+template<class T>
+inline std::string stringFrom(const std::vector<T> froms, const std::string& separator, const DecimalPrecision decimalPrecision)
+{
+	std::string to{};
+	for (auto begin{ froms.begin() }, end{ froms.end() }, it{ begin }; it != end; ++it)
+	{
+		to += stringFrom(*it, decimalPrecision);
+		if ((it + 1_uz) != end)
+			to += separator;
+	}
+	return to;
+}
+
+template <class T>
+inline std::string stringFrom(const T& from, const DecimalPrecision decimalPrecision)
+{
+	if (decimalPrecision.type == DecimalPrecision::None)
+		return std::to_string(from);
+
+	std::stringstream ss;
+	if (decimalPrecision.type == DecimalPrecision::DecimalPlaces)
+		ss << std::fixed;
+	ss << std::setprecision(decimalPrecision.digits) << static_cast<long double>(from);
+	return ss.str();
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Vector3<T> from, const DecimalPrecision decimalPrecision)
+{
+	return "(" + stringFrom(from.x, decimalPrecision) + ", " + stringFrom(from.y, decimalPrecision) + ", " + stringFrom(from.z, decimalPrecision) + ")";
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Size2<T> from, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(from.width, decimalPrecision) + " x " + stringFrom(from.height, decimalPrecision);
+}
+template<class T>
+inline std::string stringFrom(const pl::Size3<T> from, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(from.width, decimalPrecision) + " x " + stringFrom(from.height, decimalPrecision) + " x " + stringFrom(from.depth, decimalPrecision);
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Range<T> from, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(from.min, decimalPrecision) + " - " + stringFrom(from.max, decimalPrecision);
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Range<pl::Vector2<T>> from, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(pl::Vector2<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision)));
+}
+
+template<class T>
+inline std::string stringFrom(const pl::Range<pl::Vector3<T>> from, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(pl::Vector3<std::string>(stringFrom(pl::Range<T>{ from.min.x, from.max.x }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.y, from.max.y }, decimalPrecision), stringFrom(pl::Range<T>{ from.min.z, from.max.z }, decimalPrecision)));
+}
+
+template<class T>
+inline std::string stringFrom(const pl::RangeArea<T> from, const DecimalPrecision decimalPrecision)
+{
+	return stringFrom(pl::Range<pl::Vector2<T>>{ from.getLeftBottom(), from.getRightTop() }, decimalPrecision);
 }
 
 } // namespace plinth

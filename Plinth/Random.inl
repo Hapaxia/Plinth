@@ -37,30 +37,30 @@ namespace plinth
 template<class T>
 inline T Random::value(const T min, const T max)
 {
-	return priv_value(min, max);
+	return impl::randomValue(min, max);
 }
 
 template<class T, class U>
 inline T Random::value(const T min, const U max)
 {
-	return priv_value(min, static_cast<T>(max));
+	return impl::randomValue(min, static_cast<T>(max));
 }
 
 template<class T>
 inline T Random::value(const Range<T>& range)
 {
-	return priv_value(range.min, range.max);
+	return impl::randomValue(range.min, range.max);
 }
 
 template<class SeedT>
 inline void Random::seed(const SeedT seed)
 {
-	m_generator.seed(seed);
+	impl::randomGeneratorEngine.seed(seed);
 }
 
 inline std::size_t Random::rand(const std::size_t rangeSize)
 {
-	return (rangeSize == 0_uz) ? 0_uz : std::uniform_int_distribution<std::size_t>{ 0_uz, rangeSize - 1_uz }(m_generator);
+	return (rangeSize == 0_uz) ? 0_uz : std::uniform_int_distribution<std::size_t>{ 0_uz, rangeSize - 1_uz }(impl::randomGeneratorEngine);
 }
 
 inline bool Random::chance(const std::size_t samplePoints, const std::size_t sampleSpace)
@@ -71,12 +71,12 @@ inline bool Random::chance(const std::size_t samplePoints, const std::size_t sam
 inline void Random::randomSeed()
 {
 	std::random_device rd;
-	m_generator.seed(rd());
+	impl::randomGeneratorEngine.seed(rd());
 }
 
 inline std::mt19937& Random::getGenerator()
 {
-	return m_generator;
+	return impl::randomGeneratorEngine;
 }
 
 
@@ -84,33 +84,36 @@ inline std::mt19937& Random::getGenerator()
 
 
 
-
-// PRIVATE
-std::mt19937 Random::m_generator{};
+	namespace Random
+	{
+		namespace impl
+		{
 
 template <class IntegerT>
-inline IntegerT Random::priv_value(IntegerT min, IntegerT max)
+inline IntegerT randomValue(IntegerT min, IntegerT max)
 {
 	orderLowHigh(min, max);
-	return static_cast<IntegerT>(std::uniform_int_distribution<long long int>{ static_cast<long long int>(min), static_cast<long long int>(max) }(m_generator));
+	return static_cast<IntegerT>(std::uniform_int_distribution<long long int>{ static_cast<long long int>(min), static_cast<long long int>(max) }(randomGeneratorEngine));
 }
 
-inline float Random::priv_value(float min, float max)
+inline float randomValue(float min, float max)
 {
 	orderLowHigh(min, max);
-	return std::uniform_real_distribution<float>{ min, max }(m_generator);
+	return std::uniform_real_distribution<float>{ min, max }(randomGeneratorEngine);
 }
 
-inline double Random::priv_value(double min, double max)
+inline double randomValue(double min, double max)
 {
 	orderLowHigh(min, max);
-	return std::uniform_real_distribution<double>{ min, max }(m_generator);
+	return std::uniform_real_distribution<double>{ min, max }(randomGeneratorEngine);
 }
 
-inline long double Random::priv_value(long double min, long double max)
+inline long double randomValue(long double min, long double max)
 {
 	orderLowHigh(min, max);
-	return std::uniform_real_distribution<long double>{ min, max }(m_generator);
+	return std::uniform_real_distribution<long double>{ min, max }(randomGeneratorEngine);
 }
 
+		} // namespace impl
+	} // namespace Random
 } // namespace plinth

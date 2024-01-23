@@ -40,5 +40,5 @@
 #include "ImageChannel.hpp"
 #include "KeyMap.hpp"
 #include "ResourceManagerBasic.hpp"
-#include "StringFrom.hpp"
+#include "Strings.hpp"
 #include "Tween.hpp"
