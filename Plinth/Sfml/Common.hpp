@@ -27,9 +27,6 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_COMMON_HPP
-#define PLINTH_SFML_COMMON_HPP
+#pragma once
 
 #include "../Common.hpp"
-
-#endif // PLINTH_SFML_COMMON_HPP

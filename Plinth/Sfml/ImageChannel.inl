@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_IMAGECHANNEL_INL
-#define PLINTH_SFML_IMAGECHANNEL_INL
+#pragma once
 
 #include "ImageChannel.hpp"
 
@@ -182,5 +181,3 @@ inline void Channel::generateNoise(const NoiseType type)
 
 	} // namespace Image
 } // namespace plinth
-
-#endif // PLINTH_SFML_IMAGECHANNEL_INL

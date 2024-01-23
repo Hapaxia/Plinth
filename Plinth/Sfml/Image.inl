@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_IMAGE_INL
-#define PLINTH_SFML_IMAGE_INL
+#pragma once
 
 #include "Image.hpp"
 #include "../Tween.hpp"
@@ -239,5 +238,3 @@ inline void setAlphaFromMask(sf::Image& image, const Channel& mask)
 
 	} // namspace Image
 } // namespace plinth
-
-#endif // PLINTH_SFML_IMAGE_INL

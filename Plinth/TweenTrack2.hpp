@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENTRACK2_HPP
-#define PLINTH_TWEENTRACK2_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "TweenTrack.hpp"
@@ -83,4 +82,3 @@ public:
 	} // namespace Tween
 } // namespace plinth
 #include "TweenTrack2.inl"
-#endif // PLINTH_TWEENTRACK2_HPP

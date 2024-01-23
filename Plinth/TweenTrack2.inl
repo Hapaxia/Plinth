@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENTRACK2_INL
-#define PLINTH_TWEENTRACK2_INL
+#pragma once
 
 #include "TweenTrack2.hpp"
 
@@ -96,4 +95,3 @@ inline Track2<PositionT, T, InterpolationAlphaT, PositionCastT>& Track2<Position
 
 	} // namespace Tween
 } // namespace plinth
-#endif // PLINTH_TWEENTRACK2_INL

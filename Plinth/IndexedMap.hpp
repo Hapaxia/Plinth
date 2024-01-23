@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_INDEXEDMAP_HPP
-#define PLINTH_INDEXEDMAP_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <algorithm> // for remove_if
@@ -73,4 +72,3 @@ private:
 
 } // namespace plinth
 #include "IndexedMap.inl"
-#endif // PLINTH_INDEXEDMAP_HPP

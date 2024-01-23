@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_FRAMESEQUENCE_HPP
-#define PLINTH_SFML_FRAMESEQUENCE_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/System/Time.hpp>
@@ -114,4 +113,3 @@ private:
 
 } // namespace plinth
 #include "FrameSequence.inl"
-#endif // PLINTH_SFML_FRAMESEQUENCE_HPP

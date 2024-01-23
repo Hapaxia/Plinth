@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_COLOR_INL
-#define PLINTH_COLOR_INL
+#pragma once
 
 #include "Generic.hpp"
 #include "Math.hpp"
@@ -358,5 +357,3 @@ inline Hsv::Hsv(const Rgb& other)
 
 	} // namespace Color
 } // namespace plinth
-
-#endif // PLINTH_COLOR_INL

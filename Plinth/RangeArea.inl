@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANGEAREA_INL
-#define PLINTH_RANGEAREA_INL
+#pragma once
 
 #include "RangeArea.hpp"
 
@@ -352,4 +351,3 @@ inline RangeArea<T>& RangeArea<T>::pull(const Vector2<T>& hook, const bool keepS
 }
 
 } // namespace plinth
-#endif // PLINTH_RANGEAREA_INL

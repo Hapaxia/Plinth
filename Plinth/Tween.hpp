@@ -31,8 +31,7 @@
 
 // interpolation functions
 
-#ifndef PLINTH_TWEEN_HPP
-#define PLINTH_TWEEN_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <math.h>
@@ -178,4 +177,3 @@ private:
 } // namespace plinth
 #include "Tween.inl"
 #include "TweenPiecewise.hpp"
-#endif // PLINTH_TWEEN_HPP

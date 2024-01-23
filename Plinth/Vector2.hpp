@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_VECTOR2_HPP
-#define PLINTH_VECTOR2_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Size2.hpp"
@@ -108,4 +107,3 @@ using Vector2fl = Vector2<Lax<float>>;
 
 } // namespace plinth
 #include "Vector2.inl"
-#endif // PLINTH_VECTOR2_HPP

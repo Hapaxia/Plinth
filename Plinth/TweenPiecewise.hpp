@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENPIECEWISE_HPP
-#define PLINTH_TWEENPIECEWISE_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Tween.hpp" // for interpolating the values between two nodes
@@ -67,4 +66,3 @@ private:
 	} // namespace Tween
 } // namespace plinth
 #include "TweenPiecewise.inl"
-#endif // PLINTH_TWEENPIECEWISE_HPP

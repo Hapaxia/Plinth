@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_TWEEN_HPP
-#define PLINTH_SFML_TWEEN_HPP
+#pragma once
 
 namespace sf
 {
@@ -48,4 +47,3 @@ inline sf::Color linear(const sf::Color& start, const sf::Color& end, const Alph
 	} // namespace Tween
 } // namespace Tween
 #include "Tween.inl"
-#endif // PLINTH_SFML_TWEEN_HPP

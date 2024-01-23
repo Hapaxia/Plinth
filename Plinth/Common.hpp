@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_COMMON_HPP
-#define PLINTH_COMMON_HPP
+#pragma once
 
 // remove unwanted min/max macros
 #ifdef min
@@ -57,5 +56,3 @@ namespace pl = plinth; // create shortcut namespace
 
 constexpr std::size_t operator ""_uz(unsigned long long unsignedInteger) noexcept { return static_cast<std::size_t>(unsignedInteger); }
 constexpr unsigned char operator ""_uc(unsigned long long unsignedInteger) noexcept { return static_cast<unsigned char>(unsignedInteger); }
-
-#endif // PLINTH_COMMON_HPP

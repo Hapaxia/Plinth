@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_STRINGS_INL
-#define PLINTH_STRINGS_INL
+#pragma once
 
 #include "Strings.hpp"
 
@@ -404,4 +403,3 @@ std::string addBookends(const std::string& string, const char bookendCharacter, 
 }
 
 } // namespace plinth
-#endif // PLINTH_STRINGS_INL

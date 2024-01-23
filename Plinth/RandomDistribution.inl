@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANDOMDISTRIBUTION_INL
-#define PLINTH_RANDOMDISTRIBUTION_INL
+#pragma once
 
 #include "RandomDistribution.hpp"
 
@@ -147,5 +146,3 @@ inline long double RandomDistribution<long double>::priv_value() const
 }
 
 } // namespace plinth
-
-#endif // PLINTH_RANDOMDISTRIBUTION_INL

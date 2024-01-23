@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_GENERIC_INL
-#define PLINTH_SFML_GENERIC_INL
+#pragma once
 
 #include "Generic.hpp"
 #include "../Range.hpp"
@@ -358,5 +357,3 @@ inline sf::Vector3f absVector(const sf::Vector3f& vector)
 
 	} // namespace Sfml
 } // namespace plinth
-
-#endif // PLINTH_SFML_GENERIC_INL

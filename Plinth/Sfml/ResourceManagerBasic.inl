@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_RESOURCEMANAGERBASIC_INL
-#define PLINTH_SFML_RESOURCEMANAGERBASIC_INL
+#pragma once
 
 #include "ResourceManagerBasic.hpp"
 
@@ -385,5 +384,3 @@ inline void ResourceManagerBasic::removeAllSoundBuffers()
 }
 
 } // namespace plinth
-
-#endif // PLINTH_SFML_RESOURCEMANAGERBASIC_INL

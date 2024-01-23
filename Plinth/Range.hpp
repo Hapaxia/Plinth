@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_RANGE_HPP
-#define PLINTH_RANGE_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Lax.hpp"
@@ -94,4 +93,3 @@ using RangeFl = Range<Lax<float>>;
 
 } // namespace plinth
 #include "Range.inl"
-#endif // PLINTH_RANGE_HPP

@@ -31,8 +31,7 @@
 
 // string manipulation functions
 
-#ifndef PLINTH_STRINGS_HPP
-#define PLINTH_STRINGS_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -167,4 +166,3 @@ std::string formattedString(std::string format, const std::vector<T>& arguments)
 
 } // namespace plinth
 #include "Strings.inl"
-#endif // PLINTH_STRINGS_HPP

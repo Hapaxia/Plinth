@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_VECTOR3_INL
-#define PLINTH_VECTOR3_INL
+#pragma once
 
 #include "Vector3.hpp"
 
@@ -250,4 +249,3 @@ inline bool Vector3<T>::priv_isNotZero() const
 
 
 } // namespace plinth
-#endif // PLINTH_VECTOR3_INL

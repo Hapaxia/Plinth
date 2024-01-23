@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_GENERIC_HPP
-#define PLINTH_SFML_GENERIC_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <SFML/Graphics/Color.hpp>
@@ -109,4 +108,3 @@ sf::Vector3f absVector(const sf::Vector3f& vector);
 	} // namespace Sfml
 } // namespace plinth
 #include "Generic.inl"
-#endif // PLINTH_SFML_GENERIC_HPP

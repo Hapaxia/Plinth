@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_LAX_INL
-#define PLINTH_LAX_INL
+#pragma once
 
 #include "Lax.hpp"
 
@@ -459,4 +458,3 @@ inline U& operator%=(U& left, const Lax<T>& right)
 }
 
 } // namespace plinth
-#endif // PLINTH_LAX_INL

@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_STRINGFROM_HPP
-#define PLINTH_SFML_STRINGFROM_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "../StringFrom.hpp"
@@ -80,4 +79,3 @@ std::string stringFrom(sf::Time, SfmlTimeFormat format = SfmlTimeFormat::Seconds
 
 } // namespace plinth
 #include "StringFrom.inl"
-#endif // PLINTH_SFML_STRINGFROM_HPP

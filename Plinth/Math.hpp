@@ -29,8 +29,7 @@
 
 // Miscellaenous maths functions, constants and functions
 
-#ifndef PLINTH_MATH_HPP
-#define PLINTH_MATH_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -94,4 +93,3 @@ inline constexpr T mean(const std::vector<T>& values);
 
 } // plinth
 #include "Math.inl"
-#endif // PLINTH_MATH_HPP

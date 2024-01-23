@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_COLOR_HPP
-#define PLINTH_COLOR_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -137,4 +136,3 @@ struct Cmyk
 	} // namespace Color
 } // namespace plinth
 #include "Color.inl"
-#endif // PLINTH_COLOR_HPP

@@ -31,8 +31,7 @@
 
 // generic/common functions
 
-#ifndef PLINTH_GENERIC_HPP
-#define PLINTH_GENERIC_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "Math.hpp"
@@ -82,4 +81,3 @@ inline IntegerT intFromBytes(const std::vector<CharT>& bytes, bool isLittleEndia
 
 } // namespace plinth
 #include "Generic.inl"
-#endif // PLINTH_GENERIC_HPP

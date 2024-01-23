@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEENTRACK_INL
-#define PLINTH_TWEENTRACK_INL
+#pragma once
 
 #include "TweenTrack.hpp"
 
@@ -184,4 +183,3 @@ inline bool Track<PositionT, T, InterpolationAlphaT, PositionCastT>::priv_isVali
 
 	} // namespace Tween
 } // namespace plinth
-#endif // PLINTH_TWEENTRACK_INL

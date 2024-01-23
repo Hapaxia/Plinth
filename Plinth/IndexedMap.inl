@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_INDEXEDMAP_INL
-#define PLINTH_INDEXEDMAP_INL
+#pragma once
 
 #include "IndexedMap.hpp"
 
@@ -182,4 +181,3 @@ inline bool IndexedMap<KeyT, T>::priv_indexIsValid(const std::size_t index) cons
 }
 
 } // namespace plinth
-#endif // PLINTH_INDEXEDMAP_INL

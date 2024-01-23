@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_TWEEN_INL
-#define PLINTH_TWEEN_INL
+#pragma once
 
 #include "Tween.hpp"
 
@@ -468,4 +467,3 @@ inline void FastEase<T, AlphaT, StrengthT>::priv_updateTable()
 
 	} // namespace Tween
 } // namespace plinth
-#endif // PLINTH_TWEEN_INL

@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_FILE_HPP
-#define PLINTH_FILE_HPP
+#pragma once
 
 #include "Common.hpp"
 #include <fstream>
@@ -51,4 +50,3 @@ bool saveBinaryFile(const std::unique_ptr<char[]>& data, const std::string& file
 
 } // namespace plinth
 #include "File.inl"
-#endif // PLINTH_FILE_HPP

@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_ANIMATIONTRACKS_HPP
-#define PLINTH_SFML_ANIMATIONTRACKS_HPP
+#pragma once
 
 #include "Common.hpp"
 #include "../TweenTracks.hpp"
@@ -174,4 +173,3 @@ private:
 	} // namespace Animation
 } // namespace plinth
 #include "AnimationTracks.inl"
-#endif // PLINTH_SFML_ANIMATIONTRACKS_HPP

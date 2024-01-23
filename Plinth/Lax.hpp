@@ -27,8 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_LAX_HPP
-#define PLINTH_LAX_HPP
+#pragma once
 
 #include "Common.hpp"
 
@@ -155,4 +154,3 @@ U& operator*=(U& left, const Lax<T>& right);
 
 } // namespace plinth
 #include "Lax.inl"
-#endif // PLINTH_LAX_HPP

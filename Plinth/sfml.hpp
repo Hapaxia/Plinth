@@ -27,9 +27,6 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef PLINTH_SFML_HPP
-#define PLINTH_SFML_HPP
+#pragma once
 
 #include "Sfml/all.hpp"
-
-#endif // PLINTH_SFML_HPP
