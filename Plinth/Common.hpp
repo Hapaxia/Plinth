@@ -54,5 +54,13 @@ namespace pl = plinth; // create shortcut namespace
 #include <string>
 #include <cstddef>
 
+#define MAKE_ENUM_BITWISE(x)                                                                                                    \
+inline x operator|(x a, x b) { return static_cast<x>(static_cast<unsigned long int>(a) | static_cast<unsigned long int>(b)); }  \
+inline x operator^(x a, x b) { return static_cast<x>(static_cast<unsigned long int>(a) ^ static_cast<unsigned long int>(b)); }  \
+inline x operator&(x a, x b) { return static_cast<x>(static_cast<unsigned long int>(a) & static_cast<unsigned long int>(b)); }  \
+inline x operator~(x a) { return static_cast<x>(~static_cast<unsigned long int>(a)); }                                          \
+inline x operator>>(x a, std::size_t bits) { return static_cast<x>(static_cast<unsigned long int>(a) >> bits); }                \
+inline x operator<<(x a, std::size_t bits) { return static_cast<x>(static_cast<unsigned long int>(a) << bits); }
+
 constexpr std::size_t operator ""_uz(unsigned long long unsignedInteger) noexcept { return static_cast<std::size_t>(unsignedInteger); }
 constexpr unsigned char operator ""_uc(unsigned long long unsignedInteger) noexcept { return static_cast<unsigned char>(unsignedInteger); }
