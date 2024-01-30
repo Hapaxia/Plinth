@@ -48,4 +48,4 @@ inline sf::Color linear(const sf::Color& start, const sf::Color& end, const Alph
 }
 
 	} // namespace Tween
-} // namespace Tween
+} // namespace plinth

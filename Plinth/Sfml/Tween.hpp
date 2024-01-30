@@ -45,5 +45,5 @@ template <class AlphaT>
 inline sf::Color linear(const sf::Color& start, const sf::Color& end, const AlphaT& alpha);
 
 	} // namespace Tween
-} // namespace Tween
+} // namespace plinth
 #include "Tween.inl"
