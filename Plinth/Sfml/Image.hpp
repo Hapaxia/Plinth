@@ -58,6 +58,17 @@ enum class GrayscaleConversionType
 	BlueChannel
 };
 
+enum class ResizeType
+{
+	Draw,
+	Draw_Smooth,
+	Draw_AA,
+	Draw_SmoothAA,
+	Pixel,
+	NearestNeighbour,
+	Bilinear,
+};
+
 void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb&)> process);
 void processAllPixelsColor(sf::Image& image, std::function<void (sf::Color&)> process);
 
@@ -76,6 +87,8 @@ void setBlueFromChannel(sf::Image& image, const Channel& channel);
 void setRgbFromChannel(sf::Image& image, const Channel& channel);
 void setAlphaFromChannel(sf::Image& image, const Channel& channel);
 void setAlphaFromMask(sf::Image& image, const Channel& mask);
+
+sf::Image resize(ResizeType type, const sf::Image& image, sf::Vector2u destinationSize, sf::IntRect sourceRectangle = {});
 
 	} // namspace Image
 } // namespace plinth
