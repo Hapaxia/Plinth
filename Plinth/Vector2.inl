@@ -231,7 +231,7 @@ template <class T>
 inline Vector2<T> Vector2<T>::operator/(const T& scalar) const
 {
 	const long double multiplier{ 1.0L / scalar };
-	return{ static_cast<T>(x * scalar), static_cast<T>(y / scalar) };
+	return{ static_cast<T>(x * multiplier), static_cast<T>(y * multiplier) };
 }
 
 template <class T>

@@ -54,7 +54,7 @@ inline RangeArea<T>::RangeArea(const RangeArea<U>& rangeArea)
 }
 
 template <class T>
-inline RangeArea<T>::RangeArea(const T& newLeft, const T& newBottom, const T& newRight, const T& newTop)
+inline RangeArea<T>::RangeArea(const T& newLeft, const T& newTop, const T& newRight, const T& newBottom)
 	: left{ newLeft }
 	, top{ newTop }
 	, right{ newRight }
@@ -72,11 +72,11 @@ inline RangeArea<T>::RangeArea(const Range<T>& horizRange, const Range<T>& vertR
 }
 
 template <class T>
-inline RangeArea<T>::RangeArea(const Vector2<T>& leftBottom, const Vector2<T>& rightTop)
-	: left{ leftBottom.x }
-	, top{ leftBottom.y }
-	, right{ rightTop.x }
-	, bottom{ rightTop.y }
+inline RangeArea<T>::RangeArea(const Vector2<T>& leftTop, const Vector2<T>& rightBottom)
+	: left{ leftTop.x }
+	, top{ leftTop.y }
+	, right{ rightBottom.x }
+	, bottom{ rightBottom.y }
 {
 }
 

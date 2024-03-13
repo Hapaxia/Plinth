@@ -245,7 +245,7 @@ inline void setAlphaFromMask(sf::Image& image, const Channel& mask)
 		namespace impl
 		{
 
-sf::Image resize_Draw(const sf::Image& image, const sf::Vector2u destinationSize, const bool smooth = false, const bool aa = false, const sf::IntRect sourceRectangle = {})
+inline sf::Image resize_Draw(const sf::Image& image, const sf::Vector2u destinationSize, const bool smooth = false, const bool aa = false, const sf::IntRect sourceRectangle = {})
 {
 	sf::RenderTexture renderTexture{};
 	sf::ContextSettings contextSettings{};
@@ -267,7 +267,7 @@ sf::Image resize_Draw(const sf::Image& image, const sf::Vector2u destinationSize
 	return renderTexture.getTexture().copyToImage();
 }
 
-sf::Image resize_Pixel(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
+inline sf::Image resize_Pixel(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
 {
 	const sf::Vector2u sourcePosition(sourceRectangle.getPosition());
 	const sf::Vector2u sourceSize(sourceRectangle.getSize());
@@ -285,7 +285,7 @@ sf::Image resize_Pixel(const sf::Image& image, const sf::Vector2u destinationSiz
 	return result;
 }
 
-sf::Image resize_NearestNeighbour(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
+inline sf::Image resize_NearestNeighbour(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
 {
 	const sf::Vector2u sourcePosition(sourceRectangle.getPosition());
 	const sf::Vector2u sourceSize(sourceRectangle.getSize());
@@ -309,7 +309,7 @@ sf::Image resize_NearestNeighbour(const sf::Image& image, const sf::Vector2u des
 	return result;
 }
 
-sf::Image resize_Bilinear(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
+inline sf::Image resize_Bilinear(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
 {
 	const sf::Vector2u sourcePosition(sourceRectangle.getPosition());
 	const sf::Vector2u sourceSize(sourceRectangle.getSize());
@@ -346,7 +346,7 @@ sf::Image resize_Bilinear(const sf::Image& image, const sf::Vector2u destination
 
 
 
-sf::Image resize(const ResizeType type, const sf::Image& image, const sf::Vector2u destinationSize, sf::IntRect sourceRectangle)
+inline sf::Image resize(const ResizeType type, const sf::Image& image, const sf::Vector2u destinationSize, sf::IntRect sourceRectangle)
 {
 	const sf::Vector2u imageSize{ image.getSize() };
 	if (destinationSize == imageSize)
