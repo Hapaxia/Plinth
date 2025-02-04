@@ -5,6 +5,8 @@ A fully-header-only/templated foundation library of many helpful classes and fun
 Includes an extension section of SFML-based classes and functions.
 
 Requires a minimum of C++11. Note that some parts may required more modern versions.
+In particular, the SFML section (now for SFML 3) will require C++17.
+However, the entire library should be compatible with C++17+.
 
 For information, view the [Wiki].
 

@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -46,7 +46,7 @@ inline ResourceManagerBasic::ResourceManagerBasic()
 inline std::size_t ResourceManagerBasic::addFont(const std::string& id, const std::string& filename)
 {
 	std::size_t index{ addFont(id) };
-	loadFont(id, filename);
+	openFont(id, filename);
 	return index;
 }
 
@@ -64,23 +64,23 @@ inline std::string ResourceManagerBasic::addFont()
 	return id;
 }
 
-inline void ResourceManagerBasic::loadFont(const std::string& id, const std::string& filename)
+inline void ResourceManagerBasic::openFont(const std::string& id, const std::string& filename)
 {
 	if (!m_fonts.valid(id))
 		throw Exception(m_resourceManagerExceptionPrefix + "Invalid font ID.");
-	else if (!m_fonts.access(id).loadFromFile(filename))
-		throw Exception(m_resourceManagerExceptionPrefix + "Cannot load font.");
+	else if (!m_fonts.access(id).openFromFile(filename))
+		throw Exception(m_resourceManagerExceptionPrefix + "Cannot open font.");
 }
 
-inline void ResourceManagerBasic::loadFont(const std::size_t index, const std::string& filename)
+inline void ResourceManagerBasic::openFont(const std::size_t index, const std::string& filename)
 {
 	if (!m_fonts.valid(index))
 		throw Exception(m_resourceManagerExceptionPrefix + "Invalid font index.");
-	else if (!m_fonts.access(index).loadFromFile(filename))
-		throw Exception(m_resourceManagerExceptionPrefix + "Cannot load font.");
+	else if (!m_fonts.access(index).openFromFile(filename))
+		throw Exception(m_resourceManagerExceptionPrefix + "Cannot open font.");
 }
 
-inline std::string ResourceManagerBasic::loadNewFont(const std::string& filename)
+inline std::string ResourceManagerBasic::openNewFont(const std::string& filename)
 {
 	std::string id{ std::to_string(m_fonts.getSize()) };
 	addFont(id, filename);

@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -35,7 +35,7 @@ namespace plinth
 {
 
 inline FrameSequence::FrameSequence()
-	: m_primitiveType{ sf::PrimitiveType::TrianglesStrip }
+	: m_primitiveType{ sf::PrimitiveType::TriangleStrip }
 	, m_numberOfVertices{ 4_uz }
 	, m_frames{}
 	, m_position{ 0.f }

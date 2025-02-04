@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -54,9 +54,9 @@ public:
 	std::size_t addFont(const std::string& id, const std::string& filename); // returns index
 	std::size_t addFont(const std::string& id); // returns index
 	std::string addFont(); // returns generated ID (string of its index)
-	void loadFont(const std::string& id, const std::string& filename); // throws exception if file loading fails
-	void loadFont(std::size_t index, const std::string& filename); // throws exception if file loading fails
-	std::string loadNewFont(const std::string& filename); // returns generated ID (string of its index)
+	void openFont(const std::string& id, const std::string& filename); // throws exception if file loading fails
+	void openFont(std::size_t index, const std::string& filename); // throws exception if file loading fails
+	std::string openNewFont(const std::string& filename); // returns generated ID (string of its index)
 
 	std::size_t addImage(const std::string& id, const std::string& filename);
 	std::size_t addImage(const std::string& id); // returns index
