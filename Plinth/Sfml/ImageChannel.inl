@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -106,20 +106,20 @@ inline void Channel::copyFromImage(const sf::Image& image, const ColorChannel co
 			switch (colorChannel)
 			{
 			case ColorChannel::Red:
-				setPixel({ x, y }, image.getPixel(x, y).r);
+				setPixel({ x, y }, image.getPixel({ x, y }).r);
 				break;
 			case ColorChannel::Green:
-				setPixel({ x, y }, image.getPixel(x, y).g);
+				setPixel({ x, y }, image.getPixel({ x, y }).g);
 				break;
 			case ColorChannel::Blue:
-				setPixel({ x, y }, image.getPixel(x, y).b);
+				setPixel({ x, y }, image.getPixel({ x, y }).b);
 				break;
 			case ColorChannel::Alpha:
-				setPixel({ x, y }, image.getPixel(x, y).a);
+				setPixel({ x, y }, image.getPixel({ x, y }).a);
 				break;
 			default:
-				const sf::Color color{ image.getPixel(x, y) };
-				setPixel({ x, y }, static_cast<sf::Uint8>((static_cast<unsigned int>(color.r) + color.g + color.b) / 3u));
+				const sf::Color color{ image.getPixel({x, y}) };
+				setPixel({ x, y }, static_cast<std::uint8_t>((static_cast<unsigned int>(color.r) + color.g + color.b) / 3u));
 			}
 		}
 	}
@@ -134,7 +134,7 @@ inline void Channel::copyToImage(sf::Image& image, const ColorChannel colorChann
 		if ((location.x >= imageSize.x) || (location.y >= imageSize.y))
 			continue;
 
-		sf::Color color{ image.getPixel(location.x, location.y) };
+		sf::Color color{ image.getPixel(location) };
 		if (replaceAlpha)
 			color.a = 255_uc;
 		switch (colorChannel)
@@ -156,7 +156,7 @@ inline void Channel::copyToImage(sf::Image& image, const ColorChannel colorChann
 			color.g = m_pixels[i];
 			color.b = m_pixels[i];
 		}
-		image.setPixel(location.x, location.y, color);
+		image.setPixel(location, color);
 	}
 }
 

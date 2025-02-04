@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -210,7 +210,7 @@ inline bool isPointInsidePolygon(const sf::Vector2f& point, const std::vector<sf
 		return false;
 
 	bool isInside{ false };
-	sf::Vector2f pointOutsideBoundingBox{ boundingBox.left - 1.f, boundingBox.top - 1.f };
+	sf::Vector2f pointOutsideBoundingBox{ boundingBox.position.x - 1.f, boundingBox.position.y - 1.f };
 	for (std::size_t v{ 0_uz }, w{ polygonVertices.size() - 1_uz }; v < polygonVertices.size(); w = v++)
 	{
 		if (doLinesIntersect({ { polygonVertices[v], polygonVertices[w] }, { pointOutsideBoundingBox, point } }))
@@ -234,24 +234,24 @@ inline bool doClosedPolylinesIntersect(const std::vector<sf::Vector2f>& a, const
 
 inline bool doTransformedRectsIntersect(const sf::FloatRect& rect1, const sf::Transform& transform1, const sf::FloatRect& rect2, const sf::Transform& transform2)
 {
-	if (!transform1.transformRect(rect1).intersects(transform2.transformRect(rect2)))
+	if (!transform1.transformRect(rect1).findIntersection(transform2.transformRect(rect2)))
 		return false;
 
-	const sf::Vector2f rect1bottomRight{ rect1.left + rect1.width, rect1.top + rect1.height };
-	const sf::Vector2f rect2bottomRight{ rect2.left + rect2.width, rect2.top + rect2.height };
+	const sf::Vector2f rect1bottomRight{ rect1.position.x + rect1.size.x, rect1.position.x + rect1.size.y };
+	const sf::Vector2f rect2bottomRight{ rect2.position.x + rect2.size.x, rect2.position.x + rect2.size.y };
 
 	return doClosedPolylinesIntersect(
 		{
-			transform1.transformPoint({ rect1.left, rect1.top }),
-			transform1.transformPoint({ rect1bottomRight.x, rect1.top }),
+			transform1.transformPoint({ rect1.position.x, rect1.position.y }),
+			transform1.transformPoint({ rect1bottomRight.x, rect1.position.y }),
 			transform1.transformPoint(rect1bottomRight),
-			transform1.transformPoint({ rect1.left, rect1bottomRight.y })
+			transform1.transformPoint({ rect1.position.x, rect1bottomRight.y })
 		},
 		{
-			transform2.transformPoint({ rect2.left, rect2.top }),
-			transform2.transformPoint({ rect2bottomRight.x, rect2.top }),
+			transform2.transformPoint({ rect2.position.x, rect2.position.y }),
+			transform2.transformPoint({ rect2bottomRight.x, rect2.position.y }),
 			transform2.transformPoint(rect2bottomRight),
-			transform2.transformPoint({ rect2.left, rect2bottomRight.y })
+			transform2.transformPoint({ rect2.position.x, rect2bottomRight.y })
 		});
 }
 
@@ -261,25 +261,25 @@ inline sf::FloatRect boundingBox(const std::vector<sf::Vector2f>& vertices)
 	if (vertices.size() == 0_uz)
 		return box;
 	
-	box.left = vertices[0_uz].x;
-	box.top = vertices[0_uz].y;
+	box.position.x = vertices[0_uz].x;
+	box.position.y = vertices[0_uz].y;
 	
 	// store bottom right corner otherwise moving the top or left of the box would require also adjusting the width and height to compensate
 	sf::Vector2f bottomRight{ vertices[0_uz] };
 	
 	for (auto& vertex : vertices)
 	{
-		if (vertex.x < box.left)
-			box.left = vertex.x;
+		if (vertex.x < box.position.x)
+			box.position.x = vertex.x;
 		else if (vertex.x > bottomRight.x)
 			bottomRight.x = vertex.x;
-		if (vertex.y < box.top)
-			box.top = vertex.y;
+		if (vertex.y < box.position.y)
+			box.position.y = vertex.y;
 		else if (vertex.y > bottomRight.y)
 			bottomRight.y = vertex.y;
 	}
-	box.width = bottomRight.x - box.left;
-	box.height = bottomRight.y - box.top;
+	box.size.x = bottomRight.x - box.position.x;
+	box.size.y = bottomRight.y - box.position.y;
 
 	return box;
 }

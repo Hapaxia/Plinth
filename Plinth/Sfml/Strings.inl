@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -243,7 +243,7 @@ inline std::string stringFrom(const sf::Color from, const SfmlColorList colorLis
 
 inline std::string stringFrom(const sf::VideoMode from, const bool sizeOnly)
 {
-	return stringFrom(pl::Size2u{ from.width, from.height }) + (sizeOnly ? "" : " (" + stringFrom(from.bitsPerPixel) + ")");
+	return stringFrom(pl::Size2u{ from.size.x, from.size.y }) + (sizeOnly ? "" : " (" + stringFrom(from.bitsPerPixel) + ")");
 }
 
 inline std::string stringFrom(const sf::View view, const DecimalPrecision decimalPrecision, const bool withoutViewport)
@@ -251,7 +251,7 @@ inline std::string stringFrom(const sf::View view, const DecimalPrecision decima
 	std::string s;
 
 	s += "[ " + stringFrom(view.getCenter(), decimalPrecision) + " " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2(), decimalPrecision);
-	const float rotation{ view.getRotation() };
+	const float rotation{ view.getRotation().asDegrees() };
 	if (rotation != 0.f)
 		s += " (" + pl::stringFrom(rotation, decimalPrecision) + ")";
 	s += " ]";
@@ -260,9 +260,9 @@ inline std::string stringFrom(const sf::View view, const DecimalPrecision decima
 	{
 		const sf::FloatRect viewport{ view.getViewport() };
 		s += "{ ";
-		s += stringFrom(pl::Vector2f{ viewport.left, viewport.top }, decimalPrecision);
+		s += stringFrom(pl::Vector2f{ viewport.position.x, viewport.position.y }, decimalPrecision);
 		s += " ";
-		s += stringFrom(pl::Size2<float>{ viewport.width, viewport.height }, decimalPrecision);
+		s += stringFrom(pl::Size2<float>{ viewport.size.x, viewport.size.y }, decimalPrecision);
 		s += " }";
 	}
 
@@ -279,7 +279,7 @@ inline std::string stringFrom(const sf::View view, const std::size_t decimalPrec
 	std::string s;
 
 	s += "[ " + stringFrom(view.getCenter(), decimalPrecision) + " " + stringFrom(pl::Sfml::vector2(view.getSize()).getSize2(), decimalPrecision);
-	const float rotation{ view.getRotation() };
+	const float rotation{ view.getRotation().asDegrees() };
 	if (rotation != 0.f)
 		s += " (" + pl::stringFrom(rotation, decimalPrecision) + ")";
 	s += " ]";
@@ -288,9 +288,9 @@ inline std::string stringFrom(const sf::View view, const std::size_t decimalPrec
 	{
 		const sf::FloatRect viewport{ view.getViewport() };
 		s += "{ ";
-		s += stringFrom(pl::Vector2f{ viewport.left, viewport.top }, decimalPrecision);
+		s += stringFrom(pl::Vector2f{ viewport.position.x, viewport.position.y }, decimalPrecision);
 		s += " ";
-		s += stringFrom(pl::Size2<float>{ viewport.width, viewport.height }, decimalPrecision);
+		s += stringFrom(pl::Size2<float>{ viewport.size.x, viewport.size.y }, decimalPrecision);
 		s += " }";
 	}
 

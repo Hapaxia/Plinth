@@ -2,7 +2,7 @@
 //
 // Plinth
 //
-// Copyright(c) 2014-2024 M.J.Silk
+// Copyright(c) 2014-2025 M.J.Silk
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -58,11 +58,11 @@ inline void processAllPixelsRgb(sf::Image& image, std::function<void (Color::Rgb
 	{
 		for (unsigned int x{ 0u }; x < imageSize.x; ++x)
 		{
-			sf::Color color{ image.getPixel(x, y) };
+			sf::Color color{ image.getPixel({ x, y }) };
 			Color::Rgb pixel{ rgbFromColor(color) };
 			process(pixel);
 			color = colorFromColorAndAlpha(colorFromRgb(pixel), Tween::inverseLinear(0u, 255u, static_cast<unsigned int>(color.a)));
-			image.setPixel(x, y, color);
+			image.setPixel({ x, y }, color);
 		}
 	}
 }
@@ -74,9 +74,9 @@ inline void processAllPixelsColor(sf::Image& image, std::function<void (sf::Colo
 	{
 		for (unsigned int x{ 0u }; x < imageSize.x; ++x)
 		{
-			sf::Color pixel{ image.getPixel(x, y) };
+			sf::Color pixel{ image.getPixel({ x, y }) };
 			process(pixel);
-			image.setPixel(x, y, pixel);
+			image.setPixel({ x, y }, pixel);
 		}
 	}
 }
@@ -250,15 +250,17 @@ inline sf::Image resize_Draw(const sf::Image& image, const sf::Vector2u destinat
 	sf::RenderTexture renderTexture{};
 	sf::ContextSettings contextSettings{};
 	if (aa)
-		contextSettings.antialiasingLevel = 16u;
+		contextSettings.antiAliasingLevel = 16u;
 	{
 		pl::Sfml::ErrBlocker sfmlErrBlocker{}; // avoid error output if requested anti-alias level is not available
-		renderTexture.create(destinationSize.x, destinationSize.y, contextSettings);
+		if (!renderTexture.resize(destinationSize, contextSettings))
+			return sf::Image(destinationSize);
 	}
 	sf::RectangleShape rectangle{};
 	rectangle.setSize(sf::Vector2f(destinationSize));
 	sf::Texture texture{};
-	texture.loadFromImage(image, sourceRectangle);
+	if (!texture.loadFromImage(image, false, sourceRectangle))
+		return sf::Image(destinationSize);
 	if (smooth)
 		texture.setSmooth(true);
 	rectangle.setTexture(&texture);
@@ -269,17 +271,15 @@ inline sf::Image resize_Draw(const sf::Image& image, const sf::Vector2u destinat
 
 inline sf::Image resize_Pixel(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
 {
-	const sf::Vector2u sourcePosition(sourceRectangle.getPosition());
-	const sf::Vector2u sourceSize(sourceRectangle.getSize());
 	sf::Image result;
-	result.create(destinationSize.x, destinationSize.y);
+	result.resize(destinationSize);
 	for (unsigned int y{ 0u }; y < destinationSize.y; ++y)
 	{
-		const unsigned int sourceY{ sourcePosition.y + (y * (sourceSize.y) / (destinationSize.y)) };
+		const unsigned int sourceY{ sourceRectangle.position.y + (y * (sourceRectangle.size.y) / (destinationSize.y)) };
 		for (unsigned int x{ 0u }; x < destinationSize.x; ++x)
 		{
-			const unsigned int sourceX{ sourcePosition.x + (x * (sourceSize.x) / (destinationSize.x)) };
-			result.setPixel(x, y, image.getPixel(sourceX, sourceY));
+			const unsigned int sourceX{ sourceRectangle.position.x + (x * (sourceRectangle.size.x) / (destinationSize.x)) };
+			result.setPixel({ x, y }, image.getPixel({ sourceX, sourceY }));
 		}
 	}
 	return result;
@@ -287,23 +287,20 @@ inline sf::Image resize_Pixel(const sf::Image& image, const sf::Vector2u destina
 
 inline sf::Image resize_NearestNeighbour(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
 {
-	const sf::Vector2u sourcePosition(sourceRectangle.getPosition());
-	const sf::Vector2u sourceSize(sourceRectangle.getSize());
-
-	const pl::Range<long long int>xRange{ 0ll, static_cast<long long int>(sourceSize.x) - 1ll };
-	const pl::Range<long long int>yRange{ 0ll, static_cast<long long int>(sourceSize.y) - 1ll };
+	const pl::Range<long long int>xRange{ 0ll, static_cast<long long int>(sourceRectangle.size.x) - 1ll };
+	const pl::Range<long long int>yRange{ 0ll, static_cast<long long int>(sourceRectangle.size.y) - 1ll };
 
 	sf::Image result;
-	result.create(destinationSize.x, destinationSize.y);
+	result.resize(destinationSize);
 	for (unsigned int y{ 0u }; y < destinationSize.y; ++y)
 	{
-		const long double targetY{ sourcePosition.y + (((y + 0.5) * sourceSize.y) / (destinationSize.y)) - 0.5 };
+		const long double targetY{ sourceRectangle.position.y + (((y + 0.5) * sourceRectangle.size.y) / (destinationSize.y)) - 0.5 };
 		const unsigned int sourceY{ static_cast<unsigned int>(yRange.clamp(std::llround(targetY))) };
 		for (unsigned int x{ 0u }; x < destinationSize.x; ++x)
 		{
-			const long double targetX{ sourcePosition.x + (((x + 0.5) * sourceSize.x) / (destinationSize.x)) - 0.5 };
+			const long double targetX{ sourceRectangle.position.x + (((x + 0.5) * sourceRectangle.size.x) / (destinationSize.x)) - 0.5 };
 			const unsigned int sourceX{ static_cast<unsigned int>(xRange.clamp(std::llround(targetX))) };
-			result.setPixel(x, y, image.getPixel(sourceX, sourceY));
+			result.setPixel({ x, y }, image.getPixel({ sourceX, sourceY }));
 		}
 	}
 	return result;
@@ -311,32 +308,29 @@ inline sf::Image resize_NearestNeighbour(const sf::Image& image, const sf::Vecto
 
 inline sf::Image resize_Bilinear(const sf::Image& image, const sf::Vector2u destinationSize, const sf::IntRect sourceRectangle)
 {
-	const sf::Vector2u sourcePosition(sourceRectangle.getPosition());
-	const sf::Vector2u sourceSize(sourceRectangle.getSize());
-
-	const pl::Range<long long int>xRange{ 0ll, static_cast<long long int>(sourceSize.x) - 1ll };
-	const pl::Range<long long int>yRange{ 0ll, static_cast<long long int>(sourceSize.y) - 1ll };
+	const pl::Range<long long int>xRange{ 0ll, static_cast<long long int>(sourceRectangle.size.x) - 1ll };
+	const pl::Range<long long int>yRange{ 0ll, static_cast<long long int>(sourceRectangle.size.y) - 1ll };
 
 	sf::Image result;
-	result.create(destinationSize.x, destinationSize.y);
+	result.resize(destinationSize);
 	for (unsigned int y{ 0u }; y < destinationSize.y; ++y)
 	{
-		const long double targetY{ sourcePosition.y + (((y + 0.5) * sourceSize.y) / (destinationSize.y)) - 0.5 };
+		const long double targetY{ sourceRectangle.position.y + (((y + 0.5) * sourceRectangle.size.y) / (destinationSize.y)) - 0.5 };
 		const unsigned int minY{ static_cast<unsigned int>(yRange.clamp(std::llround(std::floor(targetY)))) };
 		const unsigned int maxY{ static_cast<unsigned int>(yRange.clamp(std::llround(std::ceil(targetY)))) };
 		const long double yAlpha{ targetY - minY };
 
 		for (unsigned int x{ 0u }; x < destinationSize.x; ++x)
 		{
-			const long double targetX{ sourcePosition.x + (((x + 0.5) * sourceSize.x) / (destinationSize.x)) - 0.5 };
+			const long double targetX{ sourceRectangle.position.x + (((x + 0.5) * sourceRectangle.size.x) / (destinationSize.x)) - 0.5 };
 			const unsigned int minX{ static_cast<unsigned int>(xRange.clamp(std::llround(std::floor(targetX)))) };
 			const unsigned int maxX{ static_cast<unsigned int>(xRange.clamp(std::llround(std::ceil(targetX)))) };
 			const long double xAlpha{ targetX - minX };
 
-			const sf::Color upper{ Tween::linear(image.getPixel(minX, minY), image.getPixel(maxX, minY), xAlpha) };
-			const sf::Color lower{ Tween::linear(image.getPixel(minX, maxY), image.getPixel(maxX, maxY), xAlpha) };
+			const sf::Color upper{ Tween::linear(image.getPixel({ minX, minY }), image.getPixel({ maxX, minY }), xAlpha) };
+			const sf::Color lower{ Tween::linear(image.getPixel({ minX, maxY }), image.getPixel({ maxX, maxY }), xAlpha) };
 
-			result.setPixel(x, y, Tween::linear(upper, lower, yAlpha));
+			result.setPixel({ x, y }, Tween::linear(upper, lower, yAlpha));
 		}
 	}
 	return result;
@@ -355,15 +349,15 @@ inline sf::Image resize(const ResizeType type, const sf::Image& image, const sf:
 	if ((destinationSize.x == 0u) || (destinationSize.y == 0u) || (imageSize.x == 0u) || (imageSize.y == 0u))
 		return sf::Image{};
 
-	if (sourceRectangle.width == 0u)
+	if (sourceRectangle.size.x == 0)
 	{
-		sourceRectangle.left = 0u;
-		sourceRectangle.width = image.getSize().x;
+		sourceRectangle.position.x = 0;
+		sourceRectangle.size.x = image.getSize().x;
 	}
-	if (sourceRectangle.height == 0u)
+	if (sourceRectangle.size.y == 0)
 	{
-		sourceRectangle.top = 0u;
-		sourceRectangle.height = image.getSize().y;
+		sourceRectangle.position.y = 0;
+		sourceRectangle.size.y = image.getSize().y;
 	}
 	switch (type)
 	{
