@@ -8,6 +8,8 @@ Requires a minimum of C++11. Note that some parts may required more modern versi
 In particular, the SFML section (now for SFML 3) will require C++17.
 However, the entire library should be compatible with C++17+.
 
+Note that to use with SFML 2, you can use the "sfml2" branch.
+
 For information, view the [Wiki].
 
 
