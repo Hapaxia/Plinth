@@ -36,14 +36,14 @@ namespace plinth
 
 template <class T>
 inline Bezier<T>::Bezier()
-	: m_numberOfIterationsForSolve{ 100uz }
-	, m_points(4uz, { static_cast<T>(0), static_cast<T>(0) })
+	: m_numberOfIterationsForSolve{ 100_uz }
+	, m_points(4_uz, { static_cast<T>(0), static_cast<T>(0) })
 {
 }
 
 template <class T>
 inline Bezier<T>::Bezier(const std::vector<Vector2<T>>& points)
-	: m_numberOfIterationsForSolve{ 100uz }
+	: m_numberOfIterationsForSolve{ 100_uz }
 {
 	for (auto& point : points)
 		m_points.push_back(point);
@@ -98,13 +98,13 @@ inline std::size_t Bezier<T>::getNumberOfIterationsForSolve() const
 template <class T>
 inline T Bezier<T>::getX(const T t) const
 {
-	return priv_calculate({ m_points[0uz].x, m_points[1uz].x, m_points[2uz].x, m_points[3uz].x }, t);
+	return priv_calculate({ m_points[0_uz].x, m_points[1_uz].x, m_points[2_uz].x, m_points[3_uz].x }, t);
 }
 
 template <class T>
 inline T Bezier<T>::getY(const T t) const
 {
-	return priv_calculate({ m_points[0uz].y, m_points[1uz].y, m_points[2uz].y, m_points[3uz].y }, t);
+	return priv_calculate({ m_points[0_uz].y, m_points[1_uz].y, m_points[2_uz].y, m_points[3_uz].y }, t);
 }
 
 template <class T>

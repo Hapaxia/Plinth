@@ -75,10 +75,10 @@ inline void Track2<PositionT, T, InterpolationAlphaT, PositionCastT>::addNode(co
 {
 	switch (trackNumber)
 	{
-	case 0uz:
+	case 0_uz:
 		a.addNode(node);
 		break;
-	case 1uz:
+	case 1_uz:
 		b.addNode(node);
 		break;
 	default:

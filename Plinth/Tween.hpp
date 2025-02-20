@@ -142,7 +142,7 @@ class FastEase
 {
 public:
 	FastEase(StrengthT strength = static_cast<StrengthT>(0.5));
-	FastEase(StrengthT inStrength, StrengthT outStrength, T start = static_cast<T>(0), T end = static_cast<T>(1), std::size_t numberOfLocations = 50uz);
+	FastEase(StrengthT inStrength, StrengthT outStrength, T start = static_cast<T>(0), T end = static_cast<T>(1), std::size_t numberOfLocations = 50_uz);
 	void setStart(T start);
 	void setEnd(T end);
 	void setInStrength(StrengthT inStrength);

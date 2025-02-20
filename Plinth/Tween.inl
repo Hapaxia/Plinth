@@ -131,10 +131,10 @@ inline T bezierEase(const T& start, const T& end, const AlphaT& alpha, const Amo
 	const double s{ static_cast<double>(start) };
 	const double e{ static_cast<double>(end) };
 	Bezier<double> bezier;
-	bezier.setPoint(0uz, { 0.0, s });
-	bezier.setPoint(1uz, { static_cast<double>(in), s });
-	bezier.setPoint(2uz, { 1.0 - static_cast<double>(out), e });
-	bezier.setPoint(3uz, { 1.0, e });
+	bezier.setPoint(0_uz, { 0.0, s });
+	bezier.setPoint(1_uz, { static_cast<double>(in), s });
+	bezier.setPoint(2_uz, { 1.0 - static_cast<double>(out), e });
+	bezier.setPoint(3_uz, { 1.0, e });
 	return static_cast<T>(bezier.solveYForX(static_cast<double>(alpha)));
 }
 
@@ -332,7 +332,7 @@ inline FastEase<T, AlphaT, StrengthT>::FastEase(const StrengthT strength)
 	, m_lutLocations{}
 	, m_lut{}
 {
-	constexpr std::size_t numberOfLocations{ 50uz };
+	constexpr std::size_t numberOfLocations{ 50_uz };
 	if (numberOfLocations > 0_uz)
 	{
 		for (std::size_t i{ 0_uz }; i < numberOfLocations; ++i)
@@ -461,7 +461,7 @@ inline void FastEase<T, AlphaT, StrengthT>::priv_updateTable()
 	m_lut.clearNodes();
 	for (auto& location : m_lutLocations)
 		m_lut.addNode({ location, getAccurateValue(location) });
-	if (m_lut.getNodeCount() == 0uz)
+	if (m_lut.getNodeCount() == 0_uz)
 		m_lut.addNode({ static_cast<AlphaT>(0), static_cast<T>(0) });
 }
 

@@ -44,10 +44,10 @@ public:
 	Bezier();
 	Bezier(const std::vector<Vector2<T>>& points);
 	void setAllPoints(Vector2<T> point = { static_cast<T>(0), static_cast<T>(0) });
-	void setPoints(const std::vector<Vector2<T>>& points, std::size_t startIndex = 0uz);
+	void setPoints(const std::vector<Vector2<T>>& points, std::size_t startIndex = 0_uz);
 	void setPoint(std::size_t index, Vector2<T> point);
 	Vector2<T> getPoint(std::size_t index) const;
-	void setNumberOfIterationsForSolve(std::size_t numberOfIterations = 100uz);
+	void setNumberOfIterationsForSolve(std::size_t numberOfIterations = 100_uz);
 	std::size_t getNumberOfIterationsForSolve() const;
 
 	T getX(T t) const;
