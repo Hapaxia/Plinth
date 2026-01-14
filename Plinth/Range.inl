@@ -173,7 +173,7 @@ inline T Range<T>::clampCycle(const T& value) const
 	if (isClosed())
 		return min;
 	const T rangeSize{ getSize() };
-	if (value > max)
+	if (value >= max)
 		return min + mod(value - min, rangeSize);
 	else if (value < min)
 		return min + rangeSize + mod(value - min, rangeSize);
